@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\PublishImageToFacebook;
 
 use App\Jobs\PublishVideoToFacebook;
-
+use Exception;
 use Facebook\Facebook;
 use Facebook\FileUpload\FacebookFile;
 use Sdks\Facebook\FacebookAlbum\Album;
@@ -19,7 +19,7 @@ class FacebookController extends Controller
     private $token;
     public function __construct(Facebook $facebook)
     {
-        $this->token = "EAAWR0tDd8jgBACB5WImcn7jPGLAbYfZARt3mDyoiSjgq2SwZBfJ2At5ueFlRRJQGZAVKjX4X9ZAdhI8i1gkVkz3GTqE1CDgId8Aw9zse6VpcDEp5PIegcM0Yeqb9NH1ApV5iNtwLzfVhZAp13xUsZBOixIz0uAXJcTTnQy0u3YSEmnXHfIi32OskzxkSxRBUQdbDEu29UZB5cV9V8pHYWQ7Sz43Po0D3iAfWt5PoZCv1jCtCIzPwKc5F";
+        $this->token = "EAAWR0tDd8jgBAKS9u3Sn2GBrZBb1BjDy7riFINC1T87GtvawPRbln1y5dch3jojTBgB37dLFlk9T08ZBo32VkDTKdfePERed1vcnvH7ZCXZC1n8wiDlRwOMZCoBG0nWqZCtQC8EuMw7u0Y35jSzRPn8QBTBea9ZBPZATliRxVoorBBZCOslWoRKt4mGrXmNSwhTdUtOjniABLPQZDZD";
         $this->fb = $facebook;
         $this->group = new Group($facebook);
     }
@@ -31,7 +31,7 @@ class FacebookController extends Controller
             "public_profile",
             "publish_to_groups"
         ];
-       
+
         if (request("code")) {
             $this->helper->getPersistentDataHandler()->set("state", request("state"));
             $accessToken = $this->helper->getAccessToken("http://localhost:8000");
@@ -61,13 +61,10 @@ class FacebookController extends Controller
     public function addPhotos($albumId)
     {
         $fileName = request()->file("file")->getClientOriginalName();
-        request()->file("file")->storeAs("public", $fileName);
+        request()->file("file")->move("storage", $fileName);
         $album = new Album($this->fb);
-        $album
-            ->addPhotoToAlbum($albumId, [
-                "source" => new FacebookFile(public_path("storage/$fileName")),
-            ], $this->token);
 
+        dispatch(new PublishImageToFacebook($albumId, "storage/$fileName"));
 
 
         return response()->json([
@@ -76,23 +73,22 @@ class FacebookController extends Controller
     }
     public function createVideo($groupId)
     {
-        return view("group.form",compact("groupId"));
+        return view("group.form", compact("groupId"));
     }
     public function addVideoToGroup($groupId)
     {
-        ini_set('set_time_limit',-1);
-        $group= new Group($this->fb);
-        $fileName= request()->file("file")->getClientOriginalName();
+        ini_set('default_socket_timeout', 100);
+        $group = new Group($this->fb);
+        $fileName = request()->file("file")->getClientOriginalName();
         $filePath = public_path("storage/$fileName");
-        request()->file("file")->move("storage",$fileName);
-        $group
-        ->addVideo($groupId,$filePath,[
-            "title"=> request("title"),
-            "description"=> request("description")
-        ],$this->token);
+        request()->file("file")->move("storage", $fileName);
+        dispatch(new PublishVideoToFacebook($groupId, $filePath, [
+            "title" => request("title"),
+            "description" => request("description")
+        ]));
         return back();
     }
-    
+
     public function album($albumId)
     {
 

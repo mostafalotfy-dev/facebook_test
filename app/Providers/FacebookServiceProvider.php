@@ -27,7 +27,7 @@ class FacebookServiceProvider extends ServiceProvider
         $this->app->bind(Facebook::class,function($app){
             return new \Facebook\Facebook([
                 'app_id' => env("FACEBOOK_APP_ID"),
-                'app_secret' => env("FACEBOOK_SECRET"),
+                'app_secret' => env("FACEBOOK_APP_SECRET"),
                 'default_graph_version' => 'v12.0',
                 //'default_access_token' => '{access-token}', // optional
               ]);

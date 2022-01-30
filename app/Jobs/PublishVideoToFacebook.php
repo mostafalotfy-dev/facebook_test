@@ -13,28 +13,28 @@ use Sdks\Facebook\ProviderRepository;
 
 use Sdks\Facebook\FacebookAlbum\Album;
 use Facebook\FileUpload\FacebookVideo;
+use Sdks\Facebook\Group;
 use Throwable;
 
 class PublishVideoToFacebook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $group;
-    private $token;
-    private $album;
-    private $provider;
-    private $helper;
+    private $metadata;
     private $id;
     private $path;
+    private $token;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(int $id,$path)
+    public function __construct(string $id,$path,$metadata)
     {
-        $this->token = "EAAWR0tDd8jgBAPtbV9zZBYTrPByjRucwpsYpSUBPuZAQaMFxAX4L3Ri8YqZBRL56wDs473iEHOpHr8w2WewMXxfq1dY9IICVWZCXgrlJQKt7UKhKh1ZBoE080E709ODOOSzg2580HAA35tnOkt5v8xIdhJ5djs18wl3sRKKFDtR9ZBp9ZBimuAXRMDrp4piUu4naB3HbZCMyEizlZCmwaCfDSW3I8zubfloQ0j9KnZBA4INOqhhiZCuEsCR";
+        $this->token = "EAAWR0tDd8jgBADOXgDmZB1jYYwTJfnoPnTNDxlHa2K9VuedIHvIhuKWEoo9VFzvnCOFvA1FZAfVul5PSqO5DNpqk4urDh5aZAwAynxHPZBCZAXFZCTF1gkPCAVG7C3bAATxxUmscncMHZCuveIZAXuFsNiZB7ZCQA7toxNRVVBEG2nuh9UzBXUFsRKH5UsdJHVsZBqJvOV2Kuzc1gZDZD";
         $this->id = $id;
         $this->path = $path;
+        $this->metadata = $metadata;
     }
 
     /**
@@ -44,23 +44,14 @@ class PublishVideoToFacebook implements ShouldQueue
      */
     public function handle(Facebook $facebook)
     {
-        $this->provider = new ProviderRepository($facebook);
-        $this->album = new Album($facebook);
-        $this->addPhotosToAlbum($this->id,$this->path);
+        $group = new Group($facebook);
+        $group
+        ->addVideo($this->id,$this->path,
+        $this->metadata,$this->token);
         
     }
    
-    private function addPhotosToAlbum($id, $fileName)
-    {
-        $album = $this->album;
-       
-            $album
-            ->addToAlbum($id,[
-                "source"=> new FacebookVideo(public_path($this->path)),
-            ],$this->token);
-             
-       
-    }
+   
     public function failed(Throwable $e)
     {
         var_dump($e->getMessage());
