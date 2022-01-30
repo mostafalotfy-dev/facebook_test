@@ -53,10 +53,12 @@ class PublishVideoToFacebook implements ShouldQueue
     private function addPhotosToAlbum($id, $fileName)
     {
         $album = $this->album;
-        $album
-        ->addToAlbum($id,[
-            "source"=> new FacebookVideo(public_path($this->path)),
-        ],$this->token);
+       
+            $album
+            ->addToAlbum($id,[
+                "source"=> new FacebookVideo(public_path($this->path)),
+            ],$this->token);
+             
        
     }
     public function failed(Throwable $e)

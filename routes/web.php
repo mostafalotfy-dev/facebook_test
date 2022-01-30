@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get("/","FacebookController@index");
-Route::get("code","FacebookController@code");
+
+
 Route::post("form/{groupId}","FacebookController@postForm")->name("publish.facebook");
-Route::get("form","FacebookController@form");
+Route::get("group","FacebookController@form");
 Route::get("album/{albumId}","FacebookController@album")->name("create.album");
 Route::post("album/{albumId}","FacebookController@addPhotos");
+Route::get("video/{groupId}","FacebookController@createVideo")->name("group.video.create");
+Route::post("video/{groupId}","FacebookController@addVideoToGroup");

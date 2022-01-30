@@ -9,5 +9,9 @@ class Group extends ProviderRepository {
     {
        return $this->provider->post($groupId."/albums",$params,$token);
     }
+    public function addVideo($groupId,$file,array $metadata,string $token )
+    {
+      return $this->provider->uploadVideo($groupId."/videos",$file, $metadata,$token);
+    }
     
 }
