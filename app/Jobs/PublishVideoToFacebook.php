@@ -29,9 +29,9 @@ class PublishVideoToFacebook implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $id,$path,$metadata)
+    public function __construct(string $id,string $path,array $metadata,?string $token = null)
     {
-        $this->token = "EAAWR0tDd8jgBADOXgDmZB1jYYwTJfnoPnTNDxlHa2K9VuedIHvIhuKWEoo9VFzvnCOFvA1FZAfVul5PSqO5DNpqk4urDh5aZAwAynxHPZBCZAXFZCTF1gkPCAVG7C3bAATxxUmscncMHZCuveIZAXuFsNiZB7ZCQA7toxNRVVBEG2nuh9UzBXUFsRKH5UsdJHVsZBqJvOV2Kuzc1gZDZD";
+        $this->token = $token ?: "EAAWR0tDd8jgBAMPwPj5QXvE5I68BaI4fKIwTpZBG2BWAvWo3Xt0xEUZCQZC6QZB2v1kY5nKfdMmDl0FdYcvIWdo7hwuqBCgCZBBoBQ5HNAPBpgxxlIUCfPllVmZCZB8Jo2RhD7AhcfGi3ZCaZAcZAoJ9dc3Iyimvt79ZAuK75oa8NmvOZBx5giRmszXufvZC2Y1szTfIZCkS2owGEzoAZDZD";
         $this->id = $id;
         $this->path = $path;
         $this->metadata = $metadata;
