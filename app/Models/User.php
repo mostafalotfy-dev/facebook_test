@@ -41,4 +41,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function waiting()
+    {
+        return $this->belongsTo(WaitingList::class);
+    }
+    public function following()
+    {
+        return $this->hasMany(Following::class);
+    }
+    public function follower()
+    {
+        return $this->hasMany(Follower::class);
+    }
 }

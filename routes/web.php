@@ -20,3 +20,6 @@ Route::get("album/{albumId}","FacebookController@album")->name("create.album");
 Route::post("album/{albumId}","FacebookController@addPhotos");
 Route::get("video/{groupId}","FacebookController@createVideo")->name("group.video.create");
 Route::post("video/{groupId}","FacebookController@addVideoToGroup");
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -51,9 +51,8 @@ class PublishImageToFacebook implements ShouldQueue
     {
         $album = $this->album;
         $album
-        ->addPhotoToAlbum($id, [
-            "source" => new FacebookFile(public_path("storage/$fileName")),
-        ], $this->token);
+        ->uploadPhotoToAlbum($id,public_path("storage/$fileName")
+        ,$this->token);
        
     }
 }

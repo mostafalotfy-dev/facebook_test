@@ -3,24 +3,26 @@
 
 namespace Sdks\Facebook\FacebookAlbum;
 
-
 use Sdks\Facebook\ProviderRepository;
+use Sdks\Facebook\Photo;
+use Facebook\Facebook;
+use Facebook\FileUpload\FacebookFile;
 
-class Album extends ProviderRepository {
-    
-    
-    public function addPhotoToAlbum($albumId,array $files,string $token )
+class Album extends ProviderRepository  {
+    protected $photo;
+    public function __construct(Facebook $provider)
     {
-     
-      return $this->provider->post($albumId."/photos", $files,$token);
+      parent::__construct($provider);
+      $this->photo = new Photo($this->provider);
+    }
+
+    public function uploadPhotoToAlbum($albumId,string $files,string $token )
+    {
+      $params["source"] = new FacebookFile($files);
+      return $this->photo->addPhoto($albumId,$params,$token);
       
     }
     
-    public function create($albumId,$token)
-    {
-      return $this->provider->get("/".$this->id,$token); 
-      
-    }
     
 
     
