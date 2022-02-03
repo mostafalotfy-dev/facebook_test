@@ -2,11 +2,13 @@
 
 
 
-namespace Sdks\Facebook;
+namespace Sdks\Facebook\FacebookAlbum;
 
 use Nette\NotImplementedException;
 use Sdks\Facebook\Contracts\ICrud;
 use Sdks\Facebook\Contracts\IUploadPhoto;
+use Sdks\Facebook\ProviderRepository;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Photo extends ProviderRepository implements ICrud,IUploadPhoto
 {
@@ -20,11 +22,17 @@ class Photo extends ProviderRepository implements ICrud,IUploadPhoto
  }
  public function delete($id,$token)
  {
-     throw new NotImplementedException();
+     throw new MethodNotAllowedHttpException([
+         "GET",
+         "POST"
+     ]);
  }
  public function update($id, array $params, string $token)
  {
-     throw new NotImplementedException();
+    throw new MethodNotAllowedHttpException([
+        "GET",
+        "POST"
+    ]);
  }
  public function addPhoto($id, array $params, string $token)
  {
