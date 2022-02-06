@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdks\Facebook;
+namespace Providers\Facebook;
 
 class Group extends ProviderRepository {
     public function createAlbum($groupId,array $params,$token)

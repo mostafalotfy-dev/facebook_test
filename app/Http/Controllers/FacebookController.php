@@ -8,8 +8,8 @@ use App\Jobs\PublishVideoToFacebook;
 use Exception;
 use Facebook\Facebook;
 use Facebook\FileUpload\FacebookFile;
-use Sdks\Facebook\FacebookAlbum\Album;
-use Sdks\Facebook\Group;
+use Providers\Facebook\FacebookAlbum\Album;
+use Providers\Facebook\Group;
 use Facebook\FileUpload\FacebookVideo;
 
 class FacebookController extends Controller

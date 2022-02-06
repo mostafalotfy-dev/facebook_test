@@ -1,10 +1,11 @@
 <?php
 
-namespace Sdks\Facebook;
+namespace Providers\Facebook;
 
 use Facebook\Facebook;
+use Providers\Facebook\ProviderRepository;
 
-class Profile extends FacebookToken
+class Profile extends ProviderRepository
 {
     
     public function __construct()

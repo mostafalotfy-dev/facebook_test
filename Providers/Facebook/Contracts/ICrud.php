@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdks\Facebook\Contracts;
+namespace Providers\Facebook\Contracts;
 
 interface ICrud {
     public function create($id,array $params ,string $token);

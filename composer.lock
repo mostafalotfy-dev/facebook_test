@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4cdac58cfc4ba184d87fa7958e00d4a6",
+    "content-hash": "87d173afcc03b28f345d8d44f87672aa",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,74 +61,6 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.1.1"
             },
             "time": "2022-01-18T09:12:03+00:00"
-        },
-        {
-            "name": "beste/clock",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/beste/clock.git",
-                "reference": "10c02d2b49809168903a6b2e15f5001001972a2e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/beste/clock/zipball/10c02d2b49809168903a6b2e15f5001001972a2e",
-                "reference": "10c02d2b49809168903a6b2e15f5001001972a2e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7.4.0 || ~8.0.0 || ~8.1.0"
-            },
-            "provide": {
-                "psr/clock-implementation": "1.0"
-            },
-            "require-dev": {
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "phpstan/phpstan-strict-rules": "^1.0",
-                "phpunit/phpunit": "^9.5.10",
-                "psalm/plugin-phpunit": "^0.16.0",
-                "vimeo/psalm": "^4.15"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Beste\\Clock\\": "src/Clock"
-                },
-                "files": [
-                    "src/psr-polyfill.php",
-                    "src/Clock.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jérôme Gamez",
-                    "email": "jerome@gamez.name"
-                }
-            ],
-            "description": "A collection of Clock implementations",
-            "keywords": [
-                "clock",
-                "clock-interface",
-                "psr-20",
-                "psr20"
-            ],
-            "support": {
-                "issues": "https://github.com/beste/clock/issues",
-                "source": "https://github.com/beste/clock/tree/1.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/jeromegamez",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-12-10T15:09:27+00:00"
         },
         {
             "name": "brick/math",
@@ -1908,21 +1840,66 @@
             "time": "2022-02-03T10:55:10+00:00"
         },
         {
-            "name": "kreait/firebase-php",
-            "version": "6.1.0",
+            "name": "kreait/clock",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "c498938ba28af06ebe5d8676c122e51970937c5c"
+                "url": "https://github.com/kreait/clock-php.git",
+                "reference": "8f1fbc252e4e81298ae7c520597c25e9a6a0f454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/c498938ba28af06ebe5d8676c122e51970937c5c",
-                "reference": "c498938ba28af06ebe5d8676c122e51970937c5c",
+                "url": "https://api.github.com/repos/kreait/clock-php/zipball/8f1fbc252e4e81298ae7c520597c25e9a6a0f454",
+                "reference": "8f1fbc252e4e81298ae7c520597c25e9a6a0f454",
                 "shasum": ""
             },
             "require": {
-                "beste/clock": "^1.0",
+                "php": "^7.0|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5.14"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kreait\\Clock\\": "src/Clock"
+                },
+                "files": [
+                    "src/Clock.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérôme Gamez",
+                    "email": "jerome@gamez.name"
+                }
+            ],
+            "description": "A PHP 7.0 compatible clock abstraction",
+            "support": {
+                "issues": "https://github.com/kreait/clock-php/issues",
+                "source": "https://github.com/kreait/clock-php/tree/1.1.0"
+            },
+            "time": "2020-10-03T23:30:50+00:00"
+        },
+        {
+            "name": "kreait/firebase-php",
+            "version": "5.26.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kreait/firebase-php.git",
+                "reference": "291d4e613e86aaa8085aaf42d3b5dcb66ebfdbf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/291d4e613e86aaa8085aaf42d3b5dcb66ebfdbf2",
+                "reference": "291d4e613e86aaa8085aaf42d3b5dcb66ebfdbf2",
+                "shasum": ""
+            },
+            "require": {
                 "ext-ctype": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
@@ -1930,19 +1907,23 @@
                 "google/auth": "^1.18",
                 "google/cloud-core": "^1.42.2",
                 "google/cloud-storage": "^1.24.1",
-                "guzzlehttp/guzzle": "^7.4",
-                "kreait/firebase-tokens": "^2.2.0",
-                "lcobucci/jwt": "^4.1",
+                "guzzlehttp/guzzle": "^6.5.5|^7.3",
+                "guzzlehttp/promises": "^1.4",
+                "guzzlehttp/psr7": "^1.7|^2.0",
+                "kreait/clock": "^1.1",
+                "kreait/firebase-tokens": "^1.16.1",
                 "mtdowling/jmespath.php": "^2.6.1",
                 "php": "^7.4|^8.0",
                 "psr/cache": "^1.0.1|^2.0|^3.0",
                 "psr/http-message": "^1.0.1",
                 "psr/log": "^1.1|^2.0|^3.0",
+                "psr/simple-cache": "^1.0",
                 "riverline/multipart-parser": "^2.0.8",
                 "symfony/polyfill-php80": "^1.23",
                 "symfony/polyfill-php81": "^1.23"
             },
             "require-dev": {
+                "giggsey/libphonenumber-for-php": "^8.12.27",
                 "google/cloud-firestore": "^1.19.3",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "^1.4",
@@ -1953,6 +1934,7 @@
                 "symplify/easy-coding-standard": "^10.0"
             },
             "suggest": {
+                "giggsey/libphonenumber-for-php": "^8.9 to validate phone numbers before attempting to send them to Firebase",
                 "google/cloud-firestore": "^1.0 to use the Firestore component"
             },
             "type": "library",
@@ -1999,50 +1981,56 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-28T08:57:25+00:00"
+            "time": "2022-01-16T11:58:35+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
-            "version": "2.2.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-tokens-php.git",
-                "reference": "b3a2666a716d518277fd85fa2e4462c6b4d1f1d3"
+                "reference": "595ad06cb5f75c188d8fbfdefc9078c3ec8aa5e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/b3a2666a716d518277fd85fa2e4462c6b4d1f1d3",
-                "reference": "b3a2666a716d518277fd85fa2e4462c6b4d1f1d3",
+                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/595ad06cb5f75c188d8fbfdefc9078c3ec8aa5e8",
+                "reference": "595ad06cb5f75c188d8fbfdefc9078c3ec8aa5e8",
                 "shasum": ""
             },
             "require": {
-                "beste/clock": "^1.0",
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "fig/http-message-util": "^1.1.5",
-                "guzzlehttp/guzzle": "^7.0",
-                "lcobucci/jwt": "^4.1.5",
+                "guzzlehttp/guzzle": "^6.3.1|^7.0",
+                "kreait/clock": "^1.1.0",
+                "lcobucci/jwt": "^3.4.6|^4.0.4|^4.1.5",
                 "php": "^7.4|^8.0",
-                "psr/cache": "^1.0|^2.0|^3.0"
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "psr/simple-cache": "^1.0.1"
             },
             "require-dev": {
-                "firebase/php-jwt": "^5.5",
-                "friendsofphp/php-cs-fixer": "^3.4",
+                "firebase/php-jwt": "^5.3",
+                "friendsofphp/php-cs-fixer": "^3.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.2",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "phpunit/phpunit": "^9.5.10",
-                "rector/rector": "^0.12.9",
-                "symfony/cache": "^5.4|^6.0",
-                "symfony/var-dumper": "^5.3|^6.0"
+                "phpstan/phpstan": "^0.12.88",
+                "phpstan/phpstan-phpunit": "^0.12.19",
+                "phpunit/phpunit": "^9.5",
+                "rector/rector": "^0.11.16",
+                "symfony/cache": "^5.3",
+                "symfony/var-dumper": "^5.3"
             },
             "suggest": {
-                "psr/cache-implementation": "to cache fetched remote public keys"
+                "firebase/php-jwt": "^5.0 can be used to create and parse tokens",
+                "guzzlehttp/guzzle": "^6.2.1|^7.0 can be used as an HTTP handler",
+                "lcobucci/jwt": "^3.2 can be used to create and parse tokens",
+                "psr/cache-implementation": "to cache fetched remote public keys",
+                "psr/simple-cache-implementation": "to cache fetched remote public keys"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Kreait\\Firebase\\JWT\\": "src/JWT"
+                    "Kreait\\Firebase\\JWT\\": "src/JWT",
+                    "Firebase\\Auth\\Token\\": "src/Firebase/Auth/Token"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2066,7 +2054,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kreait/firebase-tokens-php/issues",
-                "source": "https://github.com/kreait/firebase-tokens-php/tree/2.2.0"
+                "source": "https://github.com/kreait/firebase-tokens-php/tree/1.16.1"
             },
             "funding": [
                 {
@@ -2074,33 +2062,32 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-28T08:15:20+00:00"
+            "time": "2021-10-03T00:41:06+00:00"
         },
         {
             "name": "kreait/laravel-firebase",
-            "version": "4.0.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/laravel-firebase.git",
-                "reference": "463a7647dbed752da15cbfe312b1adbd3fc0207a"
+                "reference": "e2110842cb08e48642116e2a9b719c81c80c83be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/laravel-firebase/zipball/463a7647dbed752da15cbfe312b1adbd3fc0207a",
-                "reference": "463a7647dbed752da15cbfe312b1adbd3fc0207a",
+                "url": "https://api.github.com/repos/kreait/laravel-firebase/zipball/e2110842cb08e48642116e2a9b719c81c80c83be",
+                "reference": "e2110842cb08e48642116e2a9b719c81c80c83be",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^8.0",
-                "illuminate/support": "^8.0",
-                "kreait/firebase-php": "^6.0",
-                "php": "^7.4|^8.0",
+                "illuminate/contracts": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "kreait/firebase-php": "^5.24",
+                "php": "^7.2|^8.0",
                 "symfony/cache": "^5.4|^6.0"
             },
             "require-dev": {
-                "laravel/lumen-framework": "^8.3",
-                "orchestra/testbench": "^6.0",
-                "symplify/easy-coding-standard": "^10.0"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^4.0|^5.0|^6.0"
             },
             "type": "library",
             "extra": {
@@ -2141,16 +2128,13 @@
             "description": "A Laravel package for the Firebase PHP Admin SDK",
             "keywords": [
                 "FCM",
-                "api",
-                "database",
                 "firebase",
                 "gcm",
-                "laravel",
-                "sdk"
+                "laravel"
             ],
             "support": {
                 "issues": "https://github.com/kreait/laravel-firebase/issues",
-                "source": "https://github.com/kreait/laravel-firebase/tree/4.0.0"
+                "source": "https://github.com/kreait/laravel-firebase/tree/3.4.0"
             },
             "funding": [
                 {
@@ -2174,7 +2158,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-01-09T19:43:35+00:00"
+            "time": "2021-12-04T14:15:18+00:00"
         },
         {
             "name": "laracasts/flash",
@@ -2233,6 +2217,65 @@
                 "source": "https://github.com/laracasts/flash/tree/3.2.1"
             },
             "time": "2022-01-31T16:01:37+00:00"
+        },
+        {
+            "name": "laravel-notification-channels/fcm",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-notification-channels/fcm.git",
+                "reference": "e3447d27f6c5309408b346d39a3bd3368ef5bf35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-notification-channels/fcm/zipball/e3447d27f6c5309408b346d39a3bd3368ef5bf35",
+                "reference": "e3447d27f6c5309408b346d39a3bd3368ef5bf35",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2 || ^7.0",
+                "illuminate/notifications": "~5.6 || ~6.0 || ~7.0 || ~8.0 || ~9.0",
+                "illuminate/support": "~5.6 || ~6.0 || ~7.0 || ~8.0 || ~9.0",
+                "kreait/laravel-firebase": "^1.3 || ^2.1 || ^3.0",
+                "php": ">=7.1.3",
+                "spatie/enum": "^2.3 || ^3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "8.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NotificationChannels\\Fcm\\FcmServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\Fcm\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Bautista",
+                    "email": "chris.bautista@coreproc.ph",
+                    "homepage": "https://coreproc.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "FCM (Firebase Cloud Messaging) Notifications Driver for Laravel",
+            "homepage": "https://github.com/laravel-notification-channels/fcm",
+            "support": {
+                "issues": "https://github.com/laravel-notification-channels/fcm/issues",
+                "source": "https://github.com/laravel-notification-channels/fcm/tree/2.3.0"
+            },
+            "time": "2022-02-01T20:22:22+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4759,6 +4802,82 @@
                 }
             ],
             "time": "2021-10-09T06:30:16+00:00"
+        },
+        {
+            "name": "spatie/enum",
+            "version": "3.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/enum.git",
+                "reference": "4afe5f06bb4c3cf46d8b02328bcc34c0de652ad4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/enum/zipball/4afe5f06bb4c3cf46d8b02328bcc34c0de652ad4",
+                "reference": "4afe5f06bb4c3cf46d8b02328bcc34c0de652ad4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "larapack/dd": "^1.1",
+                "phpunit/phpunit": "^9.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "suggest": {
+                "fakerphp/faker": "To use the enum faker provider",
+                "phpunit/phpunit": "To use the enum assertions"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev@gummibeer.de",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Enums",
+            "homepage": "https://github.com/spatie/enum",
+            "keywords": [
+                "enum",
+                "enumerable",
+                "spatie"
+            ],
+            "support": {
+                "docs": "https://docs.spatie.be/enum",
+                "issues": "https://github.com/spatie/enum/issues",
+                "source": "https://github.com/spatie/enum"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-11-25T11:30:17+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -8920,12 +9039,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "DeepCopy\\": "src/DeepCopy/"
-                },
                 "files": [
                     "src/DeepCopy/deep_copy.php"
-                ]
+                ],
+                "psr-4": {
+                    "DeepCopy\\": "src/DeepCopy/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [

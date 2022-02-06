@@ -1,32 +1,53 @@
-window._ = require('lodash');
-
 try {
     require('bootstrap');
 } catch (e) {}
+import { initializeApp } from 'firebase/app';
+// Import the functions you need from the SDKs you need
+import { getMessaging, getToken,onMessage} from "firebase/messaging";
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
+import { onBackgroundMessage } from "firebase/messaging/sw";
 
-window.axios = require('axios');
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBSk3LgElUbTTXTucsMKlJuENmpdZ4hPIs",
+  authDomain: "laravel-fac5d.firebaseapp.com",
+  projectId: "laravel-fac5d",
+  storageBucket: "laravel-fac5d.appspot.com",
+  messagingSenderId: "586267524767",
+  appId: "1:586267524767:web:2e47b6b6adef23769a6caa",
+  measurementId: "G-KWPF094PX4"
+};
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging();
+getToken(messaging,"BAPFpF5lJIwfdCeqhItdwNA1r8YSo5-Y9cGB6EzkQyDSHGYnlmvL5zVoWbjcUvTVXmAVFLSOU5oilI6-NRz9CUo")
+.then(function(token){
+  if(token)
+  {
 
-// import Echo from 'laravel-echo';
+  }else{
 
-// window.Pusher = require('pusher-js');
+  }
+})
+onMessage(messaging,(payload)=>{
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+})
+
+
+onBackgroundMessage(messaging, (payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // Customize notification here
+  const notificationTitle = 'Background Message Title';
+  const notificationOptions = {
+    body: 'Background Message body.',
+    icon: '/firebase-logo.png'
+  };
+
+  self.registration.showNotification(notificationTitle,
+    notificationOptions);
+});

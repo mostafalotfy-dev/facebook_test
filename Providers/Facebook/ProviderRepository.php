@@ -1,6 +1,6 @@
 <?php 
 
-namespace Sdks\Facebook;
+namespace Providers\Facebook;
 
 use Facebook\Facebook;
 

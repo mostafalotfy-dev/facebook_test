@@ -2,7 +2,7 @@
 
 
 
-namespace Sdks\Facebook\Contracts;
+namespace Providers\Facebook\Contracts;
 
 
 interface IUploadPhoto {

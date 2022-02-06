@@ -142,7 +142,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.3/bootstrapSwitch.min.js"
         integrity="sha512-DAc/LqVY2liDbikmJwUS1MSE3pIH0DFprKHZKPcJC7e3TtAOzT55gEMTleegwyuIWgCfOPOM8eLbbvFaG9F/cA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="{{asset("app.js")}}">
+</script>
 <script>
     $(function () {
         bsCustomFileInput.init();
@@ -154,7 +155,8 @@
 </script>
 
 @stack('third_party_scripts')
-
+<script src="{{asset('app.js')}}">
+</script>
 @stack('page_scripts')
 </body>
 </html>
