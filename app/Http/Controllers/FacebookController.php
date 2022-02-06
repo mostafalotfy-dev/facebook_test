@@ -85,7 +85,7 @@ class FacebookController extends Controller
         dispatch(new PublishVideoToFacebook($groupId, $filePath, [
             "title" => request("title"),
             "description" => request("description")
-        ]));
+        ],$this->token));
         return back();
     }
 

@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Comic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
-class CreateBannedTable extends Migration
+
+class CreateComicsAlbumTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +14,10 @@ class CreateBannedTable extends Migration
      */
     public function up()
     {
-        Schema::create('banned', function (Blueprint $table) {
+        Schema::create('comics_album', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->string("file_name");
+            $table->foreignIdFor(Comic::class);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateBannedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banneds');
+        Schema::dropIfExists('comics_album');
     }
 }

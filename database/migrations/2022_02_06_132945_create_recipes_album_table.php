@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Comic;
+use App\Models\Recipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
-class CreateBannedTable extends Migration
+
+class CreateRecipesAlbumTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +15,10 @@ class CreateBannedTable extends Migration
      */
     public function up()
     {
-        Schema::create('banned', function (Blueprint $table) {
+        Schema::create('recipes_album', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Recipe::class);
+            $table->string("file_name");
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateBannedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banneds');
+        Schema::dropIfExists('recipes_album');
     }
 }
