@@ -4,7 +4,7 @@
 
 namespace Sdks\Facebook\FacebookAlbum;
 
-use Nette\NotImplementedException;
+
 use Sdks\Facebook\Contracts\ICrud;
 use Sdks\Facebook\Contracts\IUploadPhoto;
 use Sdks\Facebook\ProviderRepository;
@@ -36,6 +36,6 @@ class Photo extends ProviderRepository implements ICrud,IUploadPhoto
  }
  public function addPhoto($id, array $params, string $token)
  {
-     return $this->provider->post($id."/photo",$params,$token);
+     return $this->provider->post($id."/photos",$params,$token);
  }
 }

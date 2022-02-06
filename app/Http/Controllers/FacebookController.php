@@ -19,7 +19,7 @@ class FacebookController extends Controller
     private $token;
     public function __construct(Facebook $facebook)
     {
-        $this->token = "EAAWR0tDd8jgBAKS9u3Sn2GBrZBb1BjDy7riFINC1T87GtvawPRbln1y5dch3jojTBgB37dLFlk9T08ZBo32VkDTKdfePERed1vcnvH7ZCXZC1n8wiDlRwOMZCoBG0nWqZCtQC8EuMw7u0Y35jSzRPn8QBTBea9ZBPZATliRxVoorBBZCOslWoRKt4mGrXmNSwhTdUtOjniABLPQZDZD";
+        $this->token = "EAAWR0tDd8jgBAMSNH5PpZC3gkM9BW57VVyFRswHBrVF9ZAYtZC6Gr2r6O4WMlsbT68V9NVnVCOctsSEJ6Wg5Rb0Qe1ahu9rhWCb3HPL9wMkByLB1EC9xIaCgdFhGfFNDnIUZARIcZAlAXJ3pAbqlQNUpDe9NUUApOJKvD0ZAQSkQv1kzT07odpoYu0EMEAkPEVdmPZC7n4mXAZDZD";
         $this->fb = $facebook;
         $this->group = new Group($facebook);
     }
@@ -60,7 +60,7 @@ class FacebookController extends Controller
     }
     public function addPhotos($albumId)
     {
-        $fileName = request()->file("file")->getClientOriginalName();
+        $fileName = uniqid(). request()->file("file")->getClientOriginalName();
         request()->file("file")->move("storage", $fileName);
         $album = new Album($this->fb);
 

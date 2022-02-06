@@ -29,7 +29,7 @@ class PublishImageToFacebook implements ShouldQueue
      */
     public function __construct(int $id,$path)
     {
-        $this->token = "EAAWR0tDd8jgBAPtbV9zZBYTrPByjRucwpsYpSUBPuZAQaMFxAX4L3Ri8YqZBRL56wDs473iEHOpHr8w2WewMXxfq1dY9IICVWZCXgrlJQKt7UKhKh1ZBoE080E709ODOOSzg2580HAA35tnOkt5v8xIdhJ5djs18wl3sRKKFDtR9ZBp9ZBimuAXRMDrp4piUu4naB3HbZCMyEizlZCmwaCfDSW3I8zubfloQ0j9KnZBA4INOqhhiZCuEsCR";
+        $this->token = "EAAWR0tDd8jgBAMSNH5PpZC3gkM9BW57VVyFRswHBrVF9ZAYtZC6Gr2r6O4WMlsbT68V9NVnVCOctsSEJ6Wg5Rb0Qe1ahu9rhWCb3HPL9wMkByLB1EC9xIaCgdFhGfFNDnIUZARIcZAlAXJ3pAbqlQNUpDe9NUUApOJKvD0ZAQSkQv1kzT07odpoYu0EMEAkPEVdmPZC7n4mXAZDZD";
         $this->id = $id;
         $this->path = $path;
     }
@@ -51,7 +51,7 @@ class PublishImageToFacebook implements ShouldQueue
     {
         $album = $this->album;
         $album
-        ->uploadPhotoToAlbum($id,public_path("storage/$fileName")
+        ->uploadPhotoToAlbum($id,public_path("$fileName")
         ,$this->token);
        
     }
