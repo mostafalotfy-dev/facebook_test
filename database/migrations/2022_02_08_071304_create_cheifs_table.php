@@ -17,7 +17,7 @@ class CreateCheifsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone_number')->unique();
-            $table->string('email')->unique();
+         
             $table->timestamp('phone_number_verified_at')->nullable();
             $table->string('password');
             $table->string("avatar")->default("avatar.png");
@@ -29,7 +29,8 @@ class CreateCheifsTable extends Migration
             $table->string("facebook_link")->nullable();
             $table->string("description")->nullable();
             $table->ipAddress("user_ip");
-            $table->string("udid")->nullable();
+            $table->string("address");
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

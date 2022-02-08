@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,28 +27,35 @@ Route::group([
     Route::post('me', 'AuthController@me');
     Route::post("register","RegisterController@register");
     
-
 });
 Route::group([
     "middleware"=>"api",
     "prefix"=>"auth/cheif"
 ],function()
 {
-    Route::post('login', 'Cheif/LoginController@login');
-  
-  
+    Route::post("register","Cheif\RegisterController@register");
+    Route::post('login', 'Cheif\LoginController@login');
+    Route::get("profile","Cheif\ProfileController@index");
 });
 Route::group([
     "middleware"=>"auth:sanctum",
 ],function(){
     Route::get("profile","ProfileController@index");
-    Route::get("posts","PostsControlle@index");
-    Route::get("posts/{categoryId}/category","PostsController@byCategory");
-   
+    Route::resource('followings', FollowingAPIController::class);
+    Route::post("followings","FollowingAPIController@store");
+    Route::get("followings","FollowingAPIController@index");
+    Route::get("followings/{id}","FollowingAPIController@show");
 });
 
+Route::get("cheif/{userId}/comics","ComicAPIController@byUserId");
 Route::resource('recipes',RecipeAPIController::class);
 Route::resource('short_videos', ShortVideoAPIController::class);
 
 
-Route::resource('followings', App\Http\Controllers\API\FollowingAPIController::class);
+
+
+
+Route::resource('comics', ComicAPIController::class);
+
+
+Route::resource('hash_tags', App\Http\Controllers\API\HashTagAPIController::class);

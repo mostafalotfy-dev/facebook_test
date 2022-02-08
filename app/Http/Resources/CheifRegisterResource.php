@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterResource extends JsonResource
+class CheifRegisterResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,7 +14,6 @@ class RegisterResource extends JsonResource
      */
     public function toArray($request)
     {
-        
         return [
             "token" => $this->createToken(env("APP_NAME"))->plainTextToken,
             "user" => [
@@ -22,7 +21,7 @@ class RegisterResource extends JsonResource
                 "avatar" => asset("storage/".$this->avatar),
                 "is_waiting" => (bool) $this->waiting()->value("user_id"),
                 "description" => (string) $this->description,
-                "address"=>(string) $this->address
+                "address"=> (string) $this->address
             ]
         ];
     }

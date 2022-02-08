@@ -2,84 +2,155 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comic;
+use App\Http\Requests\CreateComicRequest;
+use App\Http\Requests\UpdateComicRequest;
+use App\Repositories\ComicRepository;
+use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Flash;
+use Response;
 
-class ComicController extends Controller
+class ComicController extends AppBaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    /** @var ComicRepository $comicRepository*/
+    private $comicRepository;
+
+    public function __construct(ComicRepository $comicRepo)
     {
-        //
+        $this->comicRepository = $comicRepo;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the Comic.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function index(Request $request)
+    {
+        $comics = $this->comicRepository->all();
+
+        return view('comics.index')
+            ->with('comics', $comics);
+    }
+
+    /**
+     * Show the form for creating a new Comic.
+     *
+     * @return Response
      */
     public function create()
     {
-        //
+        return view('comics.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Comic in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateComicRequest $request
+     *
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateComicRequest $request)
     {
-        //
+        $input = $request->all();
+
+        $comic = $this->comicRepository->create($input);
+
+        Flash::success(__('messages.saved', ['model' => __('models/comics.singular')]));
+
+        return redirect(route('comics.index'));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified Comic.
      *
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return Response
      */
-    public function show(Comic $comic)
+    public function show($id)
     {
-        //
+        $comic = $this->comicRepository->find($id);
+
+        if (empty($comic)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/comics.singular')]));
+
+            return redirect(route('comics.index'));
+        }
+
+        return view('comics.show')->with('comic', $comic);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified Comic.
      *
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return Response
      */
-    public function edit(Comic $comic)
+    public function edit($id)
     {
-        //
+        $comic = $this->comicRepository->find($id);
+
+        if (empty($comic)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/comics.singular')]));
+
+            return redirect(route('comics.index'));
+        }
+
+        return view('comics.edit')->with('comic', $comic);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Comic in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @param UpdateComicRequest $request
+     *
+     * @return Response
      */
-    public function update(Request $request, Comic $comic)
+    public function update($id, UpdateComicRequest $request)
     {
-        //
+        $comic = $this->comicRepository->find($id);
+
+        if (empty($comic)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/comics.singular')]));
+
+            return redirect(route('comics.index'));
+        }
+
+        $comic = $this->comicRepository->update($request->all(), $id);
+
+        Flash::success(__('messages.updated', ['model' => __('models/comics.singular')]));
+
+        return redirect(route('comics.index'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Comic from storage.
      *
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
      */
-    public function destroy(Comic $comic)
+    public function destroy($id)
     {
-        //
+        $comic = $this->comicRepository->find($id);
+
+        if (empty($comic)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/comics.singular')]));
+
+            return redirect(route('comics.index'));
+        }
+
+        $this->comicRepository->delete($id);
+
+        Flash::success(__('messages.deleted', ['model' => __('models/comics.singular')]));
+
+        return redirect(route('comics.index'));
     }
 }

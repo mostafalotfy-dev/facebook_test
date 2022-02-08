@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateFollowingAPIRequest;
-use App\Http\Requests\API\UpdateFollowingAPIRequest;
-use App\Models\Following;
-use App\Repositories\FollowingRepository;
+use App\Http\Requests\API\CreateHashTagAPIRequest;
+use App\Http\Requests\API\UpdateHashTagAPIRequest;
+use App\Models\HashTag;
+use App\Repositories\HashTagRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\FollowingResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\HashTagResource;
 use Response;
 
 /**
- * Class FollowingController
+ * Class HashTagController
  * @package App\Http\Controllers\API
  */
 
-class FollowingAPIController extends AppBaseController
+class HashTagAPIController extends AppBaseController
 {
-    /** @var  FollowingRepository */
-    private $followingRepository;
+    /** @var  HashTagRepository */
+    private $hashTagRepository;
 
-    public function __construct(FollowingRepository $followingRepo)
+    public function __construct(HashTagRepository $hashTagRepo)
     {
-        $this->followingRepository = $followingRepo;
+        $this->hashTagRepository = $hashTagRepo;
     }
 
     /**
@@ -32,10 +31,10 @@ class FollowingAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/followings",
-     *      summary="Get a listing of the Followings.",
-     *      tags={"Following"},
-     *      description="Get all Followings",
+     *      path="/hashTags",
+     *      summary="Get a listing of the HashTags.",
+     *      tags={"HashTag"},
+     *      description="Get all HashTags",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -49,7 +48,7 @@ class FollowingAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Following")
+     *                  @SWG\Items(ref="#/definitions/HashTag")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -61,34 +60,34 @@ class FollowingAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $followings = $this->followingRepository->all(
+        $hashTags = $this->hashTagRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
         return $this->sendResponse(
-            FollowingResource::collection($followings),
-            __('messages.retrieved', ['model' => __('models/followings.plural')])
+            HashTagResource::collection($hashTags),
+            __('messages.retrieved', ['model' => __('models/hashTags.plural')])
         );
     }
 
     /**
-     * @param CreateFollowingAPIRequest $request
+     * @param CreateHashTagAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/followings",
-     *      summary="Store a newly created Following in storage",
-     *      tags={"Following"},
-     *      description="Store Following",
+     *      path="/hashTags",
+     *      summary="Store a newly created HashTag in storage",
+     *      tags={"HashTag"},
+     *      description="Store HashTag",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Following that should be stored",
+     *          description="HashTag that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Following")
+     *          @SWG\Schema(ref="#/definitions/HashTag")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -101,7 +100,7 @@ class FollowingAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Following"
+     *                  ref="#/definitions/HashTag"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -111,15 +110,15 @@ class FollowingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateFollowingAPIRequest $request)
+    public function store(CreateHashTagAPIRequest $request)
     {
         $input = $request->all();
 
-        
+        $hashTag = $this->hashTagRepository->create($input);
 
         return $this->sendResponse(
-            [],
-            __('messages.saved', ['model' => __('models/followings.singular')])
+            new HashTagResource($hashTag),
+            __('messages.saved', ['model' => __('models/hashTags.singular')])
         );
     }
 
@@ -128,14 +127,14 @@ class FollowingAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/followings/{id}",
-     *      summary="Display the specified Following",
-     *      tags={"Following"},
-     *      description="Get Following",
+     *      path="/hashTags/{id}",
+     *      summary="Display the specified HashTag",
+     *      tags={"HashTag"},
+     *      description="Get HashTag",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Following",
+     *          description="id of HashTag",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -151,7 +150,7 @@ class FollowingAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Following"
+     *                  ref="#/definitions/HashTag"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -163,35 +162,35 @@ class FollowingAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Following $following */
-        $following = $this->followingRepository->find($id);
+        /** @var HashTag $hashTag */
+        $hashTag = $this->hashTagRepository->find($id);
 
-        if (empty($following)) {
+        if (empty($hashTag)) {
             return $this->sendError(
-                __('messages.not_found', ['model' => __('models/followings.singular')])
+                __('messages.not_found', ['model' => __('models/hashTags.singular')])
             );
         }
 
         return $this->sendResponse(
-            new FollowingResource($following),
-            __('messages.retrieved', ['model' => __('models/followings.singular')])
+            new HashTagResource($hashTag),
+            __('messages.retrieved', ['model' => __('models/hashTags.singular')])
         );
     }
 
     /**
      * @param int $id
-     * @param UpdateFollowingAPIRequest $request
+     * @param UpdateHashTagAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/followings/{id}",
-     *      summary="Update the specified Following in storage",
-     *      tags={"Following"},
-     *      description="Update Following",
+     *      path="/hashTags/{id}",
+     *      summary="Update the specified HashTag in storage",
+     *      tags={"HashTag"},
+     *      description="Update HashTag",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Following",
+     *          description="id of HashTag",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -199,9 +198,9 @@ class FollowingAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Following that should be updated",
+     *          description="HashTag that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Following")
+     *          @SWG\Schema(ref="#/definitions/HashTag")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -214,7 +213,7 @@ class FollowingAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Following"
+     *                  ref="#/definitions/HashTag"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -224,24 +223,24 @@ class FollowingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateFollowingAPIRequest $request)
+    public function update($id, UpdateHashTagAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Following $following */
-        $following = $this->followingRepository->find($id);
+        /** @var HashTag $hashTag */
+        $hashTag = $this->hashTagRepository->find($id);
 
-        if (empty($following)) {
+        if (empty($hashTag)) {
             return $this->sendError(
-                __('messages.not_found', ['model' => __('models/followings.singular')])
+                __('messages.not_found', ['model' => __('models/hashTags.singular')])
             );
         }
 
-        $following = $this->followingRepository->update($input, $id);
+        $hashTag = $this->hashTagRepository->update($input, $id);
 
         return $this->sendResponse(
-            new UserResource($following->user),
-            __('messages.updated', ['model' => __('models/followings.singular')])
+            new HashTagResource($hashTag),
+            __('messages.updated', ['model' => __('models/hashTags.singular')])
         );
     }
 
@@ -250,14 +249,14 @@ class FollowingAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/followings/{id}",
-     *      summary="Remove the specified Following from storage",
-     *      tags={"Following"},
-     *      description="Delete Following",
+     *      path="/hashTags/{id}",
+     *      summary="Remove the specified HashTag from storage",
+     *      tags={"HashTag"},
+     *      description="Delete HashTag",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Following",
+     *          description="id of HashTag",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -285,20 +284,20 @@ class FollowingAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Following $following */
-        $following = $this->followingRepository->find($id);
+        /** @var HashTag $hashTag */
+        $hashTag = $this->hashTagRepository->find($id);
 
-        if (empty($following)) {
+        if (empty($hashTag)) {
             return $this->sendError(
-                __('messages.not_found', ['model' => __('models/followings.singular')])
+                __('messages.not_found', ['model' => __('models/hashTags.singular')])
             );
         }
 
-        $following->delete();
+        $hashTag->delete();
 
         return $this->sendResponse(
-           [],
-            __('messages.deleted', ['model' => __('models/followings.singular')])
+            $id,
+            __('messages.deleted', ['model' => __('models/hashTags.singular')])
         );
     }
 }

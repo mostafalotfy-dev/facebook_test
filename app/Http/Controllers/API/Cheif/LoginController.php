@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\API\Cheif;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CheifLoginResource;
-
+use App\Http\Resources\LoginResource;
+use App\Models\Cheif;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+class LoginController extends AppBaseController
 {
     use AuthenticatesUsers;
     public function username()
@@ -22,25 +24,22 @@ class LoginController extends Controller
 
         $user = $this->findUser($request);
         if ($user) {
-            if (Hash::check(request("password"),$user->password)) {
+            if (!Hash::check(request("password"), $user->password)) {
                 return $this->sendFailedLoginResponse($request);
             } else {
-                 return response()->json([
-                     "data" => new CheifLoginResource($user)
-                   ]);
+                return $this->sendResponse(
+                    new LoginResource($user),
+                    __("messages.retrieved", ["model" => "cheifs.plural"])
+                );
             }
-        }else{
-               return $this->sendFailedLoginResponse($request);
+        } else {
+            return $this->sendFailedLoginResponse($request);
         }
     }
     private function findUser(Request $request)
     {
-        return  User::where([
-            [
-                $this->username(),
-                "=",
-                request($this->username()),
-            ],
-        ])->first();
+        return  Cheif::where($this->username()
+        , request($this->username()))
+        ->first();
     }
 }

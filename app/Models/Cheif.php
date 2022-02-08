@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+
 /**
  * @SWG\Definition(
  *      definition="Cheif",
@@ -89,8 +91,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="udid",
- *          description="udid",
+ *          property="address",
+ *          description="address",
  *          type="string"
  *      ),
  *      @SWG\Property(
@@ -114,7 +116,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class Cheif extends Authenticatable
 {
-    use SoftDeletes;
+    use SoftDeletes,HasApiTokens;
 
     use HasFactory;
 
@@ -129,7 +131,6 @@ class Cheif extends Authenticatable
     public $fillable = [
         'name',
         'phone_number',
-        'email',
         'phone_number_verified_at',
         'password',
         'avatar',
@@ -141,7 +142,7 @@ class Cheif extends Authenticatable
         'facebook_link',
         'description',
         'user_ip',
-        'udid',
+        'address',
         'remember_token'
     ];
 
@@ -196,5 +197,8 @@ class Cheif extends Authenticatable
         'updated_at' => 'nullable'
     ];
 
-    
+    public function waiting()
+    {
+        return $this->hasOne(WaitingList::class,"user_id");
+    }
 }

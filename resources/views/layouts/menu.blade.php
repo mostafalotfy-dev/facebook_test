@@ -55,3 +55,17 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('comics.index') }}"
+       class="nav-link {{ Request::is('comics*') ? 'active' : '' }}">
+        <p>@lang('models/comics.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('hashTags.index') }}"
+       class="nav-link {{ Request::is('hashTags*') ? 'active' : '' }}">
+        <p>@lang('models/hashTags.plural')</p>
+    </a>
+</li>
+

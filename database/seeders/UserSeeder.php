@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             "name"=>"developer",
             "phone_number"=>"01021408852",
             "password"=>bcrypt("first_@user#last"),
-            "email"=>"mostafalotfy.dev@gmail.com",
+            
             'user_ip'=>"0.0.0.0"
         ]);
         

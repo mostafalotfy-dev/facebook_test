@@ -2,84 +2,155 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HashTag;
+use App\Http\Requests\CreateHashTagRequest;
+use App\Http\Requests\UpdateHashTagRequest;
+use App\Repositories\HashTagRepository;
+use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Flash;
+use Response;
 
-class HashTagController extends Controller
+class HashTagController extends AppBaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    /** @var HashTagRepository $hashTagRepository*/
+    private $hashTagRepository;
+
+    public function __construct(HashTagRepository $hashTagRepo)
     {
-        //
+        $this->hashTagRepository = $hashTagRepo;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the HashTag.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function index(Request $request)
+    {
+        $hashTags = $this->hashTagRepository->all();
+
+        return view('hash_tags.index')
+            ->with('hashTags', $hashTags);
+    }
+
+    /**
+     * Show the form for creating a new HashTag.
+     *
+     * @return Response
      */
     public function create()
     {
-        //
+        return view('hash_tags.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created HashTag in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateHashTagRequest $request
+     *
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateHashTagRequest $request)
     {
-        //
+        $input = $request->all();
+
+        $hashTag = $this->hashTagRepository->create($input);
+
+        Flash::success(__('messages.saved', ['model' => __('models/hashTags.singular')]));
+
+        return redirect(route('hashTags.index'));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified HashTag.
      *
-     * @param  \App\Models\HashTag  $hashTag
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return Response
      */
-    public function show(HashTag $hashTag)
+    public function show($id)
     {
-        //
+        $hashTag = $this->hashTagRepository->find($id);
+
+        if (empty($hashTag)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/hashTags.singular')]));
+
+            return redirect(route('hashTags.index'));
+        }
+
+        return view('hash_tags.show')->with('hashTag', $hashTag);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified HashTag.
      *
-     * @param  \App\Models\HashTag  $hashTag
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return Response
      */
-    public function edit(HashTag $hashTag)
+    public function edit($id)
     {
-        //
+        $hashTag = $this->hashTagRepository->find($id);
+
+        if (empty($hashTag)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/hashTags.singular')]));
+
+            return redirect(route('hashTags.index'));
+        }
+
+        return view('hash_tags.edit')->with('hashTag', $hashTag);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified HashTag in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\HashTag  $hashTag
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @param UpdateHashTagRequest $request
+     *
+     * @return Response
      */
-    public function update(Request $request, HashTag $hashTag)
+    public function update($id, UpdateHashTagRequest $request)
     {
-        //
+        $hashTag = $this->hashTagRepository->find($id);
+
+        if (empty($hashTag)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/hashTags.singular')]));
+
+            return redirect(route('hashTags.index'));
+        }
+
+        $hashTag = $this->hashTagRepository->update($request->all(), $id);
+
+        Flash::success(__('messages.updated', ['model' => __('models/hashTags.singular')]));
+
+        return redirect(route('hashTags.index'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified HashTag from storage.
      *
-     * @param  \App\Models\HashTag  $hashTag
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
      */
-    public function destroy(HashTag $hashTag)
+    public function destroy($id)
     {
-        //
+        $hashTag = $this->hashTagRepository->find($id);
+
+        if (empty($hashTag)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/hashTags.singular')]));
+
+            return redirect(route('hashTags.index'));
+        }
+
+        $this->hashTagRepository->delete($id);
+
+        Flash::success(__('messages.deleted', ['model' => __('models/hashTags.singular')]));
+
+        return redirect(route('hashTags.index'));
     }
 }

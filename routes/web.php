@@ -34,3 +34,9 @@ Route::resource('cheifs', App\Http\Controllers\CheifController::class);
 
 
 Route::resource('followings', App\Http\Controllers\FollowingController::class);
+
+
+Route::resource('comics', App\Http\Controllers\ComicController::class);
+
+
+Route::resource('hashTags', App\Http\Controllers\HashTagController::class);

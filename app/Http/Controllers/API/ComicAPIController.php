@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateFollowingAPIRequest;
-use App\Http\Requests\API\UpdateFollowingAPIRequest;
-use App\Models\Following;
-use App\Repositories\FollowingRepository;
+use App\Http\Requests\API\CreateComicAPIRequest;
+use App\Http\Requests\API\UpdateComicAPIRequest;
+use App\Models\Comic;
+use App\Repositories\ComicRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\FollowingResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\ComicResource;
 use Response;
 
 /**
- * Class FollowingController
+ * Class ComicController
  * @package App\Http\Controllers\API
  */
 
-class FollowingAPIController extends AppBaseController
+class ComicAPIController extends AppBaseController
 {
-    /** @var  FollowingRepository */
-    private $followingRepository;
+    /** @var  ComicRepository */
+    private $comicRepository;
 
-    public function __construct(FollowingRepository $followingRepo)
+    public function __construct(ComicRepository $comicRepo)
     {
-        $this->followingRepository = $followingRepo;
+        $this->comicRepository = $comicRepo;
     }
 
     /**
@@ -32,10 +31,10 @@ class FollowingAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/followings",
-     *      summary="Get a listing of the Followings.",
-     *      tags={"Following"},
-     *      description="Get all Followings",
+     *      path="/comics",
+     *      summary="Get a listing of the Comics.",
+     *      tags={"Comic"},
+     *      description="Get all Comics",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -49,7 +48,7 @@ class FollowingAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Following")
+     *                  @SWG\Items(ref="#/definitions/Comic")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -61,34 +60,76 @@ class FollowingAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $followings = $this->followingRepository->all(
+        $comics = $this->comicRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
         return $this->sendResponse(
-            FollowingResource::collection($followings),
-            __('messages.retrieved', ['model' => __('models/followings.plural')])
+            ComicResource::collection($comics),
+            __('messages.retrieved', ['model' => __('models/comics.plural')])
+        );
+    }
+    /*
+     *
+     * @SWG\Get(
+     *      path="/cheif/{userId}/comics/",
+     *      summary="Get a listing of the Comics by User Id.",
+     *      tags={"Comic"},
+     *      description="Get all Comics Belongs To Cheif",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Comic")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function byUserId($userId)
+    {
+        
+        $comics = $this->comicRepository->allQuery()
+        ->where("user_id",$userId)
+        ->get();
+       
+        return $this->sendResponse(
+            ComicResource::collection($comics)
+            , __('messages.retrieved', ['model' => __('models/cheifs.plural')])
         );
     }
 
     /**
-     * @param CreateFollowingAPIRequest $request
+     * @param CreateComicAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/followings",
-     *      summary="Store a newly created Following in storage",
-     *      tags={"Following"},
-     *      description="Store Following",
+     *      path="/comics",
+     *      summary="Store a newly created Comic in storage",
+     *      tags={"Comic"},
+     *      description="Store Comic",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Following that should be stored",
+     *          description="Comic that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Following")
+     *          @SWG\Schema(ref="#/definitions/Comic")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -101,7 +142,7 @@ class FollowingAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Following"
+     *                  ref="#/definitions/Comic"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -111,15 +152,15 @@ class FollowingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateFollowingAPIRequest $request)
+    public function store(CreateComicAPIRequest $request)
     {
         $input = $request->all();
 
-        
+        $comic = $this->comicRepository->create($input);
 
         return $this->sendResponse(
-            [],
-            __('messages.saved', ['model' => __('models/followings.singular')])
+            new ComicResource($comic),
+            __('messages.saved', ['model' => __('models/comics.singular')])
         );
     }
 
@@ -128,14 +169,14 @@ class FollowingAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/followings/{id}",
-     *      summary="Display the specified Following",
-     *      tags={"Following"},
-     *      description="Get Following",
+     *      path="/comics/{id}",
+     *      summary="Display the specified Comic",
+     *      tags={"Comic"},
+     *      description="Get Comic",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Following",
+     *          description="id of Comic",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -151,7 +192,7 @@ class FollowingAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Following"
+     *                  ref="#/definitions/Comic"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -163,35 +204,35 @@ class FollowingAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Following $following */
-        $following = $this->followingRepository->find($id);
+        /** @var Comic $comic */
+        $comic = $this->comicRepository->find($id);
 
-        if (empty($following)) {
+        if (empty($comic)) {
             return $this->sendError(
-                __('messages.not_found', ['model' => __('models/followings.singular')])
+                __('messages.not_found', ['model' => __('models/comics.singular')])
             );
         }
 
         return $this->sendResponse(
-            new FollowingResource($following),
-            __('messages.retrieved', ['model' => __('models/followings.singular')])
+            new ComicResource($comic),
+            __('messages.retrieved', ['model' => __('models/comics.singular')])
         );
     }
 
     /**
      * @param int $id
-     * @param UpdateFollowingAPIRequest $request
+     * @param UpdateComicAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/followings/{id}",
-     *      summary="Update the specified Following in storage",
-     *      tags={"Following"},
-     *      description="Update Following",
+     *      path="/comics/{id}",
+     *      summary="Update the specified Comic in storage",
+     *      tags={"Comic"},
+     *      description="Update Comic",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Following",
+     *          description="id of Comic",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -199,9 +240,9 @@ class FollowingAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Following that should be updated",
+     *          description="Comic that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Following")
+     *          @SWG\Schema(ref="#/definitions/Comic")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -214,7 +255,7 @@ class FollowingAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Following"
+     *                  ref="#/definitions/Comic"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -224,24 +265,24 @@ class FollowingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateFollowingAPIRequest $request)
+    public function update($id, UpdateComicAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Following $following */
-        $following = $this->followingRepository->find($id);
+        /** @var Comic $comic */
+        $comic = $this->comicRepository->find($id);
 
-        if (empty($following)) {
+        if (empty($comic)) {
             return $this->sendError(
-                __('messages.not_found', ['model' => __('models/followings.singular')])
+                __('messages.not_found', ['model' => __('models/comics.singular')])
             );
         }
 
-        $following = $this->followingRepository->update($input, $id);
+        $comic = $this->comicRepository->update($input, $id);
 
         return $this->sendResponse(
-            new UserResource($following->user),
-            __('messages.updated', ['model' => __('models/followings.singular')])
+            new ComicResource($comic),
+            __('messages.updated', ['model' => __('models/comics.singular')])
         );
     }
 
@@ -250,14 +291,14 @@ class FollowingAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/followings/{id}",
-     *      summary="Remove the specified Following from storage",
-     *      tags={"Following"},
-     *      description="Delete Following",
+     *      path="/comics/{id}",
+     *      summary="Remove the specified Comic from storage",
+     *      tags={"Comic"},
+     *      description="Delete Comic",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Following",
+     *          description="id of Comic",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -285,20 +326,20 @@ class FollowingAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Following $following */
-        $following = $this->followingRepository->find($id);
+        /** @var Comic $comic */
+        $comic = $this->comicRepository->find($id);
 
-        if (empty($following)) {
+        if (empty($comic)) {
             return $this->sendError(
-                __('messages.not_found', ['model' => __('models/followings.singular')])
+                __('messages.not_found', ['model' => __('models/comics.singular')])
             );
         }
 
-        $following->delete();
+        $comic->delete();
 
         return $this->sendResponse(
-           [],
-            __('messages.deleted', ['model' => __('models/followings.singular')])
+            $id,
+            __('messages.deleted', ['model' => __('models/comics.singular')])
         );
     }
 }

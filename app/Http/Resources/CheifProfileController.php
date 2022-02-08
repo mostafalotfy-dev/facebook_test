@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProfileResource extends JsonResource
+class CheifProfileController extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class ProfileResource extends JsonResource
         return [
             "name"=>(string) $this->name,
             "avatar"=>(string)$this->avatar,
-            "interaction_count"=> (int) $this->likes()->avg(),
+            "recipes"=> (int) $this->recipes()->avg(),
             "following"=> (int) $this->following()->count(),
             "followers"=>(int) $this->followers()->count(),
             "youtube_link"=>(string)$this->youtube_link,

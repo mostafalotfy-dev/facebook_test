@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FollowingResource extends JsonResource
+class HashTagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,10 @@ class FollowingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => [
-                "name"=>$this->user->name,
-                "avatar"=>asset("storage/".$this->user->avatar)
-            ],
+            'title' => $this->title,
+            'user_id' => $this->user_id,
+            'postable_type' => $this->postable_type,
+            'postable_id' => $this->postable_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

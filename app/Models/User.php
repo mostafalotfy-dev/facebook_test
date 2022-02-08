@@ -22,7 +22,8 @@ class User extends Authenticatable
         'phone_number',
         'password',
         "user_ip",
-        "avatar"
+        "avatar",
+        "address"
     ];
 
     /**
@@ -43,10 +44,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function waiting()
-    {
-        return $this->hasOne(WaitingList::class);
-    }
+  
     public function following()
     {
         return $this->hasMany(Following::class);
@@ -55,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Follower::class);
     }
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    
 }

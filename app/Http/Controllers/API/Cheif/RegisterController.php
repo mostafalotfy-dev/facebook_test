@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Cheif;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RegisterResource;
 use App\Providers\RouteServiceProvider;
@@ -12,9 +13,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\CheifRegisterResource;
+use App\Models\Cheif;
 use Illuminate\Auth\Events\Registered;
-class RegisterController extends Controller
+class RegisterController extends AppBaseController
 {
     /*
     |--------------------------------------------------------------------------
@@ -37,11 +39,9 @@ class RegisterController extends Controller
         $this->sendSMS($user->phone_number,9999);
         
         WaitingList::create([
-            "user_id"=>$user->id,
+            "user_id" => $user->id,
         ]);
-  
-
-        return  new RegisterResource($user);
+        return $this->sendResponse([],"");
     }
     protected function generateRandomNumber($start,$end)
     {
@@ -79,7 +79,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'string',"starts_with:+", 'max:14', 'unique:users'],
+            'phone_number' => ['required', 'string',"starts_with:+", 'max:14', 'unique:cheifs'],
             'password' => ['required', 'string', 'min:8'],
             
         ]);
@@ -94,19 +94,19 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $this->addImage($data,"avatar","storage");
-        $user= User::create([
+        $user= Cheif::create([
          'name' => $data['name'],
          'phone_number' => $data['phone_number'],
          'password' => Hash::make($data['password']),
          "user_ip"=> request()->ip(),
          "description"=> request("description"),
          "avatar"=> isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
-         
+         "address"=> isset($data["address"]) ? $data["address"] : "address.png",
         ]);
         return $user;
     }
     public function guard()
     {
-        return auth("api");
+        return auth("chief_api");
     }
 }

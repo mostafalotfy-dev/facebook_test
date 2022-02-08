@@ -18,7 +18,7 @@ class CreateComicsTable extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->longText("description");
-           
+           $table->softDeletes();
             $table->timestamps();
         });
     }

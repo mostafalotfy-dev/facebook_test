@@ -11,7 +11,7 @@ class ProfileController extends AppBaseController
 
     public function index()
     {
-        $user = request()->user();
+        $user = auth("api")->user();
         return new ProfileResource($user);
     }
 }
