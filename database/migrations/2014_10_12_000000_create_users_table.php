@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_number')->unique();
             $table->timestamp('phone_number_verified_at')->nullable();
             $table->string('password');
+            $table->string("verify_number");
             $table->string("avatar")->default("avatar.png");
             $table->unsignedInteger("provider_id")->nullable()->index();
             $table->string("provider_token")->nullable();

@@ -16,6 +16,7 @@ class CreateFollowingTable extends Migration
         Schema::create('following', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

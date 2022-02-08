@@ -19,7 +19,7 @@ class LoginResource extends JsonResource
             "user" => [
                 "avatar" => asset("storage/".$this->avatar),
                 "name" => $this->name,
-                "is_waiting" => (bool) $this->waiting()->value("user_id"),
+              
                 "description" => (string) $this->description
             ]
         ];

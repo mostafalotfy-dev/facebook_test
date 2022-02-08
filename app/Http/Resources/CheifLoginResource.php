@@ -24,7 +24,7 @@ class CheifLoginResource extends JsonResource
                 "youtube_channel_link" => (string) $this->youtube_channel,
                 "facebook_link" => (string)$this->facebook_link,
                 "description" => (string) $this->description
-            ]x
+            ]
         ];
     }
 }

@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         "user_ip",
         "avatar",
-        "address"
+        "address",
+        "verify_number"
     ];
 
     /**

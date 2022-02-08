@@ -23,6 +23,7 @@ class CreateRecipesTable extends Migration
             $table->foreignIdFor(Category::class);
             $table->unsignedBigInteger("people_count");
             $table->timestamp("cooking_time");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

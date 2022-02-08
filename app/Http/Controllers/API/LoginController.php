@@ -21,7 +21,7 @@ class LoginController extends Controller
 
         $user = $this->findUser($request);
         if ($user) {
-        if (Hash::check(request("password"),$user->password)) {
+        if (!Hash::check(request("password"),$user->password)) {
                 return $this->sendFailedLoginResponse($request);
             } else {
                 return response()->json([

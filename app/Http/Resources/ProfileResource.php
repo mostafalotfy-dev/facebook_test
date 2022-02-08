@@ -16,12 +16,8 @@ class ProfileResource extends JsonResource
     {
         return [
             "name"=>(string) $this->name,
-            "avatar"=>(string)$this->avatar,
-            "interaction_count"=> (int) $this->likes()->avg(),
-            "following"=> (int) $this->following()->count(),
-            "followers"=>(int) $this->followers()->count(),
-            "youtube_link"=>(string)$this->youtube_link,
-            "facebook_link"=> (string) $this->facebook_link,
+            "avatar"=>asset("storage/$this->avatar"),
+            "interaction_count"=> (int) $this->likes()->avg("user_id"),
             "description"=>(string) $this->description
         ];
     }

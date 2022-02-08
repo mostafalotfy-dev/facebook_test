@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoginResource;
 use App\Http\Resources\RegisterResource;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -14,7 +16,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 use Illuminate\Auth\Events\Registered;
-class RegisterController extends Controller
+use Illuminate\Support\Facades\DB;
+
+class RegisterController extends AppBaseController
 {
     /*
     |--------------------------------------------------------------------------
@@ -34,20 +38,26 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
-        $this->sendSMS($user->phone_number,9999);
+
+        $this->sendSMS($user,9999);
         
         WaitingList::create([
-            "user_id"=>$user->id,
+            "user_id"=> $user->id,
         ]);
   
 
-        return  new RegisterResource($user);
+        return  $this->sendResponse(
+            new LoginResource($user),
+            __("messages.retrieved",["model"=>"users.plural"])
+        );
     }
     protected function generateRandomNumber($start,$end)
     {
-        return rand($start,$end);
+        $randomNumber = rand($start,$end);
+
+        return $randomNumber;
     }
-    public function sendSMS($phoneNumber,$randomNumber)
+    public function sendSMS($user,$randomNumber)
     {
         $randomNumber = $this->generateRandomNumber($randomNumber,$randomNumber);
         //TODO:send SMS
@@ -101,7 +111,7 @@ class RegisterController extends Controller
          "user_ip"=> request()->ip(),
          "description"=> request("description"),
          "avatar"=> isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
-         
+            "verify_number"=>$this->generateRandomNumber(10000,9999)
         ]);
         return $user;
     }

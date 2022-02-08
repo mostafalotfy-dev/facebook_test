@@ -38,7 +38,7 @@ Route::group([
     Route::get("profile","Cheif\ProfileController@index");
 });
 Route::group([
-    "middleware"=>"auth:sanctum",
+    "middleware"=>"auth:api",
 ],function(){
     Route::get("profile","ProfileController@index");
     Route::resource('followings', FollowingAPIController::class);
