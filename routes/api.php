@@ -35,4 +35,7 @@ Route::group([
     Route::get("profile","ProfileController@index");
     Route::get("posts","PostsControlle@index");
     Route::get("posts/{categoryId}/category","PostsController@byCategory");
+   
 });
+Route::resource('recipes',RecipeAPIController::class);
+

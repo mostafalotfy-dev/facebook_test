@@ -12,6 +12,8 @@ use Illuminate\Queue\SerializesModels;
 use Sdks\Facebook\ProviderRepository;
 use Facebook\FileUpload\FacebookFile;
 use Sdks\Facebook\FacebookAlbum\Album;
+use Throwable;
+
 class PublishImageToFacebook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -43,16 +45,16 @@ class PublishImageToFacebook implements ShouldQueue
     {
         $this->provider = new ProviderRepository($facebook);
         $this->album = new Album($facebook);
-        $this->addPhotosToAlbum($this->id,$this->path);
+        $this->album
+        ->uploadPhotoToAlbum($this->id,public_path($this->path)
+        ,$this->token);
+     
         
     }
    
-    private function addPhotosToAlbum($id, $fileName)
+    
+    public function failed(Throwable $e)
     {
-        $album = $this->album;
-        $album
-        ->uploadPhotoToAlbum($id,public_path("$fileName")
-        ,$this->token);
-       
+        var_dump($e->getMessage());
     }
 }

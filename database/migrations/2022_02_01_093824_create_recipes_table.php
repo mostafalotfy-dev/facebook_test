@@ -17,7 +17,8 @@ class CreateRecipesTable extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("view_count");
-            $table->longText("description");
+            $table->string("title");
+            $table->string("description");
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Category::class);
             $table->unsignedBigInteger("people_count");

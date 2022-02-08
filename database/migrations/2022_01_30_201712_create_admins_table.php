@@ -17,9 +17,10 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->string("first_name");
             $table->string("last_name");
-            $table->string("full_name")->virtualAs(new Expression("concat(first_name,last_name)"));
+            $table->string("full_name")->virtualAs(new Expression("concat(first_name,' ',last_name)"));
             $table->string("email")->unique()->index();
             $table->string("avatar")->default("default.png");
+            $table->string("password");
             $table->softDeletes();
             $table->timestamps();
         });

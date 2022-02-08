@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
+
 
 use App\Http\Resources\ProfileResource;
-class ProfileController extends Controller
+class ProfileController extends AppBaseController
 {
 
     public function index()

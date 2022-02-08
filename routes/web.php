@@ -14,12 +14,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post("form/{groupId}","FacebookController@postForm")->name("publish.facebook");
-Route::get("group","FacebookController@form");
-Route::get("album/{albumId}","FacebookController@album")->name("create.album");
-Route::post("album/{albumId}","FacebookController@addPhotos");
-Route::get("video/{groupId}","FacebookController@createVideo")->name("group.video.create");
-Route::post("video/{groupId}","FacebookController@addVideoToGroup");
+
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
+{
+    Route::resource('admins', AdminController::class);
+    Route::resource('recipes', RecipeController::class);
+    Route::resource('categories', CategoryController::class);
+
+});
+
+
+
+
+
+

@@ -2,84 +2,159 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recipe;
+use App\Http\Requests\CreateRecipeRequest;
+use App\Http\Requests\UpdateRecipeRequest;
+use App\Repositories\RecipeRepository;
+use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Flash;
+use Illuminate\Support\Facades\DB;
+use Response;
 
-class RecipeController extends Controller
+class RecipeController extends AppBaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    /** @var RecipeRepository $recipeRepository*/
+    private $recipeRepository;
+
+    public function __construct(RecipeRepository $recipeRepo)
     {
-        //
+        $this->recipeRepository = $recipeRepo;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the Recipe.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function index(Request $request)
+    {
+        $recipes = $this->recipeRepository->all();
+
+        return view('recipes.index')
+            ->with('recipes', $recipes);
+    }
+
+    /**
+     * Show the form for creating a new Recipe.
+     *
+     * @return Response
      */
     public function create()
     {
-        //
+        $categories = DB::table("categories")->whereNull("deleted_at")
+        ->whereNull("parent_id")
+        ->get()->pluck("name_".app()->getLocale(),"id");
+        return view('recipes.create',compact("categories"));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Recipe in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateRecipeRequest $request
+     *
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateRecipeRequest $request)
     {
-        //
+        $input = $request->all();
+
+        $recipe = $this->recipeRepository->create($input);
+
+        Flash::success(__('messages.saved', ['model' => __('models/recipes.singular')]));
+
+        return redirect(route('recipes.index'));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified Recipe.
      *
-     * @param  \App\Models\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return Response
      */
-    public function show(Recipe $recipe)
+    public function show($id)
     {
-        //
+        $recipe = $this->recipeRepository->find($id);
+
+        if (empty($recipe)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));
+
+            return redirect(route('recipes.index'));
+        }
+
+        return view('recipes.show')->with('recipe', $recipe);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified Recipe.
      *
-     * @param  \App\Models\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return Response
      */
-    public function edit(Recipe $recipe)
+    public function edit($id)
     {
-        //
+        $recipe = $this->recipeRepository->find($id);
+
+        if (empty($recipe)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));
+
+            return redirect(route('recipes.index'));
+        }
+
+        return view('recipes.edit')->with('recipe', $recipe);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Recipe in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @param UpdateRecipeRequest $request
+     *
+     * @return Response
      */
-    public function update(Request $request, Recipe $recipe)
+    public function update($id, UpdateRecipeRequest $request)
     {
-        //
+        $recipe = $this->recipeRepository->find($id);
+
+        if (empty($recipe)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));
+
+            return redirect(route('recipes.index'));
+        }
+
+        $recipe = $this->recipeRepository->update($request->all(), $id);
+
+        Flash::success(__('messages.updated', ['model' => __('models/recipes.singular')]));
+
+        return redirect(route('recipes.index'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Recipe from storage.
      *
-     * @param  \App\Models\Recipe  $recipe
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
      */
-    public function destroy(Recipe $recipe)
+    public function destroy($id)
     {
-        //
+        $recipe = $this->recipeRepository->find($id);
+
+        if (empty($recipe)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));
+
+            return redirect(route('recipes.index'));
+        }
+
+        $this->recipeRepository->delete($id);
+
+        Flash::success(__('messages.deleted', ['model' => __('models/recipes.singular')]));
+
+        return redirect(route('recipes.index'));
     }
 }
