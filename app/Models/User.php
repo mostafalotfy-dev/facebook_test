@@ -19,8 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'phone_number',
         'password',
+        "user_ip",
+        "avatar"
     ];
 
     /**
@@ -43,7 +45,7 @@ class User extends Authenticatable
     ];
     public function waiting()
     {
-        return $this->belongsTo(WaitingList::class);
+        return $this->hasOne(WaitingList::class);
     }
     public function following()
     {

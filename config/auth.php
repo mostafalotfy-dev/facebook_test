@@ -41,12 +41,21 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'jwt',
+            'driver' => 'sanctum',
             'provider' => 'users',
         ],
         "admin"=>[
             "driver"=>"session",
             "provider"=>"admins"
+        ],
+        "chief_api"=>[
+            "driver"=>"sanctum",
+            "provider"=>"cheifs"
+        ],
+        "cheif"=>
+        [
+            "driver"=>"session",
+            "provider"=>"cheifs"
         ]
     ],
 
@@ -77,6 +86,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
+        "chiefs"=>[
+            'driver'=>'eloquent',
+            'model'=>App\Models\Cheif::class
+        ]
     ],
 
     /*

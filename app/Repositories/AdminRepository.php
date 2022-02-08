@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Admin;
 use App\Repositories\BaseRepository;
 
+
 /**
  * Class AdminRepository
  * @package App\Repositories

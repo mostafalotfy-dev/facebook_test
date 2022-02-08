@@ -24,11 +24,13 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('admins', AdminController::class);
     Route::resource('recipes', RecipeController::class);
     Route::resource('categories', CategoryController::class);
-
+    Route::resource('replies', ReplyController::class);
+    Route::resource('shortVideos', ShortVideoController::class);
 });
 
 
 
+Route::resource('cheifs', App\Http\Controllers\CheifController::class);
 
 
-
+Route::resource('followings', App\Http\Controllers\FollowingController::class);

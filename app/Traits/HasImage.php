@@ -6,7 +6,7 @@ trait HasImage {
         if(request()->file($attribute))
         {
             $fileName = uniqid(). request()->file($attribute)->getClientOriginalName();
-            $input["avatar"] = $fileName;
+            $input[$attribute] = $fileName;
             request()->file($attribute)->move($outputPath,$fileName);
         }else{
             unset($input["avatar"]);

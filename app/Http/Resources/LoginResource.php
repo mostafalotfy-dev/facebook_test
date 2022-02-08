@@ -17,12 +17,9 @@ class LoginResource extends JsonResource
         return [
             "token" => $this->createToken(env("APP_NAME"))->plainTextToken,
             "user" => [
-                
-                "avatar" => asset("storage/$this->avatar"),
+                "avatar" => asset("storage/".$this->avatar),
                 "name" => $this->name,
                 "is_waiting" => (bool) $this->waiting()->value("user_id"),
-                "youtube_channel_link" => (string) $this->youtube_channel,
-                "facebook_link" => (string)$this->facebook_link,
                 "description" => (string) $this->description
             ]
         ];

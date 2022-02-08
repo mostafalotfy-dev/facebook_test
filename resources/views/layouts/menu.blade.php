@@ -27,3 +27,31 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('replies.index') }}"
+       class="nav-link {{ Request::is('replies*') ? 'active' : '' }}">
+        <p>@lang('models/replies.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('shortVideos.index') }}"
+       class="nav-link {{ Request::is('shortVideos*') ? 'active' : '' }}">
+        <p>@lang('models/shortVideos.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('cheifs.index') }}"
+       class="nav-link {{ Request::is('cheifs*') ? 'active' : '' }}">
+        <p>@lang('models/cheifs.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('followings.index') }}"
+       class="nav-link {{ Request::is('followings*') ? 'active' : '' }}">
+        <p>@lang('models/followings.plural')</p>
+    </a>
+</li>
+

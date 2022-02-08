@@ -26,8 +26,18 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+    Route::post("register","RegisterController@register");
     
 
+});
+Route::group([
+    "middleware"=>"api",
+    "prefix"=>"auth/cheif"
+],function()
+{
+    Route::post('login', 'Cheif/LoginController@login');
+  
+  
 });
 Route::group([
     "middleware"=>"auth:sanctum",
@@ -37,5 +47,9 @@ Route::group([
     Route::get("posts/{categoryId}/category","PostsController@byCategory");
    
 });
-Route::resource('recipes',RecipeAPIController::class);
 
+Route::resource('recipes',RecipeAPIController::class);
+Route::resource('short_videos', ShortVideoAPIController::class);
+
+
+Route::resource('followings', App\Http\Controllers\API\FollowingAPIController::class);
