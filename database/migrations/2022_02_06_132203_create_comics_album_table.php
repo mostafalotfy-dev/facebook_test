@@ -17,7 +17,9 @@ class CreateComicsAlbumTable extends Migration
         Schema::create('comics_album', function (Blueprint $table) {
             $table->id();
             $table->string("file_name");
-            $table->foreignIdFor(Comic::class);
+            $table->string("mime_type");
+            $table->foreignIdFor(Comic::class)->references("id")->on("comics")->onDelete("cascade")->nullable();
+            $table->morphs("user");
             $table->timestamps();
         });
     }

@@ -48,7 +48,7 @@ return [
             "driver"=>"session",
             "provider"=>"admins"
         ],
-        "chief_api"=>[
+        "cheif_api"=>[
             "driver"=>"sanctum",
             "provider"=>"cheifs"
         ],
@@ -86,9 +86,9 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-        "chiefs"=>[
+        "cheifs"=>[
             'driver'=>'eloquent',
-            'model'=>App\Models\Cheif::class
+            'model'=> App\Models\Cheif::class
         ]
     ],
 

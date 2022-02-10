@@ -2,7 +2,9 @@
     <table class="table" id="recipes-table">
         <thead>
         <tr>
+            <th><input type="text" ></th>
             <th>@lang('models/recipes.fields.view_count')</th>
+        <th>@lang('models/recipes.fields.title')</th>
         <th>@lang('models/recipes.fields.description')</th>
         <th>@lang('models/recipes.fields.user_id')</th>
         <th>@lang('models/recipes.fields.category_id')</th>
@@ -15,8 +17,9 @@
          @foreach($recipes as $recipe)
             <tr>
                 <td>{{ $recipe->view_count }}</td>
+            <td>{{ $recipe->title }}</td>
             <td>{{ $recipe->description }}</td>
-            <td>{{ $recipe->user->name }}</td>
+            <td>{{ $recipe->user_id }}</td>
             <td>{{ $recipe->category_id }}</td>
             <td>{{ $recipe->people_count }}</td>
             <td>{{ $recipe->cooking_time }}</td>
@@ -39,5 +42,4 @@
          @endforeach
         </tbody>
     </table>
-    {{$recipes->links()}}
 </div>

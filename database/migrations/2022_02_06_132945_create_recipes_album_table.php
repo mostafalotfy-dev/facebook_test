@@ -17,8 +17,10 @@ class CreateRecipesAlbumTable extends Migration
     {
         Schema::create('recipes_album', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Recipe::class);
             $table->string("file_name");
+            $table->string("mime_type");
+            $table->foreignIdFor(Recipe::class)->references("id")->on("recipes")->onDelete("cascade")->nullable();
+            $table->morphs("user");
             $table->timestamps();
         });
     }

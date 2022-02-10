@@ -53,7 +53,7 @@ class RegisterController extends AppBaseController
     }
     protected function generateRandomNumber($start,$end)
     {
-        $randomNumber = rand($start,$end);
+        $randomNumber = mt_rand($start,$end);
 
         return $randomNumber;
     }
@@ -111,7 +111,8 @@ class RegisterController extends AppBaseController
          "user_ip"=> request()->ip(),
          "description"=> request("description"),
          "avatar"=> isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
-            "verify_number"=>$this->generateRandomNumber(10000,9999)
+            // "verify_number"=>$this->generateRandomNumber(1111,9999)
+            "verify_number"=>1234
         ]);
         return $user;
     }

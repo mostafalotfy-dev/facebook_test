@@ -26,7 +26,6 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post("register","RegisterController@register");
-    
 });
 Route::group([
     "middleware"=>"api",
@@ -35,10 +34,20 @@ Route::group([
 {
     Route::post("register","Cheif\RegisterController@register");
     Route::post('login', 'Cheif\LoginController@login');
-    Route::get("profile","Cheif\ProfileController@index");
+  
 });
+Route::post("posts","PostController@store");
 Route::group([
-    "middleware"=>"auth:api",
+    "middleware"=>["auth:cheif_api","verified"],
+    "prefix"=>"cheif"
+],function()
+{
+    Route::get("profile","Cheif\ProfileController@index");
+   
+});
+Route::post("cheif/verify","Cheif\VerificationController@verify");
+Route::group([
+    "middleware"=>["auth:api","verified"],
 ],function(){
     Route::get("profile","ProfileController@index");
     Route::resource('followings', FollowingAPIController::class);
@@ -46,16 +55,10 @@ Route::group([
     Route::get("followings","FollowingAPIController@index");
     Route::get("followings/{id}","FollowingAPIController@show");
 });
-
+Route::post("verify","VerificationController@verify");
 Route::get("cheif/{userId}/comics","ComicAPIController@byUserId");
 Route::resource('recipes',RecipeAPIController::class);
 Route::resource('short_videos', ShortVideoAPIController::class);
-
-
-
-
-
 Route::resource('comics', ComicAPIController::class);
-
-
-Route::resource('hash_tags', App\Http\Controllers\API\HashTagAPIController::class);
+Route::resource('hash_tags', HashTagAPIController::class);
+Route::get("categories","CategoryAPIController@index");

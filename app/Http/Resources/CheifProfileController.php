@@ -16,8 +16,8 @@ class CheifProfileController extends JsonResource
     {
         return [
             "name"=>(string) $this->name,
-            "avatar"=>(string)$this->avatar,
-            "recipes"=> (int) $this->recipes()->avg(),
+            "avatar"=>(string) asset("storage/$this->avatar"),
+            "recipes"=> (int) $this->recipes()->count(),
             "following"=> (int) $this->following()->count(),
             "followers"=>(int) $this->followers()->count(),
             "youtube_link"=>(string)$this->youtube_link,

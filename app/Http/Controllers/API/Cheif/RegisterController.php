@@ -38,14 +38,12 @@ class RegisterController extends AppBaseController
         event(new Registered($user = $this->create($request->all())));
         $this->sendSMS($user->phone_number,9999);
         
-        WaitingList::create([
-            "user_id" => $user->id,
-        ]);
-        return $this->sendResponse([],"");
+       
+        return $this->sendResponse(new CheifRegisterResource($user),"");
     }
     protected function generateRandomNumber($start,$end)
     {
-        return rand($start,$end);
+        return mt_rand($start,$end);
     }
     public function sendSMS($phoneNumber,$randomNumber)
     {
@@ -101,7 +99,8 @@ class RegisterController extends AppBaseController
          "user_ip"=> request()->ip(),
          "description"=> request("description"),
          "avatar"=> isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
-         "address"=> isset($data["address"]) ? $data["address"] : "address.png",
+         "address"=> isset($data["address"]) ? $data["address"] : null,
+         "verify_number"=>1234
         ]);
         return $user;
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Cheif;
 
 use App\Http\Controllers\AppBaseController;
-
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-
+use Carbon\Carbon;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 use DB;
 class VerificationController extends AppBaseController
 {
@@ -25,7 +26,7 @@ class VerificationController extends AppBaseController
             "phone_number"=>"required",
             "verify_number"=>"required",
         ]);
-        $user = DB::table("users")
+        $user = DB::table("cheifs")
         ->where("phone_number",request("phone_number"))
         ->whereNull("phone_number_verified_at")->first();
         if(!$user)
@@ -34,9 +35,10 @@ class VerificationController extends AppBaseController
         }
         if($user->verify_number != request("verify_number"))
         {
-            return $this->sendError("Wrong Verify Number");
+            return $this->sendError("Wrong Verification Number");
         }
-        DB::table("users")->whereNull("phone_number_verified_at")
+        DB::table("cheifs")
+        ->whereNull("phone_number_verified_at")
         ->where("phone_number",request("phone_number"))->update([
             "phone_number_verified_at" => now()
         ]);
@@ -56,7 +58,7 @@ class VerificationController extends AppBaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:cheif_api');
         // $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }

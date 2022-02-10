@@ -15,7 +15,7 @@ class CreateWaitingList extends Migration
     {
         Schema::create('waiting_list', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
           
             $table->timestamps();
         });

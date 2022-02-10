@@ -18,7 +18,7 @@ class CreateRepliesTable extends Migration
         Schema::create('comment_replies', function (Blueprint $table) {
             $table->id();
             $table->morphs("user");
-            $table->foreignIdFor(Comment::class);
+            $table->foreignIdFor(Comment::class)->references("id")->on("comments")->onDelete("cascade");
             $table->text("description");
             $table->timestamps();
         });

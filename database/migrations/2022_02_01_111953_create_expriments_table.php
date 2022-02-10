@@ -17,7 +17,7 @@ class CreateExprimentsTable extends Migration
         Schema::create('expriments', function (Blueprint $table) {
             $table->id();
             $table->text("description");
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             $table->timestamps();
         });
     }

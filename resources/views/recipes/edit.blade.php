@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section("title",__("recipes.plural"))
+
 @section('content')
     <section class="content-header">
         <div class="container-fluid">

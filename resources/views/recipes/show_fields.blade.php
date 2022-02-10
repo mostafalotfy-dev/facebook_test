@@ -4,6 +4,12 @@
     <p>{{ $recipe->view_count }}</p>
 </div>
 
+<!-- Title Field -->
+<div class="col-sm-12">
+    {!! Form::label('title', __('models/recipes.fields.title').':') !!}
+    <p>{{ $recipe->title }}</p>
+</div>
+
 <!-- Description Field -->
 <div class="col-sm-12">
     {!! Form::label('description', __('models/recipes.fields.description').':') !!}

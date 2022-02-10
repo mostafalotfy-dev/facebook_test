@@ -16,8 +16,8 @@ class CreateBookamrkVideosTable extends Migration
     {
         Schema::create('bookamrk_videos', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(ShortVideo::class);
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
+            $table->foreignIdFor(ShortVideo::class)->references("id")->on("short_videos")->onDelete("cascade");
             $table->timestamps();
         });
     }

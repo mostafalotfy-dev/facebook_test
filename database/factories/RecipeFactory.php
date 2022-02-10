@@ -23,11 +23,13 @@ class RecipeFactory extends Factory
     {
         return [
             'view_count' => $this->faker->word,
-        'description' => $this->faker->text,
+        'title' => $this->faker->word,
+        'description' => $this->faker->word,
         'user_id' => $this->faker->word,
         'category_id' => $this->faker->word,
         'people_count' => $this->faker->word,
         'cooking_time' => $this->faker->date('Y-m-d H:i:s'),
+        'deleted_at' => $this->faker->date('Y-m-d H:i:s'),
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

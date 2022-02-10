@@ -12,7 +12,7 @@ class ProfileController extends AppBaseController
     {
         $user = auth("cheif_api")->user();
         return $this->sendResponse(new CheifProfileController($user)
-            , __('messages.retrieved', ['model' => __('models/cheifs.plural')
-        ]));
+           
+        , __('messages.retrieved', ['model' => __('models/cheifs.plural')]));
     }
 }

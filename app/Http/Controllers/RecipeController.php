@@ -8,7 +8,6 @@ use App\Repositories\RecipeRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
-use Illuminate\Support\Facades\DB;
 use Response;
 
 class RecipeController extends AppBaseController
@@ -43,10 +42,7 @@ class RecipeController extends AppBaseController
      */
     public function create()
     {
-        $categories = DB::table("categories")->whereNull("deleted_at")
-        ->whereNull("parent_id")
-        ->get()->pluck("name_".app()->getLocale(),"id");
-        return view('recipes.create',compact("categories"));
+        return view('recipes.create');
     }
 
     /**

@@ -26,17 +26,13 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('categories', CategoryController::class);
     Route::resource('replies', ReplyController::class);
     Route::resource('shortVideos', ShortVideoController::class);
+    Route::resource('cheifs', CheifController::class);
+    Route::resource('followings', FollowingController::class);
+    Route::resource('comics', ComicController::class);
+    Route::resource('hashTags', HashTagController::class);
 });
 
 
 
-Route::resource('cheifs', App\Http\Controllers\CheifController::class);
 
 
-Route::resource('followings', App\Http\Controllers\FollowingController::class);
-
-
-Route::resource('comics', App\Http\Controllers\ComicController::class);
-
-
-Route::resource('hashTags', App\Http\Controllers\HashTagController::class);

@@ -16,7 +16,7 @@ class CreateStepsTable extends Migration
     {
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Recipe::class);
+            $table->foreignIdFor(Recipe::class)->references("id")->on("recipes")->onDelete("cascade");
             $table->text("step_description");
             $table->timestamps();
         });

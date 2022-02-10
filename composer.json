@@ -13,6 +13,7 @@
         "infyomlabs/adminlte-templates": "^3.0",
         "infyomlabs/laravel-generator": "^3.0",
         "infyomlabs/swagger-generator": "dev-master",
+        "intervention/image": "^2.7",
         "kreait/laravel-firebase": "^4.0",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.14",

@@ -16,13 +16,13 @@ class CreateRecipesTable extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("view_count");
+        
             $table->string("title");
             $table->string("description");
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
+            $table->foreignIdFor(Category::class)->references("id")->on("categories")->onDelete("cascade");
             $table->unsignedBigInteger("people_count");
-            $table->timestamp("cooking_time");
+            $table->string("cooking_time");
             $table->softDeletes();
             $table->timestamps();
         });

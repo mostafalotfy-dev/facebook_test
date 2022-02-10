@@ -17,7 +17,7 @@ class CreateShortVideosTable extends Migration
             $table->id();
             $table->string("description");
             $table->unsignedInteger("view_count")->default(0);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             
             $table->timestamps();
         });

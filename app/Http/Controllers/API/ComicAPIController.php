@@ -106,8 +106,8 @@ class ComicAPIController extends AppBaseController
         
         $comics = $this->comicRepository->allQuery()
         ->where("user_id",$userId)
-        ->get();
-       
+        ->paginate();
+            
         return $this->sendResponse(
             ComicResource::collection($comics)
             , __('messages.retrieved', ['model' => __('models/cheifs.plural')])

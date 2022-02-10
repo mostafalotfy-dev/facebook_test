@@ -33,7 +33,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
           integrity="sha512-aEe/ZxePawj0+G2R+AaIxgrQuKT68I28qh+wgLrcAJOz3rxCP+TwrK5SPN+E5I+1IQjNtcfvb96HDagwrKRdBw=="
           crossorigin="anonymous"/>
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     @stack('third_party_stylesheets')
 
     @stack('page_css')
@@ -142,6 +142,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.3/bootstrapSwitch.min.js"
         integrity="sha512-DAc/LqVY2liDbikmJwUS1MSE3pIH0DFprKHZKPcJC7e3TtAOzT55gEMTleegwyuIWgCfOPOM8eLbbvFaG9F/cA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
 <script src="{{asset("js/jquery.validate.min.js")}}">
 <script src="{{asset("app.js")}}">
 </script>
@@ -156,6 +157,13 @@
 </script>
 
 @stack('third_party_scripts')
+// <script src="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css"></script>
+// <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+// <script src="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css"></script>
+// <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>
+// <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+// <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+// <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="{{asset('app.js')}}">
 </script>
 @stack('page_scripts')

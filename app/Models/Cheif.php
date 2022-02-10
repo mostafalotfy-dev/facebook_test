@@ -143,6 +143,7 @@ class Cheif extends Authenticatable
         'description',
         'user_ip',
         'address',
+        "verify_number",
         'remember_token'
     ];
 
@@ -200,5 +201,17 @@ class Cheif extends Authenticatable
     public function waiting()
     {
         return $this->hasOne(WaitingList::class,"user_id");
+    }
+    public function recipes()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
+    public function following()
+    {
+        return $this->belongsTo(Following::class);
+    }
+    public function followers()
+    {
+        return $this->belongsTo(Follower::class);
     }
 }

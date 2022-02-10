@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginResource;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -9,9 +10,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+class LoginController extends AppBaseController
 {
     use AuthenticatesUsers;
+    
     public function username()
     {
         return "phone_number";
@@ -24,11 +26,11 @@ class LoginController extends Controller
         if (!Hash::check(request("password"),$user->password)) {
                 return $this->sendFailedLoginResponse($request);
             } else {
-                return response()->json([
-                    "data" => new LoginResource($user)
-                ]);
+                return $user->phone_number_verified_at === null 
+                ? $this->sendResponse([],"Account Not Verified") : $this->sendResponse(new LoginResource($user),"Login Successfull");
             }
-        }else{
+        }else
+        {
             return $this->sendFailedLoginResponse($request);
         }
     }

@@ -15,7 +15,7 @@ class CreateBannedTable extends Migration
     {
         Schema::create('banned', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             $table->timestamps();
         });
     }

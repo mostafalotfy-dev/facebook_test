@@ -27,10 +27,10 @@ class LoginController extends AppBaseController
             if (!Hash::check(request("password"), $user->password)) {
                 return $this->sendFailedLoginResponse($request);
             } else {
-                return $this->sendResponse(
+                return $user->phone_number_verified_at ? $this->sendResponse(
                     new LoginResource($user),
                     __("messages.retrieved", ["model" => "cheifs.plural"])
-                );
+                ) : $this->sendError("Login Failed");
             }
         } else {
             return $this->sendFailedLoginResponse($request);
