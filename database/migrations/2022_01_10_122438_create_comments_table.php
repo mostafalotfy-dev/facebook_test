@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cheif;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->text("description");
+            $table->morphs("user");
             $table->timestamps();
         });
     }

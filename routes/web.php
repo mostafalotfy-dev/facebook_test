@@ -30,7 +30,11 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('followings', FollowingController::class);
     Route::resource('comics', ComicController::class);
     Route::resource('hashTags', HashTagController::class);
+    Route::resource('users', UserController::class);
 });
+
+
+
 
 
 

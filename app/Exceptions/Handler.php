@@ -20,7 +20,7 @@ class Handler extends ExceptionHandler
     ];
     public function render($request, Throwable $e)
     { 
-        if(method_exists($e,"errors"))
+        if(method_exists($e,"errors") && $request->header("Accept") == "application/json")
         {
             $errors = [];
             foreach($e->errors() as $error)
