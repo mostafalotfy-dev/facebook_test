@@ -158,12 +158,13 @@
 
 @stack('third_party_scripts')
 // <script src="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css"></script>
-// <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-// <script src="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css"></script>
-// <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>
-// <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
-// <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-// <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+{{--  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css"></script>
+{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>
+{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+ <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script> --}} 
+<script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
 <script src="{{asset('app.js')}}">
 </script>
 @stack('page_scripts')
