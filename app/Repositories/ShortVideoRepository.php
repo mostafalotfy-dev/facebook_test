@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\ShortVideo;
-use App\Repositories\BaseRepository;
+use App\Repositories\DBBaseRepository;
 
 /**
  * Class ShortVideoRepository
@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 8, 2022, 7:36 am UTC
 */
 
-class ShortVideoRepository extends BaseRepository
+class ShortVideoRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -35,8 +35,8 @@ class ShortVideoRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return ShortVideo::class;
+        return "short_videos";
     }
 }

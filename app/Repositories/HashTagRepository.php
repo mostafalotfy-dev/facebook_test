@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 8, 2022, 12:56 pm UTC
 */
 
-class HashTagRepository extends BaseRepository
+class HashTagRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -36,8 +36,8 @@ class HashTagRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return HashTag::class;
+        return "hashtags";
     }
 }

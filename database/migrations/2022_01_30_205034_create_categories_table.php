@@ -23,10 +23,13 @@ class CreateCategoriesTable extends Migration
             $table->unsignedBigInteger("created_by");
             $table->unsignedBigInteger("updated_by")->nullable();
             $table->foreignIdFor(Category::class,"parent_id")->nullable();
-            $table->foreign("created_by")->references("id")->on("users")->onDelete("cascade");
-            $table->foreign("updated_by")->references("id")->on("users")->onDelete("cascade");
             $table->softDeletes();
             $table->timestamps();
+            
+        });
+        Schema::table("categories",function(Blueprint $table){
+            $table->foreign("created_by")->references("id")->on("users")->onDelete("cascade");
+            $table->foreign("updated_by")->references("id")->on("users")->onDelete("cascade");
         });
     }
 

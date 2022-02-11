@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Comic;
-use App\Repositories\BaseRepository;
+use App\Repositories\DBBaseRepository;
 
 /**
  * Class ComicRepository
@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 8, 2022, 12:12 pm UTC
 */
 
-class ComicRepository extends BaseRepository
+class ComicRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -34,8 +34,8 @@ class ComicRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return Comic::class;
+        return "comics";
     }
 }

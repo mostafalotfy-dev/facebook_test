@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @SWG\Definition(
@@ -94,7 +95,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class User extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,HasRoles;
 
     use HasFactory;
 
@@ -171,7 +172,7 @@ class User extends Model
      **/
     public function banneds()
     {
-        return $this->hasMany(\App\Models\Banned::class, 'user_id');
+        return $this->hasMany(\App\Models\Banned::class);
     }
 
     /**
@@ -179,31 +180,19 @@ class User extends Model
      **/
     public function bookamrkVideos()
     {
-        return $this->hasMany(\App\Models\BookamrkVideo::class, 'user_id');
+        return $this->hasMany(\App\Models\BookamrkVideo::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function createBy()
-    {
-        return $this->hasMany(\App\Models\Category::class, 'created_by');
-    }
+    
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function updatedBy()
-    {
-        return $this->hasMany(\App\Models\User::class, 'updated_by');
-    }
+  
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function comics()
     {
-        return $this->hasMany(\App\Models\Comic::class, 'user_id');
+        return $this->hasMany(\App\Models\Comic::class);
     }
 
     /**
@@ -211,7 +200,7 @@ class User extends Model
      **/
     public function expriments()
     {
-        return $this->hasMany(\App\Models\Expriment::class, 'user_id');
+        return $this->hasMany(\App\Models\Expriment::class);
     }
 
     /**
@@ -219,7 +208,7 @@ class User extends Model
      **/
     public function followers()
     {
-        return $this->hasMany(\App\Models\Follower::class, 'user_id');
+        return $this->hasMany(\App\Models\Follower::class);
     }
 
     /**
@@ -227,7 +216,7 @@ class User extends Model
      **/
     public function followings()
     {
-        return $this->hasMany(\App\Models\Following::class, 'user_id');
+        return $this->hasMany(\App\Models\Following::class);
     }
 
     /**
@@ -235,7 +224,7 @@ class User extends Model
      **/
     public function hashtags()
     {
-        return $this->hasMany(\App\Models\Hashtag::class, 'user_id');
+        return $this->hasMany(\App\Models\Hashtag::class);
     }
 
     /**
@@ -243,7 +232,7 @@ class User extends Model
      **/
     public function likes()
     {
-        return $this->hasMany(\App\Models\Like::class, 'user_id');
+        return $this->hasMany(\App\Models\Like::class);
     }
 
     /**
@@ -251,7 +240,7 @@ class User extends Model
      **/
     public function recipes()
     {
-        return $this->hasMany(\App\Models\Recipe::class, 'user_id');
+        return $this->hasMany(\App\Models\Recipe::class);
     }
 
     /**
@@ -259,14 +248,8 @@ class User extends Model
      **/
     public function shortVideos()
     {
-        return $this->hasMany(\App\Models\ShortVideo::class, 'user_id');
+        return $this->hasMany(\App\Models\ShortVideo::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function waitingLists()
-    {
-        return $this->hasMany(\App\Models\WaitingList::class, 'user_id');
-    }
+   
 }

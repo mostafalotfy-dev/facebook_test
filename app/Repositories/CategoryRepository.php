@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
-use App\Repositories\BaseRepository;
+use App\Repositories\DBBaseRepository;
 
 /**
  * Class CategoryRepository
@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 7, 2022, 1:07 pm UTC
 */
 
-class CategoryRepository extends BaseRepository
+class CategoryRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -37,8 +37,8 @@ class CategoryRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return Category::class;
+        return "categories";
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Repositories\BaseRepository;
+use App\Repositories\DBBaseRepository;
 
 /**
  * Class UserRepository
@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 10, 2022, 1:40 pm UTC
 */
 
-class UserRepository extends BaseRepository
+class UserRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -44,8 +44,8 @@ class UserRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return User::class;
+        return "users";
     }
 }

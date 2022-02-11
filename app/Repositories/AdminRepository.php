@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Admin;
-use App\Repositories\BaseRepository;
+use App\Repositories\DBBaseRepository;
 
 
 /**
@@ -12,7 +12,7 @@ use App\Repositories\BaseRepository;
  * @version February 7, 2022, 10:19 am UTC
 */
 
-class AdminRepository extends BaseRepository
+class AdminRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -38,8 +38,8 @@ class AdminRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return Admin::class;
+        return "admins";
     }
 }

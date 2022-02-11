@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Comic;
+use App\Models\User;
 use App\Models\Recipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,7 +20,7 @@ class CreateRecipesAlbumTable extends Migration
             $table->string("file_name");
             $table->string("mime_type");
             $table->foreignIdFor(Recipe::class)->references("id")->on("recipes")->onDelete("cascade")->nullable();
-            $table->morphs("user");
+            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             $table->timestamps();
         });
     }

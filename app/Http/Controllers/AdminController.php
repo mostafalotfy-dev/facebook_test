@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Traits\HasImage;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Schema;
 use Response;
 
 class AdminController extends AppBaseController
@@ -32,8 +33,9 @@ class AdminController extends AppBaseController
      */
     public function index(Request $request)
     {
+        // return Schema::getColumnListing("admins");
         $admins = $this->adminRepository->allQuery()->where("id","!=",1)->paginate();
-
+        
         return view('admins.index')
             ->with('admins', $admins);
     }

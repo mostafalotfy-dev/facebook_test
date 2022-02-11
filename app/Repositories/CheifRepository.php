@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Cheif;
-use App\Repositories\BaseRepository;
+use App\Repositories\DBBaseRepository;
 
 /**
  * Class CheifRepository
@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 8, 2022, 7:51 am UTC
 */
 
-class CheifRepository extends BaseRepository
+class CheifRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -20,8 +20,6 @@ class CheifRepository extends BaseRepository
         'name',
         'phone_number',
         'email',
-        'phone_number_verified_at',
-        'password',
         'avatar',
         'provider_id',
         'provider_token',
@@ -31,7 +29,7 @@ class CheifRepository extends BaseRepository
         'facebook_link',
         'description',
         'user_ip',
-        'udid',
+        
         'remember_token'
     ];
 
@@ -48,8 +46,8 @@ class CheifRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return Cheif::class;
+        return "cheifs";
     }
 }

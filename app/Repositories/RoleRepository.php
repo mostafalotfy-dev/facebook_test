@@ -2,28 +2,22 @@
 
 namespace App\Repositories;
 
-use App\Models\Recipe;
-use App\Repositories\BaseRepository;
+
 
 /**
- * Class RecipeRepository
+ * Class RoleRepository
  * @package App\Repositories
- * @version February 9, 2022, 11:32 am UTC
+ * @version February 11, 2022, 5:04 pm UTC
 */
 
-class RecipeRepository extends DBBaseRepository
+class RoleRepository extends DBBaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'view_count',
-        'title',
-        'description',
-        'user_id',
-        'category_id',
-        'people_count',
-        'cooking_time'
+        'name',
+       
     ];
 
     /**
@@ -41,6 +35,6 @@ class RecipeRepository extends DBBaseRepository
      **/
     public function table()
     {
-        return "recipes";
+        return "roles";
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Reply;
-use App\Repositories\BaseRepository;
+
+use App\Repositories\DBBaseRepository;
 
 /**
  * Class ReplyRepository
@@ -11,13 +11,13 @@ use App\Repositories\BaseRepository;
  * @version February 8, 2022, 7:09 am UTC
 */
 
-class ReplyRepository extends BaseRepository
+class ReplyRepository extends DBBaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'user_id',
+        
         'comment_id',
         'description'
     ];
@@ -35,8 +35,8 @@ class ReplyRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return Reply::class;
+        return "comment_replies";
     }
 }

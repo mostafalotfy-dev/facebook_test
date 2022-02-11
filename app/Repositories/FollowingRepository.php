@@ -11,7 +11,7 @@ use App\Repositories\BaseRepository;
  * @version February 8, 2022, 9:29 am UTC
 */
 
-class FollowingRepository extends BaseRepository
+class FollowingRepository extends DBBaseRepository
 {
     /**
      * @var array
@@ -33,8 +33,8 @@ class FollowingRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function table()
     {
-        return Following::class;
+        return "following";
     }
 }
