@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string("avatar")->default("avatar.png");
             $table->unsignedBigInteger("provider_id")->nullable()->index();
-            $table->string("provider_token")->nullable();
+            $table->text("provider_token")->nullable();
             $table->string("provider_name")->nullable();
             $table->string("identity")->default("identity.png");
             $table->string("description")->nullable();

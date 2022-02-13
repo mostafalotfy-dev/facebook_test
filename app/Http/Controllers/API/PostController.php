@@ -24,9 +24,9 @@ class PostController extends AppBaseController
 
     private RecipeRepository $recipeRepo;
     private Facebook $facebook;
-    public function __construct( RecipeRepository $recipeRepo, Facebook $facebook)
+    public function __construct(RecipeRepository $recipeRepo, Facebook $facebook)
     {
-        $user_type = Str::title(request("user_type"));
+
         $this->middleware("auth:api");
         $this->recipeRepo = $recipeRepo;
 
@@ -53,26 +53,37 @@ class PostController extends AppBaseController
         $user = auth("api")->user();
         $id = $this->addPost("recipes", auth("api"), Recipe::class);
         $this->completeRecipe($id);
-        // $albumId = $this->createAlbum();
-        foreach ($files as $file) {
+        $is_image = explode("/", $files[0]->getClientMimeType())[0] == "image";
+
+
+        if ($is_image) {
+
+            $albumId = $this->createAlbum();
+
+
+            foreach ($files as $file) {
+                $fileName = uniqid() . $file->getClientOriginalExtension();
+                $mimeType = $file->getClientMimeType();
+                $file->move("storage", $fileName);
+                DB::table("recipes_album")->insertGetId([
+                    "file_name" => $fileName,
+                    "mime_type" => $mimeType,
+                    "user_id" => auth("api")->id(),
+                    "created_at" => now(),
+                    "recipe_id" => $id,
+                ]);
+                $this->postToAlbum($albumId,$user, "storage/" . $fileName);
+            }
+        } else {
+            $file = request("media")[0];
             $fileName = uniqid() . $file->getClientOriginalExtension();
-            $mimeType = $file->getClientMimeType();
-            $file->move("storage", $fileName);
-            DB::table("recipes_album")->insertGetId([
-                "file_name" => $fileName,
-                "mime_type" => $mimeType,
-                "user_id" => auth("api")->id(),
-                "created_at" => now(),
-                "recipe_id" => $id,
-
-            ]);
-         //   $this->postToAlbum($albumId,$user, $mimeType, "storage/" . $fileName,);
+            $file->move("storage",$fileName);
+            $this->publishVideo($user, "storage/" . $fileName);
         }
-
-
 
         return $this->sendSuccess("Post Uploaded Successfully");
     }
+
     public function addPost(
         $tableName,
         $guard,
@@ -103,6 +114,7 @@ class PostController extends AppBaseController
 
         return $id;
     }
+
     private function completeRecipe($id)
     {
         $ingredients = explode(",", request("ingredients"));
@@ -127,7 +139,7 @@ class PostController extends AppBaseController
         $this->validate(
             request(),
             [
-                "media" => "required|array",
+                "media" => "required",
                 "media.*" => "mimes:jpg,gif,jpeg,jpeg,webp,mp4,3gp,mov,avi,wmv",
                 "post_title" => "required|string|max:255",
                 "description" => "required|string",
@@ -162,10 +174,10 @@ class PostController extends AppBaseController
                 "created_at" => now(),
                 "comic_id" => $id,
             ]);
-            // if ($albumId != 0) {
-               
-            //     $this->postToAlbum($albumId, $user, $mimeType, "storage/" . $fileName);
-            // }
+            if ($albumId != 0) {
+
+                $this->postToAlbum($albumId, $user, "storage/" . $fileName);
+            }
         }
 
         $data = array_map(function ($hashtag) use ($id) {
@@ -191,6 +203,7 @@ class PostController extends AppBaseController
             __("messages.retrieved", ["model" => "recipes.plural"])
         );
     }
+
     private function createAlbum()
     {
         $user = auth("api")->user();
@@ -203,27 +216,27 @@ class PostController extends AppBaseController
         ], $user->provider_token);
         return $album->getGraphAlbum()->getId();
     }
-    private function postToAlbum($album, $user, $fileType, $filePath)
-    {
-        if ($user->provider_token && $user->provider_name == "facebook") {
 
-            if ($fileType == "image") {
-                dispatch(new PublishImageToFacebook(
-                    $album,
-                    public_path($filePath)
-                ));
-            } else {
-                
-                dispatch(new PublishVideoToFacebook(
-                    $album,
-                    public_path($filePath),
-                    [
-                        "title" => request("post_title"),
-                        "description" => request("post_description")
-                    ],
-                    $user->provider_token
-                ));
-            }
-        }
+    private function postToAlbum($album,$user, $filePath)
+    {
+     
+            dispatch(new PublishImageToFacebook(
+                $album,
+                $filePath,
+                $user->provider_token
+            ));
+        
+    }
+    private function publishVideo($user, $filePath)
+    {
+        dispatch(new PublishVideoToFacebook(
+            env("FACEBOOK_GROUPID"),
+            public_path($filePath),
+            [
+                "title" => request("post_title"),
+                "description" => request("post_description")
+            ],
+            $user->provider_token
+        ));
     }
 }

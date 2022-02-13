@@ -31,7 +31,7 @@ class RegisterController extends AppBaseController
     |
     */
 
-    use RegistersUsers,HasImage;
+    use RegistersUsers, HasImage;
 
     public function register(Request $request)
     {
@@ -39,25 +39,25 @@ class RegisterController extends AppBaseController
 
         event(new Registered($user = $this->create($request->all())));
 
-        $this->sendSMS($user,9999);
-        
-      
-  
+        $this->sendSMS($user, 9999);
+
+
+
 
         return  $this->sendResponse(
             new LoginResource($user),
-            __("messages.retrieved",["model"=>"users.plural"])
+            __("messages.retrieved", ["model" => "users.plural"])
         );
     }
-    protected function generateRandomNumber($start,$end)
+    protected function generateRandomNumber($start, $end)
     {
-        $randomNumber = mt_rand($start,$end);
+        $randomNumber = mt_rand($start, $end);
 
         return $randomNumber;
     }
-    public function sendSMS($user,$randomNumber)
+    public function sendSMS($user, $randomNumber)
     {
-        $randomNumber = $this->generateRandomNumber($randomNumber,$randomNumber);
+        $randomNumber = $this->generateRandomNumber($randomNumber, $randomNumber);
         //TODO:send SMS
     }
     /**
@@ -87,9 +87,9 @@ class RegisterController extends AppBaseController
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'string',"starts_with:+", 'max:14', 'unique:users'],
+            'phone_number' => ['required', 'string', "starts_with:+", 'max:14', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            
+
         ]);
     }
 
@@ -101,16 +101,15 @@ class RegisterController extends AppBaseController
      */
     protected function create(array $data)
     {
-        $this->addImage($data,"avatar","storage");
-        $user= User::create([
-         'name' => $data['name'],
-         'phone_number' => $data['phone_number'],
-         'password' => Hash::make($data['password']),
-         "user_ip"=> request()->ip(),
-         "description"=> request("description"),
-         "avatar"=> isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
-            // "verify_number"=>$this->generateRandomNumber(1111,9999)
-            "verify_number"=>1234
+        $this->addImage($data, "avatar", "storage");
+        $user = User::create([
+            'name' => $data['name'],
+            'phone_number' => $data['phone_number'],
+            'password' => Hash::make($data['password']),
+            "user_ip" => request()->ip(),
+            "description" => request("description"),
+            "avatar" => isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
+            "verify_number" => 1234
         ]);
         return $user;
     }

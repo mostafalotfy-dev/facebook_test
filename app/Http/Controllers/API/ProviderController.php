@@ -24,7 +24,7 @@ class ProviderController extends AppBaseController
        $user = User::where("provider_id",request("provider_id"))->first();
        if(!$user)
        {
-        $user->create([
+        $user =User::create([
             "name"=> request("name"),
             "avatar"=> $fileName,
             "provider_id"=>request("provider_id"),

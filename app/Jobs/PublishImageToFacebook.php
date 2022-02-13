@@ -9,8 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Sdks\Facebook\ProviderRepository;
-use Facebook\FileUpload\FacebookFile;
+use Providers\Facebook\ProviderRepository;
+
 use Providers\Facebook\FacebookAlbum\Album;
 use Throwable;
 
@@ -29,9 +29,9 @@ class PublishImageToFacebook implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(int $id,$path)
+    public function __construct(int $id,$path,$token)
     {
-        $this->token = "EAAWR0tDd8jgBAMSNH5PpZC3gkM9BW57VVyFRswHBrVF9ZAYtZC6Gr2r6O4WMlsbT68V9NVnVCOctsSEJ6Wg5Rb0Qe1ahu9rhWCb3HPL9wMkByLB1EC9xIaCgdFhGfFNDnIUZARIcZAlAXJ3pAbqlQNUpDe9NUUApOJKvD0ZAQSkQv1kzT07odpoYu0EMEAkPEVdmPZC7n4mXAZDZD";
+        $this->token = $token;
         $this->id = $id;
         $this->path = $path;
     }
