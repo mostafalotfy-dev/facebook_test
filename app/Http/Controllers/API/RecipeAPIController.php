@@ -63,11 +63,7 @@ class RecipeAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $recipes = $this->recipeRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip',0),
-            $request->get('limit',10)
-        );
+        $recipes = Recipe::where("is_active",1)->paginate();
 
         return $this->sendResponse(
             RecipeResource::collection($recipes),

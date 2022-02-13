@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API\Cheif;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoginResource;
 use App\Http\Resources\RegisterResource;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -13,9 +14,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Http\Resources\CheifRegisterResource;
-use App\Models\Cheif;
+
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\DB;
+
 class RegisterController extends AppBaseController
 {
     /*
@@ -29,25 +31,29 @@ class RegisterController extends AppBaseController
     |
     */
 
-    use RegistersUsers,HasImage;
+    use RegistersUsers, HasImage;
 
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
-        $this->sendSMS($user->phone_number,9999);
-        
-       
-        return $this->sendResponse(new CheifRegisterResource($user),"");
+        $this->sendSMS($user, 9999);
+
+        return  $this->sendResponse(
+            new LoginResource($user),
+            __("messages.retrieved", ["model" => "users.plural"])
+        );
     }
-    protected function generateRandomNumber($start,$end)
+    protected function generateRandomNumber($start, $end)
     {
-        return mt_rand($start,$end);
+        $randomNumber = mt_rand($start, $end);
+
+        return $randomNumber;
     }
-    public function sendSMS($phoneNumber,$randomNumber)
+    public function sendSMS($user, $randomNumber)
     {
-        $randomNumber = $this->generateRandomNumber($randomNumber,$randomNumber);
+        $randomNumber = $this->generateRandomNumber($randomNumber, $randomNumber);
         //TODO:send SMS
     }
     /**
@@ -77,9 +83,9 @@ class RegisterController extends AppBaseController
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'string',"starts_with:+", 'max:14', 'unique:cheifs'],
+            'phone_number' => ['required', 'string', "starts_with:+", 'max:14', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            
+
         ]);
     }
 
@@ -91,21 +97,24 @@ class RegisterController extends AppBaseController
      */
     protected function create(array $data)
     {
-        $this->addImage($data,"avatar","storage");
-        $user= Cheif::create([
-         'name' => $data['name'],
-         'phone_number' => $data['phone_number'],
-         'password' => Hash::make($data['password']),
-         "user_ip"=> request()->ip(),
-         "description"=> request("description"),
-         "avatar"=> isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
-         "address"=> isset($data["address"]) ? $data["address"] : null,
-         "verify_number"=>1234
+        $this->addImage($data, "avatar", "storage");
+        $user = User::create([
+            'name' => $data['name'],
+            'phone_number' => $data['phone_number'],
+            'password' => Hash::make($data['password']),
+            "user_ip" => request()->ip(),
+            "description" => request("description"),
+            "avatar" => isset($data["avatar"]) ? $data["avatar"] : "avatar.png",
+            // "verify_number"=>$this->generateRandomNumber(1111,9999)
+            "verify_number" => 1234,
+            "youtube_link" => isset($data["youtube_link"]) ? $data["youtube_link"] : null,
+            "facebook_link" => isset($data["facebook_link"]) ? $data["facebook_link"] : null,
+
         ]);
         return $user;
     }
     public function guard()
     {
-        return auth("chief_api");
+        return auth("api");
     }
 }

@@ -54,11 +54,14 @@ Route::group([
     Route::post("followings","FollowingAPIController@store");
     Route::get("followings","FollowingAPIController@index");
     Route::get("followings/{id}","FollowingAPIController@show");
+    Route::post("comics","PostController@addComic");
+    
 });
+Route::post("provider","ProviderController@index");
 Route::post("verify","VerificationController@verify");
 Route::get("cheif/{userId}/comics","ComicAPIController@byUserId");
 Route::resource('recipes',RecipeAPIController::class);
 Route::resource('short_videos', ShortVideoAPIController::class);
-Route::resource('comics', ComicAPIController::class);
+Route::resource('comics', ComicAPIController::class)->only("index","show");
 Route::resource('hash_tags', HashTagAPIController::class);
 Route::get("categories","CategoryAPIController@index");

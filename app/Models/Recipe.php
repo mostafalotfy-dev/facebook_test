@@ -125,7 +125,7 @@ class Recipe extends Model
      * @var array
      */
     public static $rules = [
-        'view_count' => 'required',
+     
         'title' => 'required|string|max:255',
         'description' => 'required|string|max:255',
         'user_id' => 'required',

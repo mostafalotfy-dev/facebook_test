@@ -27,7 +27,9 @@ class LoginController extends AppBaseController
                 return $this->sendFailedLoginResponse($request);
             } else {
                 return $user->phone_number_verified_at === null 
-                ? $this->sendResponse([],"Account Not Verified") : $this->sendResponse(new LoginResource($user),"Login Successfull");
+                ? $this->sendResponse([
+                    "token"=>$user->createToken(env("APP_NAME"))->plainTextToken
+                ],"Account Not Verified") : $this->sendResponse(new LoginResource($user),"Login Successfull");
             }
         }else
         {
@@ -36,6 +38,7 @@ class LoginController extends AppBaseController
     }
     private function findUser(Request $request)
     {
+       
         return  User::where([
             [
                 $this->username(),

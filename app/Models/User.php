@@ -5,8 +5,9 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-
+use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * @SWG\Definition(
  *      definition="User",
@@ -93,9 +94,9 @@ use Spatie\Permission\Traits\HasRoles;
  *      )
  * )
  */
-class User extends Model
+class User extends Authenticatable
 {
-    use SoftDeletes,HasRoles;
+    use SoftDeletes,HasRoles,HasApiTokens;
 
     use HasFactory;
 

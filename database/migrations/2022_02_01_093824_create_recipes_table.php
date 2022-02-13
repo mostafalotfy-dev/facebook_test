@@ -23,6 +23,7 @@ class CreateRecipesTable extends Migration
             $table->foreignIdFor(Category::class)->references("id")->on("categories")->onDelete("cascade");
             $table->unsignedBigInteger("people_count");
             $table->string("cooking_time");
+            $table->unsignedTinyInteger("is_active");
             $table->softDeletes();
             $table->timestamps();
         });

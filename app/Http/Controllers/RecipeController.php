@@ -94,7 +94,8 @@ class RecipeController extends AppBaseController
     {
         $recipe = $this->recipeRepository->find($id);
 
-        if (empty($recipe)) {
+        if (empty($recipe)) 
+        {
             Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));
 
             return redirect(route('recipes.index'));

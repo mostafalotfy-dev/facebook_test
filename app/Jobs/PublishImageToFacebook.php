@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Sdks\Facebook\ProviderRepository;
 use Facebook\FileUpload\FacebookFile;
-use Sdks\Facebook\FacebookAlbum\Album;
+use Providers\Facebook\FacebookAlbum\Album;
 use Throwable;
 
 class PublishImageToFacebook implements ShouldQueue

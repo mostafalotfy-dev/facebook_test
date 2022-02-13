@@ -25,14 +25,16 @@ class RecipeSeeder extends Seeder
                 "category_id" => 1,
                 'people_count' => 5,
                 "cooking_time" => "4:00",
+                "is_active"=>1,
             ],
             [
                 "title" => "وصفة جديدة",
                 "description" => "وصفة يتم استخدامها بشكل متكرر في ايطاليا",
                 "user_id" => 2,
-                "category_id" => 2,
+                "category_id" => 1,
                 'people_count' => 5,
                 "cooking_time" => "4:00",
+                "is_active"=>0
             ]
 
         ]);

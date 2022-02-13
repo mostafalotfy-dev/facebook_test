@@ -5,21 +5,20 @@ namespace App\Http\Controllers;
 use App\Jobs\PublishImageToFacebook;
 
 use App\Jobs\PublishVideoToFacebook;
-use Exception;
 use Facebook\Facebook;
-use Facebook\FileUpload\FacebookFile;
+
 use Providers\Facebook\FacebookAlbum\Album;
 use Providers\Facebook\Group;
-use Facebook\FileUpload\FacebookVideo;
 
-class FacebookController extends Controller
+
+class FacebookManager
 {
 
     private $fb;
     private $token;
-    public function __construct(Facebook $facebook)
+    public function __construct(Facebook $facebook,$token)
     {
-        $this->token = "EAAWR0tDd8jgBAMSNH5PpZC3gkM9BW57VVyFRswHBrVF9ZAYtZC6Gr2r6O4WMlsbT68V9NVnVCOctsSEJ6Wg5Rb0Qe1ahu9rhWCb3HPL9wMkByLB1EC9xIaCgdFhGfFNDnIUZARIcZAlAXJ3pAbqlQNUpDe9NUUApOJKvD0ZAQSkQv1kzT07odpoYu0EMEAkPEVdmPZC7n4mXAZDZD";
+        $this->token = $token;
         $this->fb = $facebook;
         $this->group = new Group($facebook);
     }

@@ -5,104 +5,225 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RecipeResource;
+use App\Jobs\PublishImageToFacebook;
+use App\Jobs\PublishVideoToFacebook;
+use App\Models\Comic;
 use App\Models\Recipe;
 use App\Repositories\ComicRepository;
 use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 use DB;
+use Facebook\Facebook;
 use Illuminate\Support\Str;
-
+use Providers\Facebook\FacebookAlbum\Album;
+use Providers\Facebook\Group;
 
 class PostController extends AppBaseController
 {
 
-    private ComicRepository $comicRepo;
+
     private RecipeRepository $recipeRepo;
-    public function __construct(ComicRepository $comicRepo,RecipeRepository $recipeRepo)
+    private Facebook $facebook;
+    public function __construct( RecipeRepository $recipeRepo, Facebook $facebook)
     {
         $user_type = Str::title(request("user_type"));
-         if($user_type == "Cheif")
-         {
-             $this->middleware("auth:cheif_api");
-         }elseif($user_type == "User")
-         {
-            $this->middleware("auth:api"); 
-         }
-         $this->recipeRepo = $recipeRepo;
-         $this->comicRepo = $comicRepo;
-         
+        $this->middleware("auth:api");
+        $this->recipeRepo = $recipeRepo;
+
+        $this->facebook = $facebook;
     }
     public function store()
     {
-        $this->validate(request(),
-        [
-            "media"=>"required|array",
-            "media.*"=>"mimes:jpg,gif,jpeg,jpeg,webp,mp4,3gp,mov,avi,wmv",
-            "user_type"=>"required|in:User,Cheif",
-            "post_type"=>"required|in:Comic,Recipe",
-            "post_title"=>"required|string|max:255",
-            "post_description"=>"required|string",
-            "category_id"=>"required|exists:categories,id",
-            "hashtag_title"=>"required|string",
-            "people_count"=>"required|int",
-            "cooking_time"=>"required|string|regex:(\d:\d{2})"
-        ]);
+        $this->validate(
+            request(),
+            [
+                "media" => "required|array",
+                "media.*" => "mimes:jpg,gif,jpeg,jpeg,webp,mp4,3gp,mov,avi,wmv",
+
+                "post_title" => "required|string|max:255",
+                "post_description" => "required|string",
+                "category_id" => "required|exists:categories,id",
+                "hashtag" => "required|string",
+                "people_count" => "required|int",
+                "cooking_time" => "required|string|regex:(\d:\d{2})",
+                "steps" => "required|string"
+            ]
+        );
         $files = request("media");
-        
-        foreach($files as $file)
-        {
-            $fileName = uniqid().$file->getClientOriginalExtension();
+        $user = auth("api")->user();
+        $id = $this->addPost("recipes", auth("api"), Recipe::class);
+        $this->completeRecipe($id);
+        // $albumId = $this->createAlbum();
+        foreach ($files as $file) {
+            $fileName = uniqid() . $file->getClientOriginalExtension();
             $mimeType = $file->getClientMimeType();
-            $file->move("storage",$fileName);
-            $user_type = Str::title(request("user_type"));
-            $guard = $user_type == "Cheif" ? auth("cheif_api") : auth("api");
-            if(request("post_type") == "Comic")
-            {
-               $this->addPost("comics",$guard,$fileName,$mimeType);
-            }elseif(request("post_type") == "Recipe"){
-               $this->addPost("recipes",$guard,$fileName,$mimeType);
-            }
+            $file->move("storage", $fileName);
+            DB::table("recipes_album")->insertGetId([
+                "file_name" => $fileName,
+                "mime_type" => $mimeType,
+                "user_id" => auth("api")->id(),
+                "created_at" => now(),
+                "recipe_id" => $id,
+
+            ]);
+         //   $this->postToAlbum($albumId,$user, $mimeType, "storage/" . $fileName,);
         }
-    
+
+
+
         return $this->sendSuccess("Post Uploaded Successfully");
     }
     public function addPost(
-                            $tableName
-                            ,$guard
-                            ,$fileName,
-                            $mimeType
-                            )
-    {
-        $id =  DB::table($tableName)->insert([
-            "title"=>request("post_title"),
-            "description"=>request("post_description"),
-            "user_id"=>$guard->id(),
-            "category_id"=>request("category_id"),
-            "people_count"=>request("people_count"),
-            "cooking_time"=>request("cooking_time"),
-            "created_at"=>now(),
-           
-        ]);
-          DB::table($tableName."_album")->insertGetId([
-            "file_name" => $fileName,
-            "mime_type" => $mimeType,
-            "user_type" => "App\Models\\".Str::title(request("user_type")),
+        $tableName,
+        $guard,
+        $postType
+    ) {
+        $id =  DB::table($tableName)->insertGetId([
+            "title" => request("post_title"),
+            "description" => request("post_description"),
             "user_id" => $guard->id(),
-            "created_at"=> now(),
-            "recipe_id"=>$id
+            "category_id" => request("category_id"),
+            "people_count" => request("people_count"),
+            "cooking_time" => request("cooking_time"),
+            "created_at" => now(),
+            "is_active" => 0
+
         ]);
-        DB::table("hashtags")->insert([
-            "title"=>request("hashtag_title"),
-            "user_id"=>$guard->id(),
-            "postable_type"=> $tableName == "recipes" ? Recipe::class : Comic::class,
-            "postable_id"=>$id
-        ]);
+
+        $data = array_map(function ($hashtag) use ($guard, $postType, $id) {
+            return [
+                "title" => $hashtag,
+                "user_id" => $guard->id(),
+                "postable_type" =>  $postType,
+                "postable_id" => $id,
+                "created_at" => now(),
+            ];
+        }, explode(",", request("hashtag")));
+        DB::table("hashtags")->insert($data);
+
+        return $id;
     }
-    
+    private function completeRecipe($id)
+    {
+        $ingredients = explode(",", request("ingredients"));
+
+        $ingredients = array_map(function ($ingredient) {
+            $data = explode(":", $ingredient);
+            return ["description" => $data[0], "user_id" => auth("api")->id(), "created_at" => now()];
+        }, $ingredients);
+
+        DB::table("ingredients")->insert($ingredients);
+        $steps = array_map(function ($step) use ($id) {
+            return [
+                "recipe_id" => $id,
+                "step_description" => $step,
+            ];
+        }, explode(":", request("steps")));
+        DB::table("steps")->insert($steps);
+        return $id;
+    }
+    public function addComic()
+    {
+        $this->validate(
+            request(),
+            [
+                "media" => "required|array",
+                "media.*" => "mimes:jpg,gif,jpeg,jpeg,webp,mp4,3gp,mov,avi,wmv",
+                "post_title" => "required|string|max:255",
+                "description" => "required|string",
+                "category_id" => "required|exists:categories,id",
+                "hashtag" => "required|string",
+
+            ]
+        );
+        $files = request("media");
+        $id = DB::table("comics")->insert([
+            "title" => request("post_title"),
+            "description" => request("description"),
+            "category_id" => request("category_id"),
+            "created_at" => now(),
+            "user_id" => auth()->id(),
+            "is_active" => 0
+        ]);
+        $user = auth("api")->user();
+        $albumId = 0;
+        if ($user->provider_token && $user->provider_name == "facebook") {
+            $albumId = $this->createAlbum();
+        }
+
+        foreach ($files as $file) {
+            $fileName = uniqid() . $file->getClientOriginalExtension();
+            $mimeType = $file->getClientMimeType();
+            $file->move("storage", $fileName);
+            DB::table("comics_album")->insertGetId([
+                "file_name" => $fileName,
+                "mime_type" => $mimeType,
+                "user_id" => auth("api")->id(),
+                "created_at" => now(),
+                "comic_id" => $id,
+            ]);
+            // if ($albumId != 0) {
+               
+            //     $this->postToAlbum($albumId, $user, $mimeType, "storage/" . $fileName);
+            // }
+        }
+
+        $data = array_map(function ($hashtag) use ($id) {
+            return [
+                "title" => $hashtag,
+                "user_id" => auth("api")->id(),
+                "postable_type" =>  Comic::class,
+                "postable_id" => $id,
+                "created_at" => now(),
+            ];
+        }, explode(",", request("hashtag")));
+        DB::table("hashtags")->insert($data);
+
+
+        return $this->sendSuccess("Comic Uploaded Successfully");
+    }
     public function recipes()
     {
-        $recipes = $this->recipeRepo->all([],request("skip"),request("limit"));
-        return $this->sendResponse(RecipeResource::collection($recipes)
-        ,__("messages.retrieved",["model"=>"recipes.plural"]));
+        $recipes = $this->recipeRepo
+            ->all([], request("skip"), request("limit"));
+        return $this->sendResponse(
+            RecipeResource::collection($recipes),
+            __("messages.retrieved", ["model" => "recipes.plural"])
+        );
+    }
+    private function createAlbum()
+    {
+        $user = auth("api")->user();
+
+        $group = new Group($this->facebook);
+        $album = $group->createAlbum(env("FACEBOOK_GROUPID"), [
+            "name" => request("post_title"),
+            "description" => request("post_description"),
+            "privacy_message" => "open"
+        ], $user->provider_token);
+        return $album->getGraphAlbum()->getId();
+    }
+    private function postToAlbum($album, $user, $fileType, $filePath)
+    {
+        if ($user->provider_token && $user->provider_name == "facebook") {
+
+            if ($fileType == "image") {
+                dispatch(new PublishImageToFacebook(
+                    $album,
+                    public_path($filePath)
+                ));
+            } else {
+                
+                dispatch(new PublishVideoToFacebook(
+                    $album,
+                    public_path($filePath),
+                    [
+                        "title" => request("post_title"),
+                        "description" => request("post_description")
+                    ],
+                    $user->provider_token
+                ));
+            }
+        }
     }
 }

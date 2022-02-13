@@ -41,9 +41,7 @@ class RegisterController extends AppBaseController
 
         $this->sendSMS($user,9999);
         
-        WaitingList::create([
-            "user_id"=> $user->id,
-        ]);
+      
   
 
         return  $this->sendResponse(

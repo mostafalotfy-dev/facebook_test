@@ -20,6 +20,7 @@ class CreateComicsTable extends Migration
             $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             $table->foreignIdFor(Category::class)->references("id")->on("categories")->onDelete("cascade");
             $table->string("title");
+            $table->unsignedTinyInteger("is_active");
             $table->longText("description");
             $table->softDeletes();
             $table->timestamps();
