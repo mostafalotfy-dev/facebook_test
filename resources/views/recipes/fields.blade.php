@@ -1,9 +1,3 @@
-<!-- View Count Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('view_count', __('models/recipes.fields.view_count').':') !!}
-    {!! Form::number('view_count', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Title Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('title', __('models/recipes.fields.title').':') !!}
@@ -13,25 +7,20 @@
 <!-- Description Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('description', __('models/recipes.fields.description').':') !!}
-    {!! Form::text('description', null, ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
 </div>
 
-<!-- User Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('user_id', __('models/recipes.fields.user_id').':') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}
-</div>
 
 <!-- Category Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('category_id', __('models/recipes.fields.category_id').':') !!}
-    {!! Form::number('category_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('category_id',$categories,null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- People Count Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('people_count', __('models/recipes.fields.people_count').':') !!}
-    {!! Form::number('people_count', null, ['class' => 'form-control']) !!}
+    {!! Form::number('people_count', null, ['class' => 'form-control',"min"=>1]) !!}
 </div>
 
 <!-- Cooking Time Field -->
@@ -39,13 +28,36 @@
     {!! Form::label('cooking_time', __('models/recipes.fields.cooking_time').':') !!}
     {!! Form::text('cooking_time', null, ['class' => 'form-control','id'=>'cooking_time']) !!}
 </div>
+  <!--  Hashtag Field -->
+  <div class="form-group col-sm-6">
+    {!! Form::label('hashtag', __('models/hashtags.plural').':') !!}
+    {!! Form::select('hash_tag_id',[], null, ['id'=>'hashtag',"class"=>"select2 hashtags form-control"]) !!}
+</div>
+<!-- ingredinets Time Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('ingredients', __('models/ingredients.plural').':') !!}
+    {!! Form::text('ingredients', null, ['id'=>'ingredients',"class"=>"tagify"]) !!}
+</div>
+<div class="form-group col-sm-6">
+    {!! Form::label('steps', __('models/steps.plural').':') !!}
+    {!! Form::text('steps', null, ['id'=>'steps',"class"=>"tagify"]) !!}
+</div>
 
 @push('page_scripts')
     <script type="text/javascript">
         $('#cooking_time').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
+            format: 'mm:ss',
             useCurrent: true,
             sideBySide: true
         })
+        !function(){
+            $("#hashtag").select2({
+                ajax:{
+                    url:"{{route('hashtags.ajax')}}",
+                   
+
+                }
+            })
+        }()
     </script>
 @endpush

@@ -6,9 +6,17 @@ use App\Http\Requests\CreateRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Repositories\RecipeRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Category;
+use App\Models\Ingredient;
+use App\Models\Steps;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Step;
+use App\Models\Recipe;
+use App\Models\HashTag;
+use App\Pipeline\Filter\IsActive;
+use Illuminate\Pipeline\Pipeline;
 
 class RecipeController extends AppBaseController
 {
@@ -29,8 +37,15 @@ class RecipeController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $recipes = $this->recipeRepository->all();
-
+      
+        $recipes = app(Pipeline::class)
+        ->send(Recipe::query())
+        ->through([
+            IsActive::class
+        ])
+        ->thenReturn()
+        ->paginate();
+        
         return view('recipes.index')
             ->with('recipes', $recipes);
     }
@@ -42,7 +57,8 @@ class RecipeController extends AppBaseController
      */
     public function create()
     {
-        return view('recipes.create');
+        $categories = Category::all()->pluck("name_".app()->getLocale(),"id");
+        return view('recipes.create',compact("categories"));
     }
 
     /**
@@ -54,10 +70,32 @@ class RecipeController extends AppBaseController
      */
     public function store(CreateRecipeRequest $request)
     {
-        $input = $request->all();
-
+        $input = $request->except("ingredients","steps");
+        $input["user_id"] = auth("admin")->id();
+        $input["is_active"]=1;
         $recipe = $this->recipeRepository->create($input);
+        $ingredients = json_decode($request->ingredients);
+        $ingredients = array_map(function($ingredient) use($recipe){
+            return [
+                "description"=>$ingredient->value,
+                "recipe_id"=>$recipe,
+                "created_at"=>now(),
+            ];
+        },$ingredients);
+        
+        $steps = json_decode($request->steps);
+        $steps = array_map(function($step) use($recipe){
+            return [
+                "step_description"=>$step->value,
+                "recipe_id"=>$recipe,
+                "created_at"=>now(),
+            ];
+            
+        },$steps);
 
+        Ingredient::insert($ingredients);
+        Step::insert($steps);
+        Hashtag::find(request("hash_tag_id"))->recipes()->attach($recipe);
         Flash::success(__('messages.saved', ['model' => __('models/recipes.singular')]));
 
         return redirect(route('recipes.index'));
@@ -100,8 +138,8 @@ class RecipeController extends AppBaseController
 
             return redirect(route('recipes.index'));
         }
-
-        return view('recipes.edit')->with('recipe', $recipe);
+        $categories = Category::all()->pluck("name_".app()->getLocale(),"id");
+        return view('recipes.edit')->with('recipe', $recipe)->with("categories",$categories);
     }
 
     /**
@@ -121,8 +159,8 @@ class RecipeController extends AppBaseController
 
             return redirect(route('recipes.index'));
         }
-
-        $recipe = $this->recipeRepository->update($request->all(), $id);
+        $input = $request->all();
+        $recipe = $this->recipeRepository->update($input, $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/recipes.singular')]));
 

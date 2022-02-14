@@ -19,7 +19,7 @@ class VerifyMiddleware
     public function handle(Request $request, Closure $next)
     {
         
-        if((auth("cheif_api")->user() &&!auth("cheif_api")->user()->phone_number_verified_at) || (auth("api")->user()&&!auth("api")->user()->phone_number_verified_at))
+        if(auth("api")->user()&&!auth("api")->user()->phone_number_verified_at)
         {
             return $this->sendError("Unverified",401);
         }

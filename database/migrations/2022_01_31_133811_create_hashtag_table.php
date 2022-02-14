@@ -17,8 +17,7 @@ class CreateHashtagTable extends Migration
         Schema::create('hashtags', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
-            $table->morphs("postable");
+            $table->foreignIdFor(User::class)->references("id")->on("users")->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateHashtagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hashtag_tabel');
+        Schema::dropIfExists('hashtag_table');
     }
 }

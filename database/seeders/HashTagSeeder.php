@@ -22,8 +22,7 @@ class HashTagSeeder extends Seeder
         HashTag::create([
             "title"=> "#hashtag",
             "user_id"=> User::all()->random(1)->first()->id,
-            "postable_type"=> Recipe::class,
-            "postable_id"=>Recipe::all()->random(1)->first()->id,
+        
         ]);
         // HashTag::create([
         //     "title"=> "#hashtag",

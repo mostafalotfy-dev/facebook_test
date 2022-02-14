@@ -43,4 +43,9 @@ class RecipeRepository extends DBBaseRepository
     {
         return "recipes";
     }
+    
+    public function joinUsers()
+    {
+        return $this->table->join("users","recipes.user_id","=","users.id");
+    }
 }

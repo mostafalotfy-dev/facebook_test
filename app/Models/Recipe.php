@@ -90,10 +90,7 @@ class Recipe extends Model
 
     protected $dates = ['deleted_at'];
 
-
-
     public $fillable = [
-        'view_count',
         'title',
         'description',
         'user_id',
@@ -128,10 +125,10 @@ class Recipe extends Model
      
         'title' => 'required|string|max:255',
         'description' => 'required|string|max:255',
-        'user_id' => 'required',
-        'category_id' => 'required',
-        'people_count' => 'required',
-        'cooking_time' => 'required',
+        
+        'category_id' => 'required|int|exists:categories,id',
+        'people_count' => 'required|int',
+        'cooking_time' => 'required|regex:(\d{2}:\d{2})',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'

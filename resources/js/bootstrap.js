@@ -6,7 +6,7 @@ import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken,onMessage} from "firebase/messaging";
 
 import { onBackgroundMessage } from "firebase/messaging/sw";
-
+// require("tagify").default;
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -51,3 +51,4 @@ onBackgroundMessage(messaging, (payload) => {
   self.registration.showNotification(notificationTitle,
     notificationOptions);
 });
+// $(".tagify").tagify();

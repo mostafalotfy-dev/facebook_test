@@ -101,6 +101,9 @@ class HashTag extends Model
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
-
+    public function recipes()
+    {
+        return $this->belongsToMany(Recipe::class,"recipe_hashtag");
+    }
     
 }

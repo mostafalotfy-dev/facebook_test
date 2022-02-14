@@ -33,7 +33,9 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
           integrity="sha512-aEe/ZxePawj0+G2R+AaIxgrQuKT68I28qh+wgLrcAJOz3rxCP+TwrK5SPN+E5I+1IQjNtcfvb96HDagwrKRdBw=="
           crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+   
+    <link rel="stylesheet" href="{{asset("css/tagify.css")}}">
+    <link rel="stylesheet" href="{{asset("css/main.css")}}">
     @stack('third_party_stylesheets')
 
     @stack('page_css')
@@ -100,7 +102,7 @@
             <b>Version</b> 3.1.0
         </div>
         <strong>
-           Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.
+           Copyright &copy; {{now()->format("Y")}} <a href="https://adminlte.io">Eramint</a>.
         </strong>
         All rights reserved.
     </footer>
@@ -144,7 +146,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         
 <script src="{{asset("js/jquery.validate.min.js")}}">
-<script src="{{asset("app.js")}}">
+<script src="{{asset("js/app.js")}}">
 </script>
 <script>
     $(function () {
@@ -157,15 +159,23 @@
 </script>
 
 @stack('third_party_scripts')
-// <script src="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css"></script>
-{{--  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css"></script>
-{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>
-{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
-{{--  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
- <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script> --}} 
+<script src="{{asset('js/tagify.min.js')}}"></script>
+
 <script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
+<script src="{{asset('js/jQuery.tagify.min.js')}}"></script>
 <script src="{{asset('app.js')}}">
+</script>
+<script>
+    !function(){!
+    
+            
+            $(".tagify").tagify()
+    
+        
+           
+        
+        
+    }()
 </script>
 @stack('page_scripts')
 </body>

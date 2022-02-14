@@ -3,22 +3,34 @@
         <thead>
             <tr>
                  <th>
-                     <input type="text" placeholder="@lang('models/recipes.fields.title')">
+                     <form action="{{route("recipes.index")}}">
+                     <input type="text" name="title" placeholder="@lang('models/recipes.fields.title')">
+                     </form>
                     </th>
                 <th>
-                 <input type="text" placeholder=" @lang('models/recipes.fields.description')">
+                    <form action="{{route("recipes.index")}}">
+                 <input type="text" name="description" placeholder=" @lang('models/recipes.fields.description')">
+                    </form> 
                 </th>
                 <th>
-                 <input type="text" placeholder=" @lang('models/recipes.fields.user_id')">
+                    <form action="{{route("recipes.index")}}">
+                 <input type="text" name="user_id" placeholder=" @lang('models/recipes.fields.user_id')">
+                    </form>
                 </th>
                 <th>
-                 <input type="text" placeholder=" @lang('models/recipes.fields.category_id')">
+                    <form action="{{route("recipes.index")}}">
+                 <input type="text" name="category_id" placeholder=" @lang('models/recipes.fields.category_id')">
+                    </form>
                 </th>
                 <th>
-                 <input type="text" placeholder="@lang('models/recipes.fields.people_count')">
+                    <form action="{{route("recipes.index")}}">
+                 <input type="text" name="people_count" placeholder="@lang('models/recipes.fields.people_count')">
+                    </form>
                 </th>
                 <th>
-                 <input type="text" placeholder="@lang('models/recipes.fields.cooking_time')">
+                    <form action="{{route("recipes.index")}}">
+                 <input type="text" name="cooking_time" placeholder="@lang('models/recipes.fields.cooking_time')">
+                    </form>
                 </th>
             </tr>
             <tr>

@@ -1,8 +1,4 @@
-<!-- View Count Field -->
-<div class="col-sm-12">
-    {!! Form::label('view_count', __('models/recipes.fields.view_count').':') !!}
-    <p>{{ $recipe->view_count }}</p>
-</div>
+
 
 <!-- Title Field -->
 <div class="col-sm-12">

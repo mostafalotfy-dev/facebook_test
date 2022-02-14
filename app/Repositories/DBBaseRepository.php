@@ -17,7 +17,7 @@ abstract class DBBaseRepository
      * @var Application
      */
     protected $app;
-
+    protected $query;
     /**
      * @param Application $app
      *
@@ -26,7 +26,9 @@ abstract class DBBaseRepository
     public function __construct(Application $app)
     {
         $this->app = $app;
+
         $this->setTable();
+        $this->query = $this->table;
     }
 
     /**
@@ -82,28 +84,28 @@ abstract class DBBaseRepository
      */
     public function allQuery($search = [], $skip = null, $limit = null)
     {
-        $query = $this->table;
+        $this->query = $this->table;
 
         if (count($search)) {
 
-            $query->where(function ($query) use ($search) {
+            $this->query->where(function ($query) use ($search) {
                 foreach ($search as $key => $value) {
                     if (in_array($key, $this->getFieldsSearchable())) {
-                        $query->orWhere($key,$value);
+                        $query->orWhere($key,"LIKE","%{$value}%");
                     }
                 }
             });
         }
 
         if (!is_null($skip)) {
-            $query->skip($skip);
+            $this->query->skip($skip);
         }
 
         if (!is_null($limit)) {
-            $query->limit($limit);
+            $this->query->limit($limit);
         }
 
-        return $query;
+        return $this;
     }
 
     /**
@@ -118,9 +120,9 @@ abstract class DBBaseRepository
      */
     public function all($search = [], $skip = null, $limit = null, $columns = ['*'])
     {
-        $query = $this->allQuery($search, $skip, $limit);
+        $this->query = $this->allQuery($search, $skip, $limit);
 
-        return $query->get($columns);
+        return $this->query->query->get($columns);
     }
 
     /**
@@ -132,10 +134,10 @@ abstract class DBBaseRepository
      */
     public function create($input)
     {
+        unset($input["_token"]);
+        unset($input["_method"]);
+        $table = $this->table->insertGetId($input);
 
-        $table = $this->table->newInstance($input);
-
-        $table->save();
 
         return $table;
     }
@@ -150,7 +152,7 @@ abstract class DBBaseRepository
      */
     public function find($id, $columns = ['*'])
     {
-        $query = $this->table->newQuery();
+        $query = $this->table;
 
         return $query->find($id, $columns);
     }
@@ -167,15 +169,18 @@ abstract class DBBaseRepository
     {
         $query = $this->table->newQuery();
 
-        $table = $query->findOrFail($id);
+        $table = $query->find($id);
 
-        $table->fill($input);
+        $table->update($input);
 
-        $table->save();
+     
 
         return $table;
     }
-
+    public function query()
+    {
+        return $this->query;
+    }
     /**
      * @param int $id
      *
@@ -185,10 +190,10 @@ abstract class DBBaseRepository
      */
     public function delete($id)
     {
-        $query = $this->table->newQuery();
+        $query = $this->table->where("id",$id);
 
-        $table = $query->findOrFail($id);
+     
 
-        return $table->delete();
+        return $query->delete();
     }
 }
