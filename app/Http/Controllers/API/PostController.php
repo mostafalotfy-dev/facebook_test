@@ -239,4 +239,5 @@ class PostController extends AppBaseController
             $user->provider_token
         ));
     }
+    
 }

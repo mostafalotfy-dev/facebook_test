@@ -20,6 +20,7 @@ class CreateRepliesTable extends Migration
             $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             $table->foreignIdFor(Comment::class)->references("id")->on("comments")->onDelete("cascade");
             $table->text("description");
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateRepliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('replies');
+        Schema::dropIfExists('comment_replies');
     }
 }
