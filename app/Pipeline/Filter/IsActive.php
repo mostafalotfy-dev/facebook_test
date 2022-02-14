@@ -1,6 +1,6 @@
 <?php
 namespace App\Pipeline\Filter;
 
-class IsActive {
+class IsActive extends Filter{
     
 }
