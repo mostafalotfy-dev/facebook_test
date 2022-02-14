@@ -142,4 +142,5 @@ class Recipe extends Model
         return $this->morphOne(HashTag::class, 'postable')->latestOfMany();
     }
     
+    
 }

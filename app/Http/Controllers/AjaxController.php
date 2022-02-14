@@ -16,7 +16,7 @@ class AjaxController extends Controller
    {
        $hashtags = $this->hashtagRepo->allQuery(request("q") ? [
            "title" => request("q")
-       ]:[])->paginate();
+       ]:[])->paginate(15);
         return response()->json([
             "results"=>HashtagAjaxResource::collection($hashtags),
         ]);

@@ -17,7 +17,7 @@ class RecipeRepository extends DBBaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'view_count',
+        
         'title',
         'description',
         'user_id',
@@ -43,7 +43,7 @@ class RecipeRepository extends DBBaseRepository
     {
         return "recipes";
     }
-    
+
     public function joinUsers()
     {
         return $this->table->join("users","recipes.user_id","=","users.id");

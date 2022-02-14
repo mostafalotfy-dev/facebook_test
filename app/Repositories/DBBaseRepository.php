@@ -105,7 +105,7 @@ abstract class DBBaseRepository
             $this->query->limit($limit);
         }
 
-        return $this;
+        return $this->query;
     }
 
     /**
@@ -167,15 +167,17 @@ abstract class DBBaseRepository
      */
     public function update($input, $id)
     {
-        $query = $this->table->newQuery();
+        unset($input["_method"]);
+        unset($input["_token"]);
+        $query = $this->table->where("id",$id);
 
-        $table = $query->find($id);
+        
 
-        $table->update($input);
+    
 
      
 
-        return $table;
+        return   $query->update($input);;
     }
     public function query()
     {
