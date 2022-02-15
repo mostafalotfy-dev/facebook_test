@@ -103,7 +103,7 @@ class Category extends Model
     public static $rules = [
         'name_en' => 'required|string|max:255',
         'name_ar' => 'required|string|max:255',
-        'image' => 'required|image',
+        'image' => 'nullable|image',
     ];
     public function createdBy()
     {
