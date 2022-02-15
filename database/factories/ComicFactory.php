@@ -23,7 +23,11 @@ class ComicFactory extends Factory
     {
         return [
             'user_id' => $this->faker->word,
+        'category_id' => $this->faker->word,
+        'title' => $this->faker->word,
+        'is_active' => $this->faker->word,
         'description' => $this->faker->text,
+        'deleted_at' => $this->faker->date('Y-m-d H:i:s'),
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

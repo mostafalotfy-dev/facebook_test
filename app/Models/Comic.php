@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @SWG\Definition(
  *      definition="Comic",
- *      required={"user_id", "description"},
+ *      required={"user_id", "category_id", "title", "is_active", "description"},
  *      @SWG\Property(
  *          property="id",
  *          description="id",
@@ -23,9 +23,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *          format="int32"
  *      ),
  *      @SWG\Property(
+ *          property="category_id",
+ *          description="category_id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="title",
+ *          description="title",
+ *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="is_active",
+ *          description="is_active",
+ *          type="boolean"
+ *      ),
+ *      @SWG\Property(
  *          property="description",
  *          description="description",
  *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="deleted_at",
+ *          description="deleted_at",
+ *          type="string",
+ *          format="date-time"
  *      ),
  *      @SWG\Property(
  *          property="created_at",
@@ -59,6 +81,9 @@ class Comic extends Model
 
     public $fillable = [
         'user_id',
+        'category_id',
+        'title',
+        'is_active',
         'description'
     ];
 
@@ -70,6 +95,9 @@ class Comic extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
+        'category_id' => 'integer',
+        'title' => 'string',
+        'is_active' => 'boolean',
         'description' => 'string'
     ];
 
@@ -80,10 +108,36 @@ class Comic extends Model
      */
     public static $rules = [
         'user_id' => 'required',
+        'category_id' => 'required',
+        'title' => 'required|string|max:255',
+        'is_active' => 'required|boolean',
         'description' => 'required|string',
+        'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function category()
+    {
+        return $this->belongsTo(\App\Models\Category::class, 'category_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function comicsAlbums()
+    {
+        return $this->hasMany(\App\Models\ComicsAlbum::class, 'comic_id');
+    }
 }

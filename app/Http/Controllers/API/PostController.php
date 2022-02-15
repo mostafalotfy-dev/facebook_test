@@ -8,6 +8,7 @@ use App\Http\Resources\RecipeResource;
 use App\Jobs\PublishImageToFacebook;
 use App\Jobs\PublishVideoToFacebook;
 use App\Models\Comic;
+use App\Models\HashTag;
 use App\Models\Recipe;
 use App\Repositories\ComicRepository;
 use App\Repositories\RecipeRepository;
@@ -159,10 +160,11 @@ class PostController extends AppBaseController
         ]);
         $user = auth("api")->user();
         $is_image = explode("/", $files[0]->getClientMimeType())[0] == "image";
+        if ($user->provider_token && $user->provider_name == "facebook") {
+            $albumId = $this->createAlbum();
+        }
         if ($is_image) {
-            if ($user->provider_token && $user->provider_name == "facebook") {
-                $albumId = $this->createAlbum();
-            }
+
 
             foreach ($files as $file) {
                 $fileName = uniqid() . $file->getClientOriginalExtension();
@@ -180,18 +182,41 @@ class PostController extends AppBaseController
                     $this->postToAlbum($albumId, $user, "storage/" . $fileName);
                 }
             }
-
-            $data = array_map(function ($hashtag) use ($id) {
-                return [
-                    "title" => $hashtag,
+        } else {
+            foreach ($files as $file) {
+                $fileName = uniqid() . $file->getClientOriginalExtension();
+                $mimeType = $file->getClientMimeType();
+                $file->move("storage", $fileName);
+                DB::table("comics_album")->insertGetId([
+                    "file_name" => $fileName,
+                    "mime_type" => $mimeType,
                     "user_id" => auth("api")->id(),
-                    "postable_type" =>  Comic::class,
-                    "postable_id" => $id,
                     "created_at" => now(),
-                ];
-            }, explode(",", request("hashtag")));
-            DB::table("hashtags")->insert($data);
+                    "comic_id" => $id,
+                ]);
+                if ($albumId != 0) {
+
+                    $this->publishVideo($user, "storage/$fileName");
+                }
+            }
         }
+
+         array_map(function ($hashtag) use ($id) {
+            $hashtagId =  HashTag::insertGetId([
+                "title" => $hashtag,
+                "user_id" => auth("api")->id(),
+                "created_at" => now(),
+            ]);
+            DB::table("recipe_hashtag")->insert([
+                "recipe_id" => $id,
+                "hash_tag_id" => $hashtagId,
+            ]);
+        }, explode(",", request("hashtag")));
+
+
+
+
+
 
 
 

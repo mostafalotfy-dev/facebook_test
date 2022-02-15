@@ -71,48 +71,6 @@ class ComicAPIController extends AppBaseController
             __('messages.retrieved', ['model' => __('models/comics.plural')])
         );
     }
-    /*
-     *
-     * @SWG\Get(
-     *      path="/cheif/{userId}/comics/",
-     *      summary="Get a listing of the Comics by User Id.",
-     *      tags={"Comic"},
-     *      description="Get all Comics Belongs To Cheif",
-     *      produces={"application/json"},
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Comic")
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function byUserId($userId)
-    {
-        
-        $comics = $this->comicRepository->allQuery()
-        ->where("user_id",$userId)
-        ->paginate();
-            
-        return $this->sendResponse(
-            ComicResource::collection($comics)
-            , __('messages.retrieved', ['model' => __('models/cheifs.plural')])
-        );
-    }
 
     /**
      * @param CreateComicAPIRequest $request

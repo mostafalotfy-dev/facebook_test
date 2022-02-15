@@ -65,3 +65,4 @@ Route::resource('short_videos', ShortVideoAPIController::class);
 Route::resource('comics', ComicAPIController::class)->only("index","show");
 Route::resource('hash_tags', HashTagAPIController::class);
 Route::get("categories","CategoryAPIController@index");
+Route::apiResource("comics","ComicAPIController")->except("store");

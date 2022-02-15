@@ -38,7 +38,7 @@ class LoginController extends AppBaseController
     }
     private function findUser(Request $request)
     {
-        return  Cheif::where($this->username()
+        return  User::where($this->username()
         , request($this->username()))
         ->first();
     }

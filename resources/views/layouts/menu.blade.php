@@ -84,3 +84,10 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('comics.index') }}"
+       class="nav-link {{ Request::is('comics*') ? 'active' : '' }}">
+        <p>@lang('models/comics.plural')</p>
+    </a>
+</li>
+

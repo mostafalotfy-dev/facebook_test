@@ -3,21 +3,24 @@
 namespace App\Repositories;
 
 use App\Models\Comic;
-use App\Repositories\DBBaseRepository;
+use App\Repositories\BaseRepository;
 
 /**
  * Class ComicRepository
  * @package App\Repositories
- * @version February 8, 2022, 12:12 pm UTC
+ * @version February 15, 2022, 1:38 pm UTC
 */
 
-class ComicRepository extends DBBaseRepository
+class ComicRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
         'user_id',
+        'category_id',
+        'title',
+        'is_active',
         'description'
     ];
 
@@ -34,8 +37,8 @@ class ComicRepository extends DBBaseRepository
     /**
      * Configure the Model
      **/
-    public function table()
+    public function model()
     {
-        return "comics";
+        return Comic::class;
     }
 }
