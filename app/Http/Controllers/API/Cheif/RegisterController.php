@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Cheif;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
