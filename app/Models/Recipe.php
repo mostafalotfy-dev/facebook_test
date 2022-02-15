@@ -137,10 +137,22 @@ class Recipe extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public function hashtags()
+    public function hashtag()
     {
-        return $this->morphOne(HashTag::class, 'postable')->latestOfMany();
+        return $this->belongsTo(HashTag::class,"hash_tag_id");
     }
-    
+    public function createdBy()
+    {
+        return $this->belongsTo(Admin::class,"created_by");
+    }
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
+    }
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredient::class);
+    }
+ 
     
 }

@@ -21,7 +21,7 @@ class RecipeSeeder extends Seeder
             [
                 "title" => "وصفة جديدة",
                 "description" => "وصفة يتم استخدامها بشكل متكرر في ايطاليا",
-                "user_id" => 1,
+                "created_by"=>1,
                 "category_id" => 1,
                 'people_count' => 5,
                 "cooking_time" => "4:00",
@@ -31,12 +31,13 @@ class RecipeSeeder extends Seeder
             [
                 "title" => "وصفة جديدة",
                 "description" => "وصفة يتم استخدامها بشكل متكرر في ايطاليا",
-                "user_id" => 2,
+               
                 "category_id" => 1,
                 'people_count' => 5,
                 "cooking_time" => "4:00",
                 "is_active"=>0,
-                "hash_tag_id"=>1
+                "hash_tag_id"=>1,
+                "created_by"=>1
             ]
 
         ]);

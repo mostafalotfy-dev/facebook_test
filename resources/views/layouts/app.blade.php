@@ -166,10 +166,12 @@
 <script src="{{asset('app.js')}}">
 </script>
 <script>
-    !function(){!
+    !function(){
     
             
-            $(".tagify").tagify()
+            $(".tagify").tagify(
+
+            )
     
         
            

@@ -44,8 +44,8 @@ class RecipeController extends AppBaseController
                 IsActive::class
             ])
             ->thenReturn()
-            ->join("users", "users.id", "=", "recipes.user_id")
-            ->join("categories", "categories.id", "=", "recipes.category_id")
+            
+      
             ->paginate();
 
         return view('recipes.index')
@@ -73,7 +73,7 @@ class RecipeController extends AppBaseController
     public function store(CreateRecipeRequest $request)
     {
         $input = $request->except("ingredients", "steps");
-        $input["user_id"] = auth("admin")->id();
+        $input["created_by"] = auth("admin")->id();
         $input["is_active"] = 1;
         $recipe = $this->recipeRepository->create($input);
         $ingredients = json_decode($request->ingredients);
@@ -131,7 +131,7 @@ class RecipeController extends AppBaseController
      */
     public function edit($id)
     {
-        $recipe = $this->recipeRepository->find($id);
+        $recipe = Recipe::find($id);
 
         if (empty($recipe)) {
             Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));

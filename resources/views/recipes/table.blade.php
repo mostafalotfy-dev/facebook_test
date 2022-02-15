@@ -1,4 +1,6 @@
 <div class="table-responsive">
+    
+
     <table class="table" id="recipes-table">
         <thead>
             <tr>
@@ -7,11 +9,7 @@
                      <input type="text" name="title" placeholder="@lang('models/recipes.fields.title')">
                      </form>
                     </th>
-                <th>
-                    <form action="{{route("recipes.index")}}">
-                 <input type="text" name="description" placeholder=" @lang('models/recipes.fields.description')">
-                    </form> 
-                </th>
+               
                 <th>
                     <form action="{{route("recipes.index")}}">
                  <input type="text" name="user_id" placeholder=" @lang('models/recipes.fields.user_id')">
@@ -36,24 +34,25 @@
             <tr>
 
                 <th>@lang('models/recipes.fields.title')</th>
-                <th>@lang('models/recipes.fields.description')</th>
+                
                 <th>@lang('models/recipes.fields.user_id')</th>
                 <th>@lang('models/recipes.fields.category_id')</th>
                 <th>@lang('models/recipes.fields.people_count')</th>
                 <th>@lang('models/recipes.fields.cooking_time')</th>
+                <th>@lang('models/recipes.fields.created_by')</th>
                 <th colspan="3">@lang('crud.action')</th>
             </tr>
         </thead>
         <tbody>
+            
             @foreach($recipes as $recipe)
             <tr>
-
                 <td>{{ $recipe->title }}</td>
-                <td>{{ $recipe->description }}</td>
-                <td>{{ $recipe->user_id }}</td>
-                <td>{{ $recipe->category_id }}</td>
+                <td>{{ $recipe->user ? $recipe->user->name : "-" }}</td>
+                <td>{{ app()->getLocale() == "en" ? $recipe->category->name_en : $recipe->category->name_ar}} </td>
                 <td>{{ $recipe->people_count }}</td>
-                <td>{{ $recipe->cooking_time }}</td>
+                <td>{{ $recipe->cooking_time->format("H:i") }}</td>
+                <td>{{ $recipe->createdBy->full_name }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['recipes.destroy', $recipe->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -71,4 +70,5 @@
             @endforeach
         </tbody>
     </table>
+    {{$recipes->links()}}
 </div>

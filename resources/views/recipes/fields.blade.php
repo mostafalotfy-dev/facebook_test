@@ -30,23 +30,41 @@
 </div>
   <!--  Hashtag Field -->
   <div class="form-group col-sm-6">
-    {!! Form::label('hashtag', __('models/hashtags.plural').':') !!}
+    {!! Form::label('hashtag', "Selected Hash Is ".$recipe->hashtag->title.':') !!}
     {!! Form::select('hash_tag_id',[], null, ['id'=>'hashtag',"class"=>"select2 hashtags form-control"]) !!}
 </div>
-<!-- ingredinets Time Field -->
+
+@if(isset($recipe) && $recipe->ingredients)
+<!-- i@dngredinets Time Field -->
+
 <div class="form-group col-sm-6">
     {!! Form::label('ingredients', __('models/ingredients.plural').':') !!}
-    {!! Form::text('ingredients', null, ['id'=>'ingredients',"class"=>"tagify"]) !!}
+    {!! Form::text('ingredients', $recipe->ingredients->implode("description",","), ['id'=>'ingredients',"class"=>"tagify"]) !!}
 </div>
+@else
 <div class="form-group col-sm-6">
-    {!! Form::label('steps', __('models/steps.plural').':') !!}
-    {!! Form::text('steps', null, ['id'=>'steps',"class"=>"tagify"]) !!}
+    {!! Form::label('ingredients', __('models/ingredients.plural').':') !!}
+    {!! Form::text('ingredients',null, ['id'=>'ingredients',"class"=>"tagify"]) !!}
 </div>
 
+@endif
+
+@if(isset($recipe) && $recipe->steps)
+<div class="form-group col-sm-6">
+    {!! Form::label('steps', __('models/steps.plural').':') !!}
+    {!! Form::text('steps', $recipe->steps->implode("step_description",","), ['id'=>'steps',"class"=>"tagify"]) !!}
+</div>
+@else
+
+<div class="form-group col-sm-6">
+    {!! Form::label('steps', __('models/steps.plural').':') !!}
+    {!! Form::text('steps',null, ['id'=>'steps',"class"=>"tagify"]) !!}
+</div>
+@endif
 @push('page_scripts')
     <script type="text/javascript">
         $('#cooking_time').datetimepicker({
-            format: 'mm:ss',
+            format: 'hh:mm',
             useCurrent: true,
             sideBySide: true
         })
@@ -55,9 +73,9 @@
                 ajax:{
                     url:"{{route('hashtags.ajax')}}",
                    
-
                 }
             })
+            $("#hashtag").trigger("select2:open")
         }()
     </script>
 @endpush
