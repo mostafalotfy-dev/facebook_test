@@ -9,7 +9,7 @@ trait HasImage {
             $input[$attribute] = $fileName;
             request()->file($attribute)->move($outputPath,$fileName);
         }else{
-            unset($input["avatar"]);
+            unset($input[$attribute]);
         }
     }
 }

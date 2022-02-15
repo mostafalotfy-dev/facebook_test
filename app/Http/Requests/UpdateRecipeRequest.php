@@ -25,7 +25,7 @@ class UpdateRecipeRequest extends FormRequest
     public function rules()
     {
         $rules = Recipe::$rules;
-        
+        unset($rules["hash_tag_id"]);
         return $rules;
     }
 }

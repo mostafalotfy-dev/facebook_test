@@ -36,6 +36,7 @@
    
     <link rel="stylesheet" href="{{asset("css/tagify.css")}}">
     <link rel="stylesheet" href="{{asset("css/main.css")}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.4/viewer.css">
     @stack('third_party_stylesheets')
 
     @stack('page_css')
@@ -148,6 +149,7 @@
 <script src="{{asset("js/jquery.validate.min.js")}}">
 <script src="{{asset("js/app.js")}}">
 </script>
+<script scr="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.4/viewer.js"> </script>
 <script>
     $(function () {
         bsCustomFileInput.init();

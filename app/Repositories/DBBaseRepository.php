@@ -122,7 +122,7 @@ abstract class DBBaseRepository
     {
         $this->query = $this->allQuery($search, $skip, $limit);
 
-        return $this->query->query->get($columns);
+        return $this->query->get($columns);
     }
 
     /**

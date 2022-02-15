@@ -6,12 +6,19 @@ use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Repositories\CategoryRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Category;
+use App\Pipeline\Filter\IsActive;
+use App\Pipeline\Filter\NameEn;
+use App\Traits\HasImage;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Pipeline\Pipeline;
 use Response;
+use App\Pipeline\Filter\NameAr;
 
 class CategoryController extends AppBaseController
 {
+    use HasImage;
     /** @var CategoryRepository $categoryRepository*/
     private $categoryRepository;
 
@@ -29,7 +36,15 @@ class CategoryController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $categories = $this->categoryRepository->all();
+        $categories = app(Pipeline::class)
+        ->send(Category::query())
+        ->through([
+            IsActive::class,
+            NameEn::class,
+            NameAr::class,
+        ])
+        ->thenReturn()
+        ->paginate();
 
         return view('categories.index')
             ->with('categories', $categories);
@@ -54,8 +69,9 @@ class CategoryController extends AppBaseController
      */
     public function store(CreateCategoryRequest $request)
     {
-        $input = $request->all();
+        $input = $request->except("image");
         $input["created_by"] = auth("admin")->id();
+        $this->addImage($input,"image","storage");
         $category = $this->categoryRepository->create($input);
 
         Flash::success(__('messages.saved', ['model' => __('models/categories.singular')]));
@@ -120,8 +136,15 @@ class CategoryController extends AppBaseController
 
             return redirect(route('categories.index'));
         }
-
-        $category = $this->categoryRepository->update($request->all(), $id);
+        $input = $request->all(); 
+        $input["updated_by"] = auth("admin")->id();
+        $this->addImage($input,"image","storage");
+        if(request("image"))
+        {
+            if(file_exists(public_path("storage/$category->image")))
+            unlink(public_path("storage/".$category->image));
+        }
+        $category = $this->categoryRepository->update($input, $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/categories.singular')]));
 

@@ -20,7 +20,6 @@ class LoginController extends AppBaseController
     }
     protected function login(Request $request)
     {
-
         $user = $this->findUser($request);
         if ($user) {
         if (!Hash::check(request("password"),$user->password)) {
@@ -47,4 +46,5 @@ class LoginController extends AppBaseController
             ],
         ])->first();
     }
+ 
 }

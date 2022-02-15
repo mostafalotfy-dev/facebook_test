@@ -103,12 +103,15 @@ class Category extends Model
     public static $rules = [
         'name_en' => 'required|string|max:255',
         'name_ar' => 'required|string|max:255',
-        'image' => 'required|string|max:255',
-       
-        'updated_by' => 'nullable',
-        'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'image' => 'required|image',
     ];
-
+    public function createdBy()
+    {
+        return $this->belongsTo(Admin::class,"created_by");
+    }
+    public function updatedBy()
+    {
+        return $this->belongsTo(Admin::class,"updated_by");
+    }
     
 }

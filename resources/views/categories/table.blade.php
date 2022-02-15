@@ -1,7 +1,9 @@
 <div class="table-responsive">
     <table class="table" id="categories-table">
         <thead>
+           
         <tr>
+            <th>@lang('models/categories.fields.id')</th>
             <th>@lang('models/categories.fields.name_en')</th>
         <th>@lang('models/categories.fields.name_ar')</th>
         <th>@lang('models/categories.fields.image')</th>
@@ -13,11 +15,12 @@
         <tbody>
          @foreach($categories as $category)
             <tr>
+                <td><a href="{{route('categories.show',$category->id)}}">{{$category->id}}</a></td>
                 <td>{{ $category->name_en }}</td>
             <td>{{ $category->name_ar }}</td>
-            <td>{{ $category->image }}</td>
-            <td>{{ $category->created_by }}</td>
-            <td>{{ $category->updated_by }}</td>
+            <td> <img width="100" src="{{ asset("storage/".$category->image) }}" alt=""></td>
+            <td>{{ $category->createdBy->full_name }}</td>
+            <td>{{ $category->updatedBy->full_name }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

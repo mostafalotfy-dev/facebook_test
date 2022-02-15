@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
 /**
  * @SWG\Definition(
  *      definition="Recipe",
@@ -113,25 +114,20 @@ class Recipe extends Model
         'category_id' => 'integer',
         'people_count' => 'integer',
         'cooking_time' => 'datetime',
-        
     ];
-
     /**
      * Validation rules
      *
      * @var array
      */
     public static $rules = [
-     
         'title' => 'required|string|max:255',
         'description' => 'required|string|max:255',
-        
+        "hash_tag_id"=>"required|exists:hashtags,id",
         'category_id' => 'required|int|exists:categories,id',
         'people_count' => 'required|int',
         'cooking_time' => 'required|regex:(\d{2}:\d{2})',
-        'deleted_at' => 'nullable',
-        'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        // "media"=>"nullable|mimes:jpg,mp4,jpeg,3gp,gif"
     ];
     public function category()
     {
@@ -153,6 +149,9 @@ class Recipe extends Model
     {
         return $this->hasMany(Ingredient::class);
     }
- 
+    public function album()
+    {
+        return $this->hasMany(RecipeAlbum::class);
+    }
     
 }

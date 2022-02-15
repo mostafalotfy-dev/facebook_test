@@ -14,16 +14,9 @@
 <div class="form-group col-sm-6">
     {!! Form::label('image', __('models/categories.fields.image').':') !!}
     {!! Form::file('image', ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
-</div>
+   
+</div> 
+@if(isset($category))
 
-<!-- Created By Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('created_by', __('models/categories.fields.created_by').':') !!}
-    {!! Form::number('created_by', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Updated By Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('updated_by', __('models/categories.fields.updated_by').':') !!}
-    {!! Form::number('updated_by', null, ['class' => 'form-control']) !!}
-</div>
+<img width="150" src="{{asset("storage/$category->image")}}">
+@endif

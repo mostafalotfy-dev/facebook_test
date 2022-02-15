@@ -15,6 +15,7 @@ use Response;
 use App\Models\Step;
 use App\Models\Recipe;
 use App\Models\HashTag;
+use App\Models\RecipeAlbum;
 use App\Pipeline\Filter\IsActive;
 use Illuminate\Pipeline\Pipeline;
 
@@ -72,9 +73,10 @@ class RecipeController extends AppBaseController
      */
     public function store(CreateRecipeRequest $request)
     {
-        $input = $request->except("ingredients", "steps");
+        $input = $request->except("ingredients", "steps","media");
         $input["created_by"] = auth("admin")->id();
         $input["is_active"] = 1;
+        \DB::beginTransaction();
         $recipe = $this->recipeRepository->create($input);
         $ingredients = json_decode($request->ingredients);
         $ingredients = array_map(function ($ingredient) use ($recipe) {
@@ -97,6 +99,30 @@ class RecipeController extends AppBaseController
         Ingredient::insert($ingredients);
         Step::insert($steps);
         Hashtag::find(request("hash_tag_id"))->recipes()->attach($recipe);
+        if(request("media"))
+        {
+
+        
+        $files = collect(request("media"));
+        
+        $files = $files->map(function($file) use($recipe){
+          
+            $fileName = uniqid().$file->getclientoriginalextension();
+          
+            $file->move("storage",$fileName);
+         
+            RecipeAlbum::create([
+                "mime_type"=>$file->getClientMimeType(),
+                "file_name"=>$fileName,
+                "recipe_id"=>$recipe,
+                "user_id"=>auth("admin")->id(),
+                "created_at"=>now()
+            ]);
+        });
+    
+      
+    }
+    \DB::commit();
         Flash::success(__('messages.saved', ['model' => __('models/recipes.singular')]));
 
         return redirect(route('recipes.index'));
@@ -159,7 +185,8 @@ class RecipeController extends AppBaseController
 
             return redirect(route('recipes.index'));
         }
-        $input = $request->except("ingredients","steps");
+        $input = $request->except("ingredients","steps","media");
+
         $recipe = $this->recipeRepository->update($input, $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/recipes.singular')]));

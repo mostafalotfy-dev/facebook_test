@@ -41,4 +41,8 @@ class CategoryRepository extends DBBaseRepository
     {
         return "categories";
     }
+    public function joinAdmins()
+    {
+        return $this->query->join("categories","categories.created_by","=","admins.id");
+    }
 }

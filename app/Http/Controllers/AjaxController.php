@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Resources\HashTagAjaxResource;
+use App\Models\RecipeAlbum;
 use App\Repositories\HashTagRepository;
 class AjaxController extends Controller
 {
@@ -18,7 +19,8 @@ class AjaxController extends Controller
            "title" => request("q")
        ]:[])->paginate(15);
         return response()->json([
-            "results"=>HashtagAjaxResource::collection($hashtags),
+            "results" => HashtagAjaxResource::collection($hashtags),
         ]);
    }
+ 
 }

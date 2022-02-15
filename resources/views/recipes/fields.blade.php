@@ -30,12 +30,12 @@
 </div>
   <!--  Hashtag Field -->
   <div class="form-group col-sm-6">
-    {!! Form::label('hashtag', "Selected Hash Is ".$recipe->hashtag->title.':') !!}
+    {!! Form::label('hashtag', isset($recipe) ? "Selected Hashtag Is ". $recipe->hashtag->title : __("models/hashtag.plural").':') !!}
     {!! Form::select('hash_tag_id',[], null, ['id'=>'hashtag',"class"=>"select2 hashtags form-control"]) !!}
 </div>
 
 @if(isset($recipe) && $recipe->ingredients)
-<!-- i@dngredinets Time Field -->
+<!-- ingredinets Time Field -->
 
 <div class="form-group col-sm-6">
     {!! Form::label('ingredients', __('models/ingredients.plural').':') !!}
@@ -55,11 +55,23 @@
     {!! Form::text('steps', $recipe->steps->implode("step_description",","), ['id'=>'steps',"class"=>"tagify"]) !!}
 </div>
 @else
-
 <div class="form-group col-sm-6">
     {!! Form::label('steps', __('models/steps.plural').':') !!}
     {!! Form::text('steps',null, ['id'=>'steps',"class"=>"tagify"]) !!}
 </div>
+@endif
+
+<div class="form-group col-sm-6">
+    <input type="file" multiple name="media[]" accept="image/*,video/*">
+</div>
+@if(isset($recipe))
+@foreach($recipe->album as $album)
+<div class="container">
+<img src="{{asset("storage/$album->file_name")}}" width=150 alt="">
+<button typ="button" id="remove">Remove</button>
+
+</div>
+@endforeach
 @endif
 @push('page_scripts')
     <script type="text/javascript">
@@ -77,5 +89,21 @@
             })
             $("#hashtag").trigger("select2:open")
         }()
+$(".container").on("click","#remove",function(e)
+{
+
+    $.ajax({
+        url:"{{route('recipes.album.ajax')}}",
+        data:() => {
+            return {
+                "ids":$(".container").find("input").val()
+            }
+        },
+        success(){
+            $(self).parent().remove();  
+        }
+    })
+    
+})
     </script>
 @endpush
