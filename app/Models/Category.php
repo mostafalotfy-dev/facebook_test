@@ -111,7 +111,9 @@ class Category extends Model
     }
     public function updatedBy()
     {
-        return $this->belongsTo(Admin::class,"updated_by");
+        return $this->belongsTo(Admin::class,"updated_by")->withDefault([
+            "full_name"=>"-",
+        ]);
     }
     
 }
