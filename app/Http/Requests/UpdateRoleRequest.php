@@ -25,7 +25,7 @@ class UpdateRoleRequest extends FormRequest
     public function rules()
     {
         $rules = Role::$rules;
-        
+        $rules["name"] .= "," . request("role");
         return $rules;
     }
 }

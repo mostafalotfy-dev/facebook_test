@@ -1,29 +1,29 @@
 <div class="table-responsive">
     
 
-    <table class="table" id="recipes-table">
+    <table class="table " id="recipes-table">
         <thead>
             <tr>
                  <th>
                      <form action="{{route("recipes.index")}}">
-                     <input type="text" name="title" placeholder="@lang('models/recipes.fields.title')">
+                     <input class="form-control" type="text" name="title" placeholder="@lang('models/recipes.fields.title')">
                      </form>
                     </th>
                
                 <th>
                     <form action="{{route("recipes.index")}}">
-                 <input type="text" name="user_id" placeholder=" @lang('models/recipes.fields.user_id')">
+                 <input class="form-control" type="text" name="user_id" placeholder=" @lang('models/recipes.fields.user_id')">
                     </form>
                 </th>
                 <th>
                     <form action="{{route("recipes.index")}}">
-                 <input type="text" name="category_id" placeholder=" @lang('models/recipes.fields.category_id')">
+                 <input class="form-control" type="text" name="category_id" placeholder=" @lang('models/recipes.fields.category_id')">
                     </form>
                 </th>
                 
             </tr>
             <tr>
-
+                <th>@lang('models/recipes.fields.id')</th>
                 <th>@lang('models/recipes.fields.title')</th>
                 
                 <th>@lang('models/recipes.fields.user_id')</th>
@@ -37,6 +37,7 @@
             
             @foreach($recipes as $recipe)
             <tr>
+                <td><a href="{{route("recipes.show",$recipe->id)}}">{{$loop->index+1}}</a></td>
                 <td>{{ $recipe->title }}</td>
                 <td>{{ $recipe->user ? $recipe->user->name : "-" }}</td>
                 <td>{{ app()->getLocale() == "en" ? $recipe->category->name_en : $recipe->category->name_ar}} </td>

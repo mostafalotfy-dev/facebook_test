@@ -15,6 +15,7 @@
         </thead>
         <tbody>
          @foreach($users as $user)
+        
             <tr>
                 <td>{{ $user->name }}</td>
             <td>{{ $user->phone_number }}</td>

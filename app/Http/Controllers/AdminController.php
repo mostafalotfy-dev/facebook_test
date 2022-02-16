@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Schema;
 use Response;
-
+use App\Models\Admin;
+use App\Models\Role;
 class AdminController extends AppBaseController
 {
     use HasImage;
@@ -59,7 +60,7 @@ class AdminController extends AppBaseController
      */
     public function store(CreateAdminRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
         $this->addImage($input,"avatar","storage");
         if(request("password"))
         {
@@ -68,7 +69,7 @@ class AdminController extends AppBaseController
             unset($input["password"]);
         }
         $admin = $this->adminRepository->create($input);
-
+        Admin::find($admin)->assignRole(Role::find(request("role_id")));
         Flash::success(__('messages.saved', ['model' => __('models/admins.singular')]));
 
         return redirect(route('admins.index'));

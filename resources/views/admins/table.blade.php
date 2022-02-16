@@ -2,6 +2,7 @@
     <table class="table" id="admins-table">
         <thead>
         <tr>
+            <th>@lang("models/admins.fields.id")</th>
         <th>@lang('models/admins.fields.full_name')</th>
         <th>@lang('models/admins.fields.email')</th>
         <th>@lang('models/admins.fields.avatar')</th>
@@ -10,8 +11,8 @@
         </thead>
         <tbody>
          @foreach($admins as $admin)
-            <tr>
-            
+        <tr>    
+            <td><a href="{{route('admins.show',$admin->id)}}">{{$loop->index + 1}}</a></td>
             <td>{{ $admin->full_name }}</td>
             <td>{{ $admin->email }}</td>
             <td><img src="{{ asset("storage/$admin->avatar") }}" alt=""></td>

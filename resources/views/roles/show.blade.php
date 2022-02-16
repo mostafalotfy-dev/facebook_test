@@ -1,29 +1,32 @@
 @extends('layouts.app')
-
+@section('title')
+Roles
+@endsection
+@section('title')
+    @lang('models/roles.singular')
+@endsection
 @section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>@lang('models/roles.singular')</h1>
-                </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
-                       href="{{ route('roles.index') }}">
-                         @lang('crud.back')
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="content px-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    @include('roles.show_fields')
-                </div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@lang('models/roles.singular')</h1>
             </div>
         </div>
     </div>
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" style="padding-left: 20px">
+                    @include('roles.show_fields')
+                </div>
+               
+                <a href="{{ route('roles.edit', $role->id) }}" class='btn button-gray'>
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                    </div>
+                </div>
+             </div>
+   
+</section>
 @endsection

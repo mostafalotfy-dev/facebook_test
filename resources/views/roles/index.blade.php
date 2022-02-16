@@ -1,7 +1,13 @@
 @extends('layouts.app')
-
+@section('title')
+Roles
+@endsection
+@section('heading')
+    @lang('models/roles.plural')
+@endsection
 @section('content')
     <section class="content-header">
+      
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -37,5 +43,4 @@
     </div>
 
 @endsection
-
 

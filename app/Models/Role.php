@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Role as AbstractRole;
+use Laravel\Scout\Searchable;
 /**
  * @SWG\Definition(
  *      definition="Role",
@@ -44,7 +45,7 @@ class Role extends AbstractRole
 {
    
 
-    use HasFactory;
+    use HasFactory,Searchable;
 
     public $table = 'roles';
     
@@ -78,8 +79,8 @@ class Role extends AbstractRole
      * @var array
      */
     public static $rules = [
-        'name' => 'required|string|max:255',
-        'guard_name' => 'required|string|max:255',
+        'name' => 'required|string|max:255|unique:roles,name',
+        
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];

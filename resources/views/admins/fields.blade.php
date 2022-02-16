@@ -1,3 +1,4 @@
+@inject("roles","App\Models\Role")
 <!-- First Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('first_name', __('models/admins.fields.first_name').':') !!}
@@ -22,7 +23,11 @@
     {!! Form::label('password', __('models/admins.fields.password').':') !!}
     {!! Form::password('password',  ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
 </div>
-
+<!-- Role Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('role_id', __('models/admins.fields.role_id').':') !!}
+    {!! Form::select('role_id', $roles->get()->pluck("name","id") ,null , ['class' => 'form-control']) !!}
+</div>
 <!-- Avatar Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('avatar', __('models/admins.fields.avatar').':') !!}

@@ -9,6 +9,7 @@ use App\Repositories\ComicRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ComicResource;
+use App\Traits\HasImage;
 use Response;
 
 /**
@@ -18,6 +19,7 @@ use Response;
 
 class ComicAPIController extends AppBaseController
 {
+    use HasImage;
     /** @var  ComicRepository */
     private $comicRepository;
 
@@ -225,8 +227,9 @@ class ComicAPIController extends AppBaseController
      */
     public function update($id, UpdateComicAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
+        
         /** @var Comic $comic */
         $comic = $this->comicRepository->find($id);
 
@@ -235,7 +238,7 @@ class ComicAPIController extends AppBaseController
                 __('messages.not_found', ['model' => __('models/comics.singular')])
             );
         }
-
+        
         $comic = $this->comicRepository->update($input, $id);
 
         return $this->sendResponse(

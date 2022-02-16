@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
 {
@@ -33,7 +33,7 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('users', UserController::class);
 
     Route::resource('roles', RoleController::class);
-
+    Route::get("roles/{role}/users","RoleController@admins")->name("roles.admins");
 });
 
 

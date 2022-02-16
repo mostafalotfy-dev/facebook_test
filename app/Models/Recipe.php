@@ -6,7 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
+use Laravel\Scout\Searchable;
 /**
  * @SWG\Definition(
  *      definition="Recipe",
@@ -79,7 +79,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Recipe extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,Searchable;
 
     use HasFactory;
 
@@ -131,7 +131,10 @@ class Recipe extends Model
     ];
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->withDefault([
+            "name_en"=>"-",
+            "name_ar"=>"-"
+        ]);
     }
     public function hashtag()
     {
@@ -139,7 +142,9 @@ class Recipe extends Model
     }
     public function createdBy()
     {
-        return $this->belongsTo(Admin::class,"created_by");
+        return $this->belongsTo(Admin::class,"created_by")->withDefault([
+            "full_name"=>"-"
+        ]);
     }
     public function steps()
     {

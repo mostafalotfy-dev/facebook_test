@@ -39,16 +39,8 @@ class RecipeController extends AppBaseController
     public function index(Request $request)
     {
 
-        $recipes = app(Pipeline::class)
-            ->send(Recipe::query())
-            ->through([
-                IsActive::class
-            ])
-            ->thenReturn()
-            
-      
-            ->paginate();
-
+        $recipes = Recipe::search(request("query"))->paginate();
+// dd($recipes);
         return view('recipes.index')
             ->with('recipes', $recipes);
     }
@@ -100,9 +92,7 @@ class RecipeController extends AppBaseController
         Step::insert($steps);
         Hashtag::find(request("hash_tag_id"))->recipes()->attach($recipe);
         if(request("media"))
-        {
-
-        
+        {        
         $files = collect(request("media"));
         
         $files = $files->map(function($file) use($recipe){
@@ -137,7 +127,7 @@ class RecipeController extends AppBaseController
      */
     public function show($id)
     {
-        $recipe = $this->recipeRepository->find($id);
+        $recipe = Recipe::find($id);
 
         if (empty($recipe)) {
             Flash::error(__('messages.not_found', ['model' => __('models/recipes.singular')]));

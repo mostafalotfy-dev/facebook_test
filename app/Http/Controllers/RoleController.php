@@ -2,37 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RoleDataTable;
+use App\Http\Requests;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\Permission;
 use App\Repositories\RoleRepository;
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
 use Flash;
+use App\Http\Controllers\AppBaseController;
 use Response;
-
+use App\Models\Role;
 class RoleController extends AppBaseController
 {
-    /** @var RoleRepository $roleRepository*/
+    /** @var  RoleRepository */
     private $roleRepository;
 
     public function __construct(RoleRepository $roleRepo)
     {
         $this->roleRepository = $roleRepo;
+        $this->middleware("can:view-roles")->only("index","show");
+        $this->middleware("can:add-roles")->only("create","store");
+        $this->middleware("can:delete-roles")->only("destroy");
+        $this->middleware("can:update-roles")->only("edit","update");
+
     }
 
     /**
      * Display a listing of the Role.
      *
-     * @param Request $request
-     *
+     * @param RoleDataTable $roleDataTable
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $roles = $this->roleRepository->paginate(15);
-
-        return view('roles.index')
-            ->with('roles', $roles);
+        $roles = Role::where("id","!=",1);
+        if(request("query"))
+        {
+            $roles = $roles->search(request("query"));
+        }else{
+            $roles = $roles->paginate();
+        }
+     
+        return view("roles.index",compact("roles"));
     }
 
     /**
@@ -42,8 +53,11 @@ class RoleController extends AppBaseController
      */
     public function create()
     {
-        return view('roles.create');
-    }
+        $permissions = Permission::all();
+        $groups = $permissions->map(function ($permission) {
+            return explode("-", $permission->name)[1];
+        })->unique();
+        return view('roles.create', compact('permissions', "groups"));    }
 
     /**
      * Store a newly created Role in storage.
@@ -54,11 +68,23 @@ class RoleController extends AppBaseController
      */
     public function store(CreateRoleRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
+       // \DB::beginTransaction();
 
-        $role = $this->roleRepository->create($input);
+        $input["guard_name"] = "admin";
 
-        Flash::success(__('messages.saved', ['model' => __('models/roles.singular')]));
+        $roleId = $this->roleRepository->create($input);
+        if ($request['roles']) {
+         
+            $permission = Permission::whereIn('id', $request['roles'])->get();
+            
+            Role::find($roleId)->givePermissionTo($permission);
+        }
+/*         $role->givePermissionTo(Permission::find(request("permissions")));
+ */
+
+     session()->flash('success','Role Added Successfully');
+
 
         return redirect(route('roles.index'));
     }
@@ -72,7 +98,7 @@ class RoleController extends AppBaseController
      */
     public function show($id)
     {
-        $role = $this->roleRepository->find($id);
+        $role = Role::find($id);
 
         if (empty($role)) {
             Flash::error(__('messages.not_found', ['model' => __('models/roles.singular')]));
@@ -81,6 +107,14 @@ class RoleController extends AppBaseController
         }
 
         return view('roles.show')->with('role', $role);
+    }
+    private function createPermissionGroupsAll($permissions)
+    {
+
+        return $permissions->map(function ($perm) {
+
+            return explode("-", $perm->name)[1];
+        })->unique();
     }
 
     /**
@@ -92,15 +126,17 @@ class RoleController extends AppBaseController
      */
     public function edit($id)
     {
-        $role = $this->roleRepository->find($id);
+
+        $role = Role::find($id);
 
         if (empty($role)) {
             Flash::error(__('messages.not_found', ['model' => __('models/roles.singular')]));
 
             return redirect(route('roles.index'));
         }
-
-        return view('roles.edit')->with('role', $role);
+        $permissions = Permission::all();
+        $groups = $this->createPermissionGroupsAll($permissions);
+        return view('roles.edit', compact('role', 'permissions', "groups"));
     }
 
     /**
@@ -115,25 +151,34 @@ class RoleController extends AppBaseController
     {
         $role = $this->roleRepository->find($id);
 
-        if (empty($role)) {
+/*         $role->givePermissionTo(Permission::find(request("permissions")));
+ */        if (empty($role)) {
             Flash::error(__('messages.not_found', ['model' => __('models/roles.singular')]));
 
-            return redirect(route('roles.index'));
+            return $this->sendError("Not Found");
         }
+        $input = $request->validated();
 
-        $role = $this->roleRepository->update($request->all(), $id);
 
+        $this->roleRepository->update($input, $id);
+        if ($request['roles'] && $role->name != "super-admin") {
+            $permission = Permission::whereIn('id', $request['roles'])->get();
+
+            Role::find($id)->syncPermissions($permission);
+        }
         Flash::success(__('messages.updated', ['model' => __('models/roles.singular')]));
 
-        return redirect(route('roles.index'));
+        return redirect()->route("roles.index");
     }
-
+    public function admins(Role $role)
+    {
+        $admins = $role->users()->paginate();
+        return view("admins.index",compact("admins"));
+    }
     /**
      * Remove the specified Role from storage.
      *
      * @param int $id
-     *
-     * @throws \Exception
      *
      * @return Response
      */
