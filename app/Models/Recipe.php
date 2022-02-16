@@ -6,7 +6,8 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Laravel\Scout\Searchable;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 /**
  * @SWG\Definition(
  *      definition="Recipe",
@@ -77,9 +78,9 @@ use Laravel\Scout\Searchable;
  *      )
  * )
  */
-class Recipe extends Model
+class Recipe extends Model implements Searchable
 {
-    use SoftDeletes,Searchable;
+    use SoftDeletes;
 
     use HasFactory;
 
@@ -129,6 +130,13 @@ class Recipe extends Model
         'cooking_time' => 'required|regex:(\d{2}:\d{2})',
         // "media"=>"nullable|mimes:jpg,mp4,jpeg,3gp,gif"
     ];
+    public function getSearchResult() : SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->title,
+        );
+    }
     public function category()
     {
         return $this->belongsTo(Category::class)->withDefault([

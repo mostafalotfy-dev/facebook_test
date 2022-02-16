@@ -5,9 +5,9 @@ return array (
   'plural' => 'Categories',
   'fields' => 
   array (
-    'id' => 'Id',
-    'name_en' => 'Name En',
-    'name_ar' => 'Name Ar',
+    'id' => '#',
+    'name_en' => 'Name In English',
+    'name_ar' => 'Name In Arabic',
     'image' => 'Image',
     'created_by' => 'Created By',
     'updated_by' => 'Updated By',

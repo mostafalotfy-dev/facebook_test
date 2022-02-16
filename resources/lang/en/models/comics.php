@@ -5,9 +5,9 @@ return array (
   'plural' => 'Comics',
   'fields' => 
   array (
-    'id' => 'Id',
-    'user_id' => 'User Id',
-    'category_id' => 'Category Id',
+    'id' => '#',
+    'user_id' => 'User Name',
+    'category_id' => 'Category Name',
     'title' => 'Title',
     'is_active' => 'Is Active',
     'description' => 'Description',

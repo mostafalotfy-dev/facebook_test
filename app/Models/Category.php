@@ -5,7 +5,8 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 /**
  * @SWG\Definition(
  *      definition="Category",
@@ -57,7 +58,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class Category extends Model
+class Category extends Model implements Searchable
 {
     use SoftDeletes;
 
@@ -105,6 +106,13 @@ class Category extends Model
         'name_ar' => 'required|string|max:255',
         'image' => 'nullable|image',
     ];
+    public function getSearchResult() : SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->{"name_".app()->getLocale()}
+        );
+    }
     public function createdBy()
     {
         return $this->belongsTo(Admin::class,"created_by");

@@ -6,7 +6,7 @@ return array (
   'fields' => 
   array (
     'id' => 'Id',
-    'user_id' => 'User Id',
+    'user_id' => 'User Name',
     'comment_id' => 'Comment Id',
     'description' => 'Description',
     'created_at' => 'Created At',

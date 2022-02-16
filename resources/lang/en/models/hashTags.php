@@ -7,7 +7,7 @@ return array (
   array (
     'id' => 'Id',
     'title' => 'Title',
-    'user_id' => 'User Id',
+    'user_id' => 'User Name',
     'postable_type' => 'Postable Type',
     'postable_id' => 'Postable Id',
     'created_at' => 'Created At',

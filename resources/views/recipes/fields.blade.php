@@ -31,7 +31,7 @@
   <!--  Hashtag Field -->
   <div class="form-group col-sm-6">
     {!! Form::label('hashtag', isset($recipe) ? "Selected Hashtag Is ". $recipe->hashtag->title : __("models/hashtag.plural").':') !!}
-    {!! Form::select('hash_tag_id',[], null, ['id'=>'hashtag',"class"=>"select2 hashtags form-control"]) !!}
+    {!! Form::select('hash_tag_id',[], null, ['id'=>'hashtag',"class"=>"select2 hashtags form-control","placeholder"=>$recipe->hashtag->title]) !!}
 </div>
 
 @if(isset($recipe) && $recipe->ingredients)
@@ -85,7 +85,8 @@
                 ajax:{
                     url:"{{route('hashtags.ajax')}}",
                    
-                }
+                },
+                
             })
             $("#hashtag").trigger("select2:open")
         }()

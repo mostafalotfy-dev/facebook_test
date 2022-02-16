@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Resources\HashTagAjaxResource;
-use App\Models\RecipeAlbum;
+
 use App\Repositories\HashTagRepository;
 class AjaxController extends Controller
 {

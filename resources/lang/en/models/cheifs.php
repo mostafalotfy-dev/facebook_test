@@ -5,7 +5,7 @@ return array (
   'plural' => 'Cheifs',
   'fields' => 
   array (
-    'id' => 'Id',
+    'id' => '#',
     'name' => 'Name',
     'phone_number' => 'Phone Number',
     'email' => 'Email',

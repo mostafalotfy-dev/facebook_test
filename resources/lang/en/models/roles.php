@@ -5,7 +5,7 @@ return array (
   'plural' => 'Roles',
   'fields' => 
   array (
-    'id' => 'Id',
+    'id' => '#',
     'name' => 'Name',
     'guard_name' => 'Guard Name',
     'created_at' => 'Created At',

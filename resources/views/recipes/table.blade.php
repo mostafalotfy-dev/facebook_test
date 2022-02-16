@@ -4,6 +4,7 @@
     <table class="table " id="recipes-table">
         <thead>
             <tr>
+                <th></th>
                  <th>
                      <form action="{{route("recipes.index")}}">
                      <input class="form-control" type="text" name="title" placeholder="@lang('models/recipes.fields.title')">
@@ -60,5 +61,7 @@
             @endforeach
         </tbody>
     </table>
-    {{$recipes->links()}}
+    @if(!request("q"))
+    {{$recipes->links()}} 
+     @endif
 </div>

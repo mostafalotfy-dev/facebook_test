@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 /**
  * @SWG\Definition(
  *      definition="User",
@@ -94,7 +96,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *      )
  * )
  */
-class User extends Authenticatable
+class User extends Authenticatable implements Searchable
 {
     use SoftDeletes,HasRoles,HasApiTokens;
 
@@ -124,7 +126,10 @@ class User extends Authenticatable
         'user_ip',
         'remember_token'
     ];
+    public function getSearchResult(): SearchResult
+    {
 
+    }
     /**
      * The attributes that should be casted to native types.
      *

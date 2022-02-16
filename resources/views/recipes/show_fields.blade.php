@@ -1,6 +1,6 @@
 
-<div class="table-responsive">
-    <table class="table col-md-6" id="recipes-table">
+<div class="table-responsive col-md-6">
+    <table class="table " id="recipes-table">
         <thead>
             
             <tr>
@@ -30,13 +30,13 @@
         </tbody>
     </table>
 </div>
-<div class="table-responsive">
-    <table class="table col-md-6" id="recipes-table">
+<div class="table-responsive col-md-6">
+    <table class="table " id="recipes-table">
         <thead>
             
             <tr>
 
-                <th>@lang('models/users.fields.title')</th>
+                <th>@lang('models/users.fields.name')</th>
                 
                 <th>@lang('models/recipes.fields.user_id')</th>
                 <th>@lang('models/recipes.fields.category_id')</th>
@@ -49,12 +49,13 @@
             
            
             <tr>
-               
+               @php ($user= $recipe->user ? $recipe->user : null)
+               @php($admin = $recipe->createdBy ? $recipe->createdBy : null)
                 <td>{{ $recipe->title }}</td>
-                <td>{{ $recipe->user ? $recipe->user->name : "-" }}</td>
+                <td><a href="{{$user ? route("users.show",$recipe->user->id) : "#"}}">{{ $user ? $user->name : "-" }}</a></td>
                 <td>{{ app()->getLocale() == "en" ? $recipe->category->name_en : $recipe->category->name_ar}} </td>
                
-                <td>{{  $recipe->createdBy->full_name }}</td>
+                <td><a href="{{route("admins.show",$admin->id)}}">{{  $admin->full_name }}</a></td>
                
             </tr>
             

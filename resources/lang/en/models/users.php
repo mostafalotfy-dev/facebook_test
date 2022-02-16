@@ -5,7 +5,7 @@ return array (
   'plural' => 'Users',
   'fields' => 
   array (
-    'id' => 'Id',
+    'id' => '#',
     'name' => 'Name',
     'phone_number' => 'Phone Number',
     'phone_number_verified_at' => 'Phone Number Verified At',

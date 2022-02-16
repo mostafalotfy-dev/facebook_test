@@ -5,7 +5,7 @@ return array (
   'plural' => 'Admins',
   'fields' => 
   array (
-    'id' => 'Id',
+    'id' => '#',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'full_name' => 'Full Name',

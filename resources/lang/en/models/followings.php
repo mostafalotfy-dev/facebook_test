@@ -5,8 +5,8 @@ return array (
   'plural' => 'Followings',
   'fields' => 
   array (
-    'id' => 'Id',
-    'user_id' => 'User Id',
+    'id' => '#',
+    'user_id' => 'User Name',
     'created_at' => 'Created At',
     'updated_at' => 'Updated At',
   ),
