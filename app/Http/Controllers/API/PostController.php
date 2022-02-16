@@ -155,7 +155,7 @@ class PostController extends AppBaseController
             "description" => request("description"),
             "category_id" => request("category_id"),
             "created_at" => now(),
-            "user_id" => auth()->id(),
+            "user_id" => auth("api")->id(),
             "is_active" => 0
         ]);
         $user = auth("api")->user();
@@ -164,8 +164,6 @@ class PostController extends AppBaseController
             $albumId = $this->createAlbum();
         }
         if ($is_image) {
-
-
             foreach ($files as $file) {
                 $fileName = uniqid() . $file->getClientOriginalExtension();
                 $mimeType = $file->getClientMimeType();
