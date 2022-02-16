@@ -295,7 +295,7 @@ class RecipeAPIController extends AppBaseController
         $recipe->delete();
 
         return $this->sendResponse(
-            $id,
+           [],
             __('messages.deleted', ['model' => __('models/recipes.singular')])
         );
     }
