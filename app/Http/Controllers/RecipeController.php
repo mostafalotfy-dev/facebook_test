@@ -17,8 +17,7 @@ use App\Models\Recipe;
 use App\Models\HashTag;
 use App\Models\RecipeAlbum;
 use App\Models\User;
-use App\Pipeline\Filter\IsActive;
-use Spatie\Searchable\Search;
+
 
 class RecipeController extends AppBaseController
 {
