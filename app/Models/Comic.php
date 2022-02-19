@@ -140,4 +140,8 @@ class Comic extends Model
     {
         return $this->hasMany(\App\Models\ComicsAlbum::class, 'comic_id');
     }
+    public function hashtags()
+    {
+        return $this->belongsToMany(HashTag::class,"recipe_hashtags");
+    }
 }

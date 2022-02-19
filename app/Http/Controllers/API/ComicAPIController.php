@@ -26,6 +26,7 @@ class ComicAPIController extends AppBaseController
     public function __construct(ComicRepository $comicRepo)
     {
         $this->comicRepository = $comicRepo;
+        $this->middleware("auth:api");
     }
 
     /**
@@ -62,11 +63,14 @@ class ComicAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $comics = $this->comicRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $this->validate($request,
+        [
+            "categories"=>"required|string"
+        ]);
+        $comics = $this->comicRepository->allQuery([
+            "category_id"=>explode($request->categories,",")
+        ])
+        ->paginate();
 
         return $this->sendResponse(
             ComicResource::collection($comics),
@@ -115,9 +119,19 @@ class ComicAPIController extends AppBaseController
     public function store(CreateComicAPIRequest $request)
     {
         $input = $request->all();
-
+        $input["user_id"]= auth("api")->id();
+        $input["is_active"] = 1;
         $comic = $this->comicRepository->create($input);
-
+        $hashtags = collect(explode(request("hashtags"),","));
+        $hashtags = $hashtags->map(fn($hashtag)=>[
+            "title"=>$hashtag,
+            "user_id"=>auth("api")->id(),
+        ]);
+        $comic->hashtags()->insert($hashtags->toArray());
+        // $this->addImage($input,"","storage");
+        // $comic->comicAlbum()->insert(
+        //     $input
+        // );
         return $this->sendResponse(
             new ComicResource($comic),
             __('messages.saved', ['model' => __('models/comics.singular')])

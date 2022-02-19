@@ -57,9 +57,13 @@ Route::group([
 Route::post("provider","ProviderController@index");
 Route::post("verify","VerificationController@verify");
 Route::get("cheif/{userId}/comics","ComicAPIController@byUserId");
-Route::resource('recipes',RecipeAPIController::class);
+Route::post('recipes',"RecipeAPIController@index");
+Route::post("recipes/store","RecipeAPIController@store");
+Route::resource("recipes","RecipeAPIController")->except("store","index");
 Route::resource('short_videos', ShortVideoAPIController::class);
-Route::resource('comics', ComicAPIController::class)->only("index","show");
+Route::resource('comics', ComicAPIController::class)->only("index","show","store");
+Route::post("comics","ComicAPIController@index");
+Route::post("comics/store","ComicAPIController@store");
 Route::resource('hash_tags', HashTagAPIController::class);
 Route::get("categories","CategoryAPIController@index");
 Route::apiResource("comics","ComicAPIController")->except("store");

@@ -8,10 +8,10 @@ class ProviderRepository {
     protected $token;
     protected $provider;
     private $loginHelper;
-    public function __construct(Facebook $fb)
+    public function __construct()
     {
         $this->token = null;
-        $this->provider = $fb;
+        $this->provider = app(Facebook::class);
         $this->setLoginHelper();
         
     }

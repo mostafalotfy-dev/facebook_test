@@ -29,7 +29,7 @@ class ComicController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $comics = $this->comicRepository->all();
+        $comics = $this->comicRepository->paginate(15);
 
         return view('comics.index')
             ->with('comics', $comics);

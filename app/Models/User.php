@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Searchable\Searchable;
-use Spatie\Searchable\SearchResult;
+
+
 /**
  * @SWG\Definition(
  *      definition="User",
@@ -96,8 +96,7 @@ use Spatie\Searchable\SearchResult;
  *      )
  * )
  */
-class User extends Authenticatable implements Searchable
-{
+class User extends Authenticatable{
     use SoftDeletes,HasRoles,HasApiTokens;
 
     use HasFactory;

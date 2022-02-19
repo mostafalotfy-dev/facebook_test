@@ -17,7 +17,7 @@ class ComicResource extends JsonResource
         $user = $this->user;
         $category = $this->category;
         return [
-            'id' => $this->id,
+            
             'username' => $user ? $user->name : $this->createdBy->full_name,
             'categoryname' => app()->getLocale() == "en" ? $category->name_en : $category->name_ar,
             'title' => $this->title,

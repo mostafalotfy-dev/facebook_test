@@ -13,7 +13,7 @@ use App\Http\Resources\RecipeShowResource;
 use App\Jobs\PublishImageToFacebook;
 use Illuminate\Support\Facades\DB;
 use Response;
-
+use App\Models\Category;
 /**
  * Class RecipeController
  * @package App\Http\Controllers\API
@@ -63,7 +63,11 @@ class RecipeAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $recipes = Recipe::where("is_active",1)->paginate();
+        $this->validate(request(),[
+            "categories" =>"required|string",
+        ]);
+        
+        $recipes = Recipe::whereIn("category_id",explode($request->categories,","))->where("is_active",1)->paginate();
 
         return $this->sendResponse(
             RecipeResource::collection($recipes),
