@@ -137,7 +137,7 @@ class Recipe extends Model
             "name_ar"=>"-"
         ]);
     }
-    public function hashtag()
+    public function hashtags()
     {
         return $this->belongsTo(HashTag::class,"hash_tag_id");
     }
