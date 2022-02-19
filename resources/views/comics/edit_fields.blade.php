@@ -1,13 +1,14 @@
 <!-- User Id Field -->
+
 <div class="form-group col-sm-6">
     {!! Form::label('user_id', __('models/comics.fields.user_id').':') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}
+    {{$comic->user->name}}
 </div>
 
 <!-- Category Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('category_id', __('models/comics.fields.category_id').':') !!}
-    {!! Form::number('category_id', null, ['class' => 'form-control']) !!}
+    {{$comic->category["name_".app()->getLocale()]}}
 </div>
 
 <!-- Title Field -->
@@ -16,14 +17,6 @@
     {!! Form::text('title', null, ['class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
 </div>
 
-<!-- Is Active Field -->
-<div class="form-group col-sm-6">
-    <div class="form-check">
-        {!! Form::hidden('is_active', 0, ['class' => 'form-check-input']) !!}
-        {!! Form::checkbox('is_active', '1', null, ['class' => 'form-check-input']) !!}
-           {!! Form::label('is_active', __('models/comics.fields.is_active').':', ['class' => 'form-check-label'])
-    </div>
-</div>
 
 
 <!-- Description Field -->

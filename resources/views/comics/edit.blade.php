@@ -21,7 +21,7 @@
 
             <div class="card-body">
                 <div class="row">
-                    @include('comics.fields')
+                    @include('comics.edit_fields')
                 </div>
             </div>
 

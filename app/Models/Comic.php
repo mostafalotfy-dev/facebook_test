@@ -107,10 +107,9 @@ class Comic extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required',
+        
         'category_id' => 'required',
         'title' => 'required|string|max:255',
-        'is_active' => 'required|boolean',
         'description' => 'required|string',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
@@ -138,7 +137,7 @@ class Comic extends Model
      **/
     public function comicsAlbums()
     {
-        return $this->hasMany(\App\Models\ComicsAlbum::class, 'comic_id');
+        return $this->hasMany(\App\Models\ComicAlbum::class, 'comic_id');
     }
     public function hashtags()
     {

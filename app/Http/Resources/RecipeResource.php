@@ -21,7 +21,7 @@ class RecipeResource extends JsonResource
             'id' => $this->id,
             'view_count' => (int)$this->view_count,
             'description' => $this->description,
-            'user_id' => $this->user_id,
+            'username' =>  $this->user()->value("name") ?? env("APP_NAME"),
             'category' => [
                 "en"=>$category->name_en,
                 "ar"=>$category->name_ar,
@@ -33,6 +33,7 @@ class RecipeResource extends JsonResource
             'cooking_time' => $this->cooking_time->format("H:i"),
             
             'created_at' => !$this->created_at ?  (string)$this->created_at :  $this->created_at->diffForHumans(),
+            "albums"=> RecipeAPIResource::collection($this->album()->get())
         ];
     }
 }

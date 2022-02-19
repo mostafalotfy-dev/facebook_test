@@ -26,7 +26,7 @@ class ComicAPIController extends AppBaseController
     public function __construct(ComicRepository $comicRepo)
     {
         $this->comicRepository = $comicRepo;
-        $this->middleware("auth:api");
+        
     }
 
     /**
@@ -67,115 +67,15 @@ class ComicAPIController extends AppBaseController
         [
             "categories"=>"required|string"
         ]);
-        $comics = $this->comicRepository->allQuery([
-            "category_id"=>explode($request->categories,",")
-        ])
+        $comics = $this->comicRepository->allQuery()->whereIn("category_id",explode(",",$request->categories))
         ->paginate();
-
         return $this->sendResponse(
             ComicResource::collection($comics),
             __('messages.retrieved', ['model' => __('models/comics.plural')])
         );
     }
 
-    /**
-     * @param CreateComicAPIRequest $request
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/comics",
-     *      summary="Store a newly created Comic in storage",
-     *      tags={"Comic"},
-     *      description="Store Comic",
-     *      produces={"application/json"},
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Comic that should be stored",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Comic")
-     *      ),
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Comic"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function store(CreateComicAPIRequest $request)
-    {
-        $input = $request->all();
-        $input["user_id"]= auth("api")->id();
-        $input["is_active"] = 1;
-        $comic = $this->comicRepository->create($input);
-        $hashtags = collect(explode(request("hashtags"),","));
-        $hashtags = $hashtags->map(fn($hashtag)=>[
-            "title"=>$hashtag,
-            "user_id"=>auth("api")->id(),
-        ]);
-        $comic->hashtags()->insert($hashtags->toArray());
-        // $this->addImage($input,"","storage");
-        // $comic->comicAlbum()->insert(
-        //     $input
-        // );
-        return $this->sendResponse(
-            new ComicResource($comic),
-            __('messages.saved', ['model' => __('models/comics.singular')])
-        );
-    }
-
-    /**
-     * @param int $id
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/comics/{id}",
-     *      summary="Display the specified Comic",
-     *      tags={"Comic"},
-     *      description="Get Comic",
-     *      produces={"application/json"},
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Comic",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Comic"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
+  
     public function show($id)
     {
         /** @var Comic $comic */

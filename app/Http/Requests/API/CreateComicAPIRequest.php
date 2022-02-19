@@ -27,6 +27,7 @@ class CreateComicAPIRequest extends APIRequest
         $rules =  Comic::$rules;
         unset($rules["user_id"]);
         unset($rules["is_active"]);
+        
         return $rules;
     }
 }

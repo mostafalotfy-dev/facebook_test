@@ -67,7 +67,7 @@ class RecipeAPIController extends AppBaseController
             "categories" =>"required|string",
         ]);
         
-        $recipes = Recipe::whereIn("category_id",explode($request->categories,","))->where("is_active",1)->paginate();
+        $recipes = Recipe::whereIn("category_id",explode(",",$request->categories))->where("is_active",1)->paginate();
 
         return $this->sendResponse(
             RecipeResource::collection($recipes),

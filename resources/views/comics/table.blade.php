@@ -2,22 +2,25 @@
     <table class="table" id="comics-table">
         <thead>
         <tr>
+            <th>@lang('models/comics.fields.id')</th>
+
             <th>@lang('models/comics.fields.user_id')</th>
         <th>@lang('models/comics.fields.category_id')</th>
         <th>@lang('models/comics.fields.title')</th>
         <th>@lang('models/comics.fields.is_active')</th>
-        <th>@lang('models/comics.fields.description')</th>
+        
             <th colspan="3">@lang('crud.action')</th>
         </tr>
         </thead>
         <tbody>
          @foreach($comics as $comic)
             <tr>
-                <td>{{ $comic->user_id }}</td>
-            <td>{{ $comic->category_id }}</td>
+                <td><a href="{{route("comics.show",$comic->id)}}">{{$loop->index + 1}}</a></td>
+                <td><a href="{{route("users.show",$comic->user->id)}}">{{ $comic->user()->value("name") }}</a></td>
+            <td>{{ $comic->category()->value("name_".app()->getLocale()) }}</td>
             <td>{{ $comic->title }}</td>
-            <td>{{ $comic->is_active }}</td>
-            <td>{{ $comic->description }}</td>
+            <td>{{ (bool) $comic->is_active }}</td>
+
                 <td width="120">
                     {!! Form::open(['route' => ['comics.destroy', $comic->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

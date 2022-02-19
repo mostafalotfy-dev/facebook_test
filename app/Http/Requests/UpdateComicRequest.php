@@ -25,7 +25,10 @@ class UpdateComicRequest extends FormRequest
     public function rules()
     {
         $rules = Comic::$rules;
-        
+        unset($rules["is_active"]);
+        unset($rules["category_id"]);
+
+        unset($rules["user_id"]);
         return $rules;
     }
 }

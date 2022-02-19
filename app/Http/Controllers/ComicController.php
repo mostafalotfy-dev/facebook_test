@@ -55,9 +55,26 @@ class ComicController extends AppBaseController
     public function store(CreateComicRequest $request)
     {
         $input = $request->all();
-
+        $input["is_active"] = 1;
+        $input["user_id"] = auth()->id();
         $comic = $this->comicRepository->create($input);
+        if (request("media")) {
+            $media = collect(request()->file("media"));
 
+            $media =  $media->map(function ($media, $i) use ($comic) {
+                $fileName = uniqid() . request("media.$i")->getClientOriginalExtension();
+                request()->file("media.$i")->storeAs("public", $fileName);
+                return [
+                    "file_name" => $fileName,
+                    "mime_type" => $media->getMimeType(),
+                    "comic_id" => $comic->id,
+                    "user_id" => auth()->id()
+                ];
+            });
+            $comic->comicsAlbums()->insert(
+                $media->toArray()
+            );
+        }
         Flash::success(__('messages.saved', ['model' => __('models/comics.singular')]));
 
         return redirect(route('comics.index'));
@@ -120,8 +137,9 @@ class ComicController extends AppBaseController
 
             return redirect(route('comics.index'));
         }
-
-        $comic = $this->comicRepository->update($request->all(), $id);
+        $input = $request->all();
+        $input["is_active"] = 1;
+        $comic = $this->comicRepository->update($input, $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/comics.singular')]));
 

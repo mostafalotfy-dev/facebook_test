@@ -17,11 +17,11 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'comics.store']) !!}
+            {!! Form::open(['route' => 'comics.store',"files"=>true]) !!}
 
             <div class="card-body">
                 <div class="row">
-                    @include('comics.fields')
+                    @include('comics.create_fields')
                 </div>
             </div>
 
