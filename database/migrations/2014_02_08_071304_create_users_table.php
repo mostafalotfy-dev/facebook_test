@@ -30,7 +30,8 @@ class CreateUsersTable extends Migration
             $table->string("address")->nullable();
             $table->string("youtube_channel")->nullable();
             $table->string("facebook_link")->nullable();
-            $table->softDeletes();
+            $table->unsignedTinyInteger("is_cheif")->default(0);
+            
             $table->rememberToken();
             $table->timestamps();
         });

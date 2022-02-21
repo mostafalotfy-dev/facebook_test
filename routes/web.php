@@ -31,10 +31,13 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('comics', ComicController::class);
     Route::resource('hashTags', HashTagController::class);
     Route::resource('users', UserController::class);
-
     Route::resource('roles', RoleController::class);
     Route::get("roles/{role}/users","RoleController@admins")->name("roles.admins");
+    Route::resource('banners', BannerController::class);
 });
+
+
+
 
 
 

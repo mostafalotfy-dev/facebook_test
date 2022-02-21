@@ -91,3 +91,10 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('banners.index') }}"
+       class="nav-link {{ Request::is('banners*') ? 'active' : '' }}">
+        <p>@lang('models/banners.plural')</p>
+    </a>
+</li>
+

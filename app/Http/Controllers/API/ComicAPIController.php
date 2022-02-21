@@ -65,7 +65,7 @@ class ComicAPIController extends AppBaseController
     {
         $this->validate($request,
         [
-            "categories"=>"required|string"
+            "category_ids"=>"required|string"
         ]);
         $comics = $this->comicRepository->allQuery()->whereIn("category_id",explode(",",$request->categories))
         ->paginate();

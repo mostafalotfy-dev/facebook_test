@@ -87,8 +87,9 @@ class RegisterController extends AppBaseController
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'string', "starts_with:+", 'max:14', 'unique:users'],
+            'phone_number' => ['required', 'string', "starts_with:+", 'max:14', 'unique:users,phone_number'],
             'password' => ['required', 'string', 'min:8'],
+            "is_cheif"=>["required","number","in:0,1"],
 
         ]);
     }

@@ -7,6 +7,8 @@ use App\Http\Resources\HashTagAjaxResource;
 use App\Http\Resources\UserAjaxResource;
 use App\Repositories\HashTagRepository;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Banner;
 class AjaxController extends Controller
 {
     private $hashtagRepo;
@@ -32,6 +34,17 @@ class AjaxController extends Controller
             "more" => $users->hasMorePages()
         ]
        ]);
+   }
+   public function banners()
+   {
+       $file = request()->file("file");
+       $fileName = uniqid().$file->getClientOriginalExtension();
+       $file->move("storage",$fileName);
+       Banner::create([
+            "image"=>$fileName,
+            "mime_type"=>$file->getClientMimeType(),
+       ]);
+      return response()->json([]);
    }
  
 }
