@@ -16,7 +16,11 @@ class CategoryResource extends JsonResource
     {
         return [
             "id"=> $this->id,
-            "image"=>asset("storage/".$this->image),
+            "category_name"=>[
+                "name_en"=> $this->name_en,
+                "name_ar"=> $this->name_ar,
+            ],
+            "image"=> asset("storage/".$this->image),
         ];
     }
 }
