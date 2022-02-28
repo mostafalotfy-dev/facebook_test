@@ -54,7 +54,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class HashTag extends Model
 {
-    use SoftDeletes;
+
 
     use HasFactory;
 

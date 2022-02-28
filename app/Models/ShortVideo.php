@@ -49,7 +49,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class ShortVideo extends Model
 {
-    use SoftDeletes;
+ 
+    
 
     use HasFactory;
 
@@ -88,7 +89,8 @@ class ShortVideo extends Model
      */
     public static $rules = [
         'description' => 'required|string|max:255',
-        'view_count' => 'required|integer',
+        
+        "file_name"=>"required",
         'user_id' => 'required',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'

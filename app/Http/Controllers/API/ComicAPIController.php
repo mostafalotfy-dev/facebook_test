@@ -9,6 +9,7 @@ use App\Repositories\ComicRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ComicResource;
+use App\Http\Resources\ShortVideoResource;
 use App\Traits\HasImage;
 use Response;
 
@@ -74,7 +75,14 @@ class ComicAPIController extends AppBaseController
             __('messages.retrieved', ['model' => __('models/comics.plural')])
         );
     }
-
+    public function byProfile()
+    {
+        request()->validate([
+            "user_id"=> "required"
+        ]);
+        $shortVideos = Comic::where("user_id",request("user_id"))->paginate();
+        return $this->sendResponse(ShortVideoResource::collection($shortVideos),__("messages.retrieved"));
+    }
   
     public function show($id)
     {

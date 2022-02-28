@@ -60,10 +60,13 @@ class HashTagAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $hashTags = $this->hashTagRepository->all(
+        request()->validate([
+            "categories"=>"required"
+        ]);
+        $hashTags = $this->hashTagRepository->whereIn("category_id",explode(",",request("categories")))->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
-            $request->get('limit')
+            $request->get('limit'),
         );
 
         return $this->sendResponse(

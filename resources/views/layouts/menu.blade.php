@@ -34,12 +34,6 @@
     </a>
 </li>
 
-<li class="nav-item">
-    <a href="{{ route('shortVideos.index') }}"
-       class="nav-link {{ Request::is('shortVideos*') ? 'active' : '' }}">
-        <p>@lang('models/shortVideos.plural')</p>
-    </a>
-</li>
 
 <li class="nav-item">
     <a href="{{ route('cheifs.index') }}"
@@ -95,6 +89,13 @@
     <a href="{{ route('banners.index') }}"
        class="nav-link {{ Request::is('banners*') ? 'active' : '' }}">
         <p>@lang('models/banners.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('shortvideos.index') }}"
+       class="nav-link {{ Request::is('shortvideos*') ? 'active' : '' }}">
+        <p>@lang('models/shortvideos.plural')</p>
     </a>
 </li>
 

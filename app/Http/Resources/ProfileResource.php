@@ -18,7 +18,13 @@ class ProfileResource extends JsonResource
             "name"=>(string) $this->name,
             "avatar"=>asset("storage/$this->avatar"),
             "interaction_count"=> (int) $this->likes()->avg("user_id"),
-            "description"=>(string) $this->description
+            "description"=>(string) $this->description,
+            "address"=>(string) $this->address,
+            "facebook_link"=>(string) $this->facebook_link,
+            "youtube_link"=>(string) $this->youtube_channel,
+            "is_cheif" => (bool) $this->is_cheif,
+            "followers"=>$this->followers()->count(),
+            "following"=>$this->followings()->count(),
         ];
     }
 }

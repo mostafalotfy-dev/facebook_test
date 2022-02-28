@@ -33,7 +33,7 @@ class RecipeResource extends JsonResource
             'cooking_time' => $this->cooking_time->format("H:i"),
             
             'created_at' => !$this->created_at ?  (string)$this->created_at :  $this->created_at->diffForHumans(),
-            "albums"=> RecipeAPIResource::collection($this->album()->get())
+            "albums"=> RecipeAlbumResource::collection($this->album()->get())
         ];
     }
 }
