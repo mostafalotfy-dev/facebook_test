@@ -125,10 +125,7 @@ class User extends Authenticatable{
         'user_ip',
         'remember_token'
     ];
-    public function getSearchResult(): SearchResult
-    {
-
-    }
+   
     /**
      * The attributes that should be casted to native types.
      *
@@ -229,7 +226,7 @@ class User extends Authenticatable{
      **/
     public function hashtags()
     {
-        return $this->hasMany(\App\Models\Hashtag::class);
+        return $this->hasMany(\App\Models\HashTag::class);
     }
 
     /**

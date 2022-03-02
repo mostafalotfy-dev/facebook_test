@@ -8,12 +8,13 @@ use App\Models\Recipe;
 use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use App\Http\Resources\HashTagResource;
 use App\Http\Resources\RecipeResource;
 use App\Http\Resources\RecipeShowResource;
 use App\Jobs\PublishImageToFacebook;
 use Illuminate\Support\Facades\DB;
 use Response;
-use App\Models\Category;
+use App\Models\User;
 /**
  * Class RecipeController
  * @package App\Http\Controllers\API
@@ -27,6 +28,7 @@ class RecipeAPIController extends AppBaseController
     public function __construct(RecipeRepository $recipeRepo)
     {
         $this->recipeRepository = $recipeRepo;
+        
     }
 
     /**
@@ -74,7 +76,22 @@ class RecipeAPIController extends AppBaseController
             __('messages.retrieved', ['model' => __('models/recipes.plural')])
         );
     }
-
+    public function forUser()
+    {
+        $this->validate(request(),
+        [
+            "user_id" => "required",
+        ]);
+        $user = User::findOrFail(request("user_id"));
+        $recipes = $user->recipes()->paginate();
+        $hashtags = $user->hashtags()->take(10)->cursor();
+        return $this->sendResponse([
+            "hashtags"=> HashTagResource::collection($hashtags),
+           "recipes"=> RecipeResource::collection($recipes->getCollection()),
+            
+    ],__("messages.retrieved"));
+    }
+    
     /**
      * @param CreateRecipeAPIRequest $request
      * @return Response

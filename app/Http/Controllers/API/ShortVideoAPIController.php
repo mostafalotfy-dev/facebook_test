@@ -8,6 +8,7 @@ use App\Models\ShortVideo;
 use App\Repositories\ShortVideoRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use App\Http\Resources\ShortVideoProfileResource;
 use App\Http\Resources\ShortVideoResource;
 use Response;
 
@@ -67,7 +68,7 @@ class ShortVideoAPIController extends AppBaseController
         );
 
         return $this->sendResponse(
-            ShortVideoResource::collection($shortVideos),
+            ShortVideoProfileResource::collection($shortVideos),
             __('messages.retrieved', ['model' => __('models/shortVideos.plural')])
         );
     }
@@ -121,7 +122,14 @@ class ShortVideoAPIController extends AppBaseController
             __('messages.saved', ['model' => __('models/shortVideos.singular')])
         );
     }
-
+    public function byProfile()
+    {
+        $this->validate(request(),[
+            "user_id"=>"required",
+        ]);
+        $shortVideos = ShortVideo::where("user_id",request("user_id"))->cursor();
+        return $this->sendResponse(ShortVideoProfileResource::collection($shortVideos),__("messages.retrieved"));
+    }
     /**
      * @param int $id
      * @return Response

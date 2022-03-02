@@ -21,12 +21,12 @@ Route::group([
 
 ], function ($router) {
 
-  Route::post("login","LoginController@login");
+    Route::post("login","LoginController@login");
     Route::post("register","RegisterController@register");
 });
 Route::group([
     "middleware"=>"api",
-    "prefix"=>"auth/cheif"
+    "prefix"=>"auth"
 ],function()
 {
     Route::post("register","Cheif\RegisterController@register");
@@ -52,7 +52,8 @@ Route::group([
     Route::get("followings","FollowingAPIController@index");
     Route::get("followings/{id}","FollowingAPIController@show");
     Route::post("comics/add","PostController@addComic");
-    
+    Route::post("profile/shortvideos","ShortVideoAPIController@byProfile");
+    Route::post("profile/comics","ComicAPIController@byProfile");
 });
 Route::post("provider","ProviderController@index");
 Route::post("verify","VerificationController@verify");
@@ -67,3 +68,5 @@ Route::resource('hash_tags', HashTagAPIController::class);
 Route::get("categories","CategoryAPIController@index");
 Route::apiResource("comics","ComicAPIController")->except("store");
 Route::get("banners","BannerAPIController@index");
+Route::get("homepage","HomePageController@index");
+Route::post("user/recipes","RecipeAPIController@forUser");

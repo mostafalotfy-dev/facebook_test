@@ -16,6 +16,7 @@ class CreateShortVideosTable extends Migration
         Schema::create('short_videos', function (Blueprint $table) {
             $table->id();
             $table->string("description");
+            $table->string("file_name");
             $table->unsignedInteger("view_count")->default(0);
             $table->foreignIdFor(User::class)->references("id")->on("users")->onDelete("cascade");
             

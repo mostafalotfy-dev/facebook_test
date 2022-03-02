@@ -22,13 +22,13 @@ class CreateRecipesTable extends Migration
             $table->string("title");
             $table->string("description");
             $table->foreignIdFor(User::class)->nullable()->references("id")->on("users")->onDelete("cascade");
-            $table->foreignIdFor(HashTag::class)->references("id")->on("hashtags")->onDelete("cascade");
+           
             $table->foreignIdFor(Category::class)->references("id")->on("categories")->onDelete("cascade");
             $table->unsignedBigInteger("people_count");
             $table->string("cooking_time");
             $table->unsignedTinyInteger("is_active");
-            $table->foreignIdFor(Admin::class,"created_by")->references("id")->on("admins")->cascadeOnDelete();
-            $table->foreignIdFor(Admin::class,"updated_by")->nullable()->references("id")->on("admins")->cascadeOnDelete();
+           
+           
             $table->softDeletes();
             $table->timestamps();
         });

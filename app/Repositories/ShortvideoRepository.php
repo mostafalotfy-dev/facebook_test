@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\ShortVideo;
 use App\Repositories\DBBaseRepository;
 
 /**
@@ -11,7 +10,7 @@ use App\Repositories\DBBaseRepository;
  * @version February 8, 2022, 7:36 am UTC
 */
 
-class ShortVideoRepository extends DBBaseRepository
+class ShortvideoRepository extends DBBaseRepository
 {
     /**
      * @var array

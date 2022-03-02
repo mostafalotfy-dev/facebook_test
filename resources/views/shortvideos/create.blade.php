@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                     @lang('models/shortVideos.singular')
+                     @lang('models/shortvideos.singular')
                 </div>
             </div>
         </div>
@@ -17,17 +17,17 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'shortVideos.store']) !!}
+            {!! Form::open(['route' => 'shortvideos.store']) !!}
 
             <div class="card-body">
                 <div class="row">
-                    @include('short_videos.fields')
+                    @include('shortvideos.fields')
                 </div>
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('shortVideos.index') }}" class="btn btn-default">
+                <a href="{{ route('shortvideos.index') }}" class="btn btn-default">
                  @lang('crud.cancel')
                 </a>
             </div>

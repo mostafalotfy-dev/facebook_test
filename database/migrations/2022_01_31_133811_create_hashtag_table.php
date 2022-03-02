@@ -18,7 +18,8 @@ class CreateHashtagTable extends Migration
             $table->id();
             $table->string("title");
             $table->foreignIdFor(User::class)->references("id")->on("users")->cascadeOnDelete();
-            $table->softDeletes();
+            $table->unsignedInteger("category_id")->nullable();
+            
             $table->timestamps();
         });
     }

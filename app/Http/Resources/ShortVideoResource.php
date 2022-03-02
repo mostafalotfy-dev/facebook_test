@@ -16,11 +16,11 @@ class ShortVideoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'description' => $this->description,
-            'view_count' => $this->view_count,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'description' => (string) $this->description,
+            'view_count' => (int) $this->view_count,
+            'user_id' => (string) $this->user->name,
+            
+            'updated_at' => (string) $this->updated_at
         ];
     }
 }

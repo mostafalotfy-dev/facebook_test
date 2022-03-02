@@ -25,7 +25,7 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('recipes', RecipeController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('replies', ReplyController::class);
-    Route::resource('shortVideos', ShortVideoController::class);
+    // Route::resource('shortVideos', ShortVideoController::class);
     Route::resource('cheifs', CheifController::class);
     Route::resource('followings', FollowingController::class);
     Route::resource('comics', ComicController::class);
@@ -34,7 +34,11 @@ Route::group(["prefix"=>"panel","middleware"=>"auth:admin"],function()
     Route::resource('roles', RoleController::class);
     Route::get("roles/{role}/users","RoleController@admins")->name("roles.admins");
     Route::resource('banners', BannerController::class);
+
+Route::resource('shortvideos', ShortvideoController::class);
 });
+
+
 
 
 
