@@ -19,7 +19,7 @@ class LoginResource extends JsonResource
             "user" => [
                 "avatar" => asset("storage/".$this->avatar),
                 "name" => $this->name,
-              
+                "is_verified"=>(bool) $this->phone_number_verified_at,
                 "description" => (string) $this->description
             ]
         ];

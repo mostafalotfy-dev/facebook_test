@@ -27,7 +27,8 @@ class LoginController extends AppBaseController
             } else {
                 return $user->phone_number_verified_at === null 
                 ? $this->sendResponse([
-                    "token"=>$user->createToken(env("APP_NAME"))->plainTextToken
+                    "token"=>$user->createToken(env("APP_NAME"))->plainTextToken,
+                    "is_verified"=> (bool) $user->phone_number_verified_at
                 ],"Account Not Verified") : $this->sendResponse(new LoginResource($user),"Login Successfull");
             }
         }else

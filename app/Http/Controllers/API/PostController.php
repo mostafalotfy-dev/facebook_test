@@ -94,11 +94,12 @@ class PostController extends AppBaseController
             "title" => request("post_title"),
             "description" => request("post_description"),
             "user_id" => $guard->id(),
-            "category_id" => request("category_id"),
+            "category_id"  => request("category_id"),
             "people_count" => request("people_count"),
             "cooking_time" => request("cooking_time"),
             "created_at" => now(),
-            "is_active" => 0
+            "is_active"  => 0,
+            "created_by" => 1
 
         ]);
 
@@ -156,7 +157,7 @@ class PostController extends AppBaseController
             "category_id" => request("category_id"),
             "created_at" => now(),
             "user_id" => auth("api")->id(),
-            "is_active" => 0
+            "is_active" => 0,
         ]);
         $user = auth("api")->user();
         $is_image = explode("/", $files[0]->getClientMimeType())[0] == "image";

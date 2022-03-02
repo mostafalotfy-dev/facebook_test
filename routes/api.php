@@ -21,7 +21,7 @@ Route::group([
 
 ], function ($router) {
 
-  
+  Route::post("login","LoginController@login");
     Route::post("register","RegisterController@register");
 });
 Route::group([
