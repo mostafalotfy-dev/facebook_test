@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Shortvideo;
+use App\Models\ShortVideo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ShortvideoFactory extends Factory
+class ShortVideoFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Shortvideo::class;
+    protected $model = ShortVideo::class;
 
     /**
      * Define the model's default state.
@@ -23,7 +23,6 @@ class ShortvideoFactory extends Factory
     {
         return [
             'description' => $this->faker->word,
-        'file_name' => $this->faker->word,
         'view_count' => $this->faker->randomDigitNotNull,
         'user_id' => $this->faker->word,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),

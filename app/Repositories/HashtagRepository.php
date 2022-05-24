@@ -2,21 +2,25 @@
 
 namespace App\Repositories;
 
-
+use App\Models\HashTag;
+use App\Repositories\BaseRepository;
 
 /**
- * Class FollowingRepository
+ * Class HashTagRepository
  * @package App\Repositories
- * @version February 8, 2022, 9:29 am UTC
+ * @version February 8, 2022, 12:56 pm UTC
 */
 
-class HashtagRepository extends DBBaseRepository
+class HashTagRepository extends DBBaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'title'
+        'title',
+        'user_id',
+        'postable_type',
+        'postable_id'
     ];
 
     /**

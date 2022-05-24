@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class HashtagAjaxResource extends JsonResource
+class HashTagAjaxResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,7 @@ class HashtagAjaxResource extends JsonResource
     {
         return [
             "id"=>$this->id,
-            "text"=>$this->title,
+            "text"=>$this->title
         ];
     }
 }

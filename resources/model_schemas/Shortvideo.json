@@ -15,19 +15,7 @@
         "name": "description",
         "dbType": "string,255",
         "htmlType": "text",
-        "validations": "required|string|max:255|string|max:255",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "file_name",
-        "dbType": "string,255",
-        "htmlType": "text",
-        "validations": "required|string|max:255|string|max:255",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -39,7 +27,7 @@
         "name": "view_count",
         "dbType": "integer,false,true",
         "htmlType": null,
-        "validations": "required|integer|integer",
+        "validations": "required|integer|integer|integer",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -63,7 +51,7 @@
         "name": "created_at",
         "dbType": "datetime:nullable",
         "htmlType": "date",
-        "validations": "nullable|nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
@@ -75,20 +63,12 @@
         "name": "updated_at",
         "dbType": "datetime:nullable",
         "htmlType": "date",
-        "validations": "nullable|nullable",
+        "validations": "nullable|nullable|nullable",
         "searchable": false,
         "fillable": false,
         "primary": false,
         "inForm": false,
         "inIndex": false,
         "inView": false
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,User,user_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,BookamrkVideo,short_video_id"
     }
 ]

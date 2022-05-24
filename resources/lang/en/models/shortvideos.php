@@ -1,15 +1,14 @@
 <?php
 
 return array (
-  'singular' => 'Shortvideo',
-  'plural' => 'Shortvideos',
+  'singular' => 'ShortVideo',
+  'plural' => 'ShortVideos',
   'fields' => 
   array (
     'id' => 'Id',
     'description' => 'Description',
-    'file_name' => 'File Name',
     'view_count' => 'View Count',
-    'user_id' => 'User Id',
+    'user_id' => 'User Name',
     'created_at' => 'Created At',
     'updated_at' => 'Updated At',
   ),
