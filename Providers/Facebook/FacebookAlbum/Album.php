@@ -7,8 +7,9 @@ use Providers\Facebook\ProviderRepository;
 
 use Facebook\Facebook;
 use Facebook\FileUpload\FacebookFile;
+use Providers\Facebook\Contracts\UploadPhotoContract;
 
-class Album extends ProviderRepository  {
+class Album extends ProviderRepository implements UploadPhotoContract  {
     protected $photo;
     public function __construct(Facebook $provider)
     {
@@ -16,14 +17,11 @@ class Album extends ProviderRepository  {
       $this->photo = new Photo($this->provider);
     }
 
-    public function uploadPhotoToAlbum($albumId,string $files,string $token )
+    public function addPhoto($id,array $params,string $token)
     {
-      $params["source"] = new FacebookFile($files);
-      return $this->photo->addPhoto($albumId,$params,$token);
+      $params["source"] = new FacebookFile($params);
+      return $this->photo->addPhoto($id,$params,$token);
       
     }
-    
-    
-
-    
+        
 }

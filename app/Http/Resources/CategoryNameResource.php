@@ -19,7 +19,8 @@ class CategoryNameResource extends JsonResource
             "category_name"=>[
                 "name_en"=>$this->name_en,
                 "name_ar"=>$this->name_ar
-            ]
+            ],
+            "image"=>asset("storage/".$this->image)
         ];
     }
 }

@@ -5,6 +5,6 @@
 namespace Providers\Facebook\Contracts;
 
 
-interface IUploadPhoto {
+interface UploadPhotoContract {
     public function addPhoto($id,array $params,string $token);
 }

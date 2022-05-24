@@ -15,7 +15,7 @@ use App\Repositories\RecipeRepository;
 
 use DB;
 use Facebook\Facebook;
-
+use App\Models\Comic;
 use Providers\Facebook\Group;
 
 class PostController extends AppBaseController
@@ -72,7 +72,8 @@ class PostController extends AppBaseController
                     "file_name" => $fileName,
                     "mime_type" => $mimeType,
                     "user_id" => auth("api")->id(),
-                    "created_at" => now(),
+                    "creat
+                    ed_at" => now(),
                     "recipe_id" => $id,
                 ]);
                 if ($user->provider_token)
@@ -107,15 +108,9 @@ class PostController extends AppBaseController
 
         ]);
 
-        $data = array_map(function ($hashtag) use ($guard, $id) {
-            return [
-                "title" => $hashtag,
-                "user_id" => $guard->id(),
-                "category_id" => request("category_id"),
-                "created_at" => now(),
-            ];
-        }, explode(",", request("hashtag")));
-        DB::table("hashtags")->insert($data);
+        $hashtags = HashTag::find(request("hashtags"));
+
+        $comic = Comic::find($id)->hashtags()->attach($hashtags)->save();
 
         return $id;
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Providers\RouteServiceProvider;
 
 use DB;
+use App\Models\User;
 class VerificationController extends AppBaseController
 {
     /*
@@ -42,6 +43,22 @@ class VerificationController extends AppBaseController
         ]);
         return $this->sendSuccess("Account Verified Successfully");
     }
+    public function resend()
+    {
+        request()->validate([
+            "phone_number"=>"required",
+            "verify_number"=>"required",
+        ]);
+        $user = User::where("phone_number",request("phone_number"))->firstOrFail();
+        $user->verify_number = 1234;
+        $user->save();
+        $this->sendSms($user,9999);
+        return $this->sendSuccess("Verify Number Sent");
+    }
+    public function sendSMS($user,$rand)
+    {
+        
+    }
     /**
      * Where to redirect users after verification.
      *
@@ -56,7 +73,7 @@ class VerificationController extends AppBaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->only("verify");
         // $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }

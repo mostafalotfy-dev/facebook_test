@@ -57,6 +57,7 @@ Route::group([
 });
 Route::post("provider","ProviderController@index");
 Route::post("verify","VerificationController@verify");
+Route::post("resend","VerificationController@resend");
 Route::get("cheif/{userId}/comics","ComicAPIController@byUserId");
 Route::post('recipes',"RecipeAPIController@index");
 Route::post("recipes/store","RecipeAPIController@store");
