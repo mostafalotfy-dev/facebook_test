@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateShortvideoRequest;
-use App\Http\Requests\UpdateShortvideoRequest;
-use App\Repositories\ShortvideoRepository;
+use App\Http\Requests\CreateShortVideoRequest;
+use App\Http\Requests\UpdateShortVideoRequest;
+use App\Repositories\ShortVideoRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class ShortvideoController extends AppBaseController
+class ShortVideoController extends AppBaseController
 {
-    /** @var ShortvideoRepository $shortvideoRepository*/
-    private $shortvideoRepository;
+    /** @var ShortVideoRepository $shortVideoRepository*/
+    private $shortVideoRepository;
 
-    public function __construct(ShortvideoRepository $shortvideoRepo)
+    public function __construct(ShortVideoRepository $shortVideoRepo)
     {
-        $this->shortvideoRepository = $shortvideoRepo;
+        $this->shortVideoRepository = $shortVideoRepo;
     }
 
     /**
-     * Display a listing of the Shortvideo.
+     * Display a listing of the ShortVideo.
      *
      * @param Request $request
      *
@@ -29,42 +29,42 @@ class ShortvideoController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $shortvideos = $this->shortvideoRepository->paginate(15);
+        $shortVideos = $this->shortVideoRepository->paginate(15);
 
-        return view('shortvideos.index')
-            ->with('shortvideos', $shortvideos);
+        return view('short_videos.index')
+            ->with('shortVideos', $shortVideos);
     }
 
     /**
-     * Show the form for creating a new Shortvideo.
+     * Show the form for creating a new ShortVideo.
      *
      * @return Response
      */
     public function create()
     {
-        return view('shortvideos.create');
+        return view('short_videos.create');
     }
 
     /**
-     * Store a newly created Shortvideo in storage.
+     * Store a newly created ShortVideo in storage.
      *
-     * @param CreateShortvideoRequest $request
+     * @param CreateShortVideoRequest $request
      *
      * @return Response
      */
-    public function store(CreateShortvideoRequest $request)
+    public function store(CreateShortVideoRequest $request)
     {
         $input = $request->all();
 
-        $shortvideo = $this->shortvideoRepository->create($input);
+        $shortVideo = $this->shortVideoRepository->create($input);
 
-        Flash::success(__('messages.saved', ['model' => __('models/shortvideos.singular')]));
+        Flash::success(__('messages.saved', ['model' => __('models/shortVideos.singular')]));
 
-        return redirect(route('shortvideos.index'));
+        return redirect(route('shortVideos.index'));
     }
 
     /**
-     * Display the specified Shortvideo.
+     * Display the specified ShortVideo.
      *
      * @param int $id
      *
@@ -72,19 +72,19 @@ class ShortvideoController extends AppBaseController
      */
     public function show($id)
     {
-        $shortvideo = $this->shortvideoRepository->find($id);
+        $shortVideo = $this->shortVideoRepository->find($id);
 
-        if (empty($shortvideo)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/shortvideos.singular')]));
+        if (empty($shortVideo)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/shortVideos.singular')]));
 
-            return redirect(route('shortvideos.index'));
+            return redirect(route('shortVideos.index'));
         }
 
-        return view('shortvideos.show')->with('shortvideo', $shortvideo);
+        return view('short_videos.show')->with('shortVideo', $shortVideo);
     }
 
     /**
-     * Show the form for editing the specified Shortvideo.
+     * Show the form for editing the specified ShortVideo.
      *
      * @param int $id
      *
@@ -92,44 +92,44 @@ class ShortvideoController extends AppBaseController
      */
     public function edit($id)
     {
-        $shortvideo = $this->shortvideoRepository->find($id);
+        $shortVideo = $this->shortVideoRepository->find($id);
 
-        if (empty($shortvideo)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/shortvideos.singular')]));
+        if (empty($shortVideo)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/shortVideos.singular')]));
 
-            return redirect(route('shortvideos.index'));
+            return redirect(route('shortVideos.index'));
         }
 
-        return view('shortvideos.edit')->with('shortvideo', $shortvideo);
+        return view('short_videos.edit')->with('shortVideo', $shortVideo);
     }
 
     /**
-     * Update the specified Shortvideo in storage.
+     * Update the specified ShortVideo in storage.
      *
      * @param int $id
-     * @param UpdateShortvideoRequest $request
+     * @param UpdateShortVideoRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateShortvideoRequest $request)
+    public function update($id, UpdateShortVideoRequest $request)
     {
-        $shortvideo = $this->shortvideoRepository->find($id);
+        $shortVideo = $this->shortVideoRepository->find($id);
 
-        if (empty($shortvideo)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/shortvideos.singular')]));
+        if (empty($shortVideo)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/shortVideos.singular')]));
 
-            return redirect(route('shortvideos.index'));
+            return redirect(route('shortVideos.index'));
         }
 
-        $shortvideo = $this->shortvideoRepository->update($request->all(), $id);
+        $shortVideo = $this->shortVideoRepository->update($request->all(), $id);
 
-        Flash::success(__('messages.updated', ['model' => __('models/shortvideos.singular')]));
+        Flash::success(__('messages.updated', ['model' => __('models/shortVideos.singular')]));
 
-        return redirect(route('shortvideos.index'));
+        return redirect(route('shortVideos.index'));
     }
 
     /**
-     * Remove the specified Shortvideo from storage.
+     * Remove the specified ShortVideo from storage.
      *
      * @param int $id
      *
@@ -139,18 +139,18 @@ class ShortvideoController extends AppBaseController
      */
     public function destroy($id)
     {
-        $shortvideo = $this->shortvideoRepository->find($id);
+        $shortVideo = $this->shortVideoRepository->find($id);
 
-        if (empty($shortvideo)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/shortvideos.singular')]));
+        if (empty($shortVideo)) {
+            Flash::error(__('messages.not_found', ['model' => __('models/shortVideos.singular')]));
 
-            return redirect(route('shortvideos.index'));
+            return redirect(route('shortVideos.index'));
         }
 
-        $this->shortvideoRepository->delete($id);
+        $this->shortVideoRepository->delete($id);
 
-        Flash::success(__('messages.deleted', ['model' => __('models/shortvideos.singular')]));
+        Flash::success(__('messages.deleted', ['model' => __('models/shortVideos.singular')]));
 
-        return redirect(route('shortvideos.index'));
+        return redirect(route('shortVideos.index'));
     }
 }

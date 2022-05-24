@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Shortvideo;
+use App\Models\ShortVideo;
 
-class CreateShortvideoRequest extends FormRequest
+class CreateShortVideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class CreateShortvideoRequest extends FormRequest
      */
     public function rules()
     {
-        return Shortvideo::$rules;
+        return ShortVideo::$rules;
     }
 }
